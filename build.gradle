@@ -43,7 +43,7 @@ subprojects {
         compile "org.springframework:spring-aspects:${springVersion}"
     }
 
-    group = 'com.epartner'
+    group = 'com.epartner.shop'
 
     idea {
         module {
