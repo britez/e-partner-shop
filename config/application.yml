@@ -1,0 +1,25 @@
+---
+epartner:
+  port:
+    oauth: 18080
+    config: 18090
+
+  oauth:
+    context-path: /
+    uri: http://localhost:${epartner.port.oauth}${epartner.oauth.context-path}
+    redis:
+      enabled: false
+      host: localhost
+      port: 6379
+---
+spring:
+  oauth2:
+    resource:
+      userInfoUri: ${epartner.oauth.uri}/user
+  auth:
+    serverurl: ${epartner.oauth.uri}/oauth/check_token
+---
+management:
+  security:
+    enabled: false
+  context-path: /manage
