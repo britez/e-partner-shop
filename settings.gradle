@@ -1,4 +1,5 @@
 rootProject.name = 'e-partner-shop'
 
 //include 'e-partner-shop-api'
-//include 'e-partner-shop-sso'
+include 'sso'
+include 'cloud-config'

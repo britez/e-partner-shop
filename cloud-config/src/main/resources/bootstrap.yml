@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: cloud-config
+  cloud:
+    config:
+      env: develop
+      server:
+        bootstrap: true
+        prefix: /config
+        git:
+          uri: git@github.com:britez/e-partner-shop-config.git
+encrypt:
+  key: encryptme
+security:
+  user:
+    password: sarasa

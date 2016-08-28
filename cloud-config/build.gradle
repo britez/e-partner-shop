@@ -1,0 +1,90 @@
+apply plugin: 'spring-boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'docker'
+
+group = 'com.epartner.shop'
+version = '0.0.1'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:dependency-management-plugin:0.5.1.RELEASE")
+        classpath('se.transmode.gradle:gradle-docker:1.2')
+    }
+}
+
+jar {
+    baseName = 'epartner-cloud-config'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    jcenter()
+}
+
+dependencies {
+    compile("org.springframework.security:spring-security-ldap")
+    compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile 'org.springframework.cloud:spring-cloud-config-server'
+    compile("org.springframework.security.oauth:spring-security-oauth2:2.0.8.RELEASE")
+    compile 'net.logstash.logback:logstash-logback-encoder:4.5.1'
+}
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.4'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-config:1.0.2.RELEASE'
+    }
+}
+
+docker {
+    baseImage("java:8")
+    maintainer("Maxi Britez")
+}
+
+task buildDocker(type: Docker, dependsOn: build) {
+    push = false
+    dryRun = true
+    applicationName = jar.baseName
+
+    //dockerfile = file('src/main/docker/Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into stageDir
+        }
+    }
+
+    volume("/tmp", "/log", "/root/.ssh")
+    addFile("${jar.baseName}-${project.version}.jar", "app.jar")
+    addFile("libs/local_policy.jar", "/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/local_policy.jar")
+    addFile("libs/US_export_policy.jar", "/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/US_export_policy.jar")
+    runCommand("bash -c 'touch /app.jar'")
+    entryPoint(["java","-Djava.security.egd=file:/dev/./urandom", "-jar","/app.jar"])
+}
+/*
+bootRun {
+    jvmArgs = ["-Dspring.profiles.active=test"]
+}
+*/
