@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: api
+  cloud:
+    config:
+      env: develop
+      uri: http://localhost:18090/config

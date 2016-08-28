@@ -1,5 +1,5 @@
 rootProject.name = 'e-partner-shop'
 
-//include 'e-partner-shop-api'
+include 'api'
 include 'sso'
 include 'cloud-config'
