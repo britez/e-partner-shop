@@ -32,10 +32,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SpringBootApplication
 @SessionAttributes("authorizationRequest")
 @EnableResourceServer
-public class Application extends ResourceServerConfigurerAdapter {
+public class SSOApplication extends ResourceServerConfigurerAdapter {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(SSOApplication.class, args);
     }
 
     @Override
