@@ -14,10 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
 @Import({OAuth2ResourceServerConfig.class})
-public class Application {
+public class ApiApplication {
 
     public static void main(String[] args)  {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(ApiApplication.class, args);
     }
 
 }

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes("authorizationRequest")
 @EnableResourceServer
 @EnableConfigServer
-public class Application extends ResourceServerConfigurerAdapter {
+public class CloudConfigApplication extends ResourceServerConfigurerAdapter {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(CloudConfigApplication.class, args);
     }
 
     @Override
