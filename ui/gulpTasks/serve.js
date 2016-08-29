@@ -20,7 +20,7 @@ gulp.task('serve', ['compile'], function (done) {
 
   proxies.push(proxyOptions);
 
-  var proxyOptions2 = url.parse('http://localhost:18080/giu-oauth');
+  var proxyOptions2 = url.parse('http://localhost:18080/');
   proxyOptions2.route = '/oauth';
 
   proxies.push(proxyOptions2);
