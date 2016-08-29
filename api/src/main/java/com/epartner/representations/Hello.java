@@ -1,4 +1,4 @@
-package com.epartner.representation;
+package com.epartner.representations;
 
 /**
  * Created by julian on 20/07/16.

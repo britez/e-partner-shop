@@ -45,11 +45,4 @@ public class Category implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public CategoryRepresentation convert() {
-        CategoryRepresentation result = new CategoryRepresentation();
-        result.setDescription(this.getDescription());
-        result.setName(this.getName());
-        return result;
-    }
 }

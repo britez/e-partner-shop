@@ -1,6 +1,6 @@
 package com.epartner.resources;
 
-import com.epartner.representation.Hello;
+import com.epartner.representations.Hello;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

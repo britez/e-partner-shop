@@ -1,7 +1,5 @@
 package com.epartner.representations;
 
-import com.epartner.domain.Category;
-
 /**
  * Created by mbritez on 28/08/16.
  */
@@ -25,13 +23,5 @@ public class CategoryRepresentation {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Category convert() {
-        Category result = new Category();
-        result.setName(this.getName());
-        result.setDescription(this.getDescription());
-        return result;
-    }
-
 
 }

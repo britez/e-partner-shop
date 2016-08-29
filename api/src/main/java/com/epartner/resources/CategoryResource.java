@@ -1,6 +1,5 @@
 package com.epartner.resources;
 
-import com.epartner.domain.Category;
 import com.epartner.representations.CategoryRepresentation;
 import com.epartner.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 /**
@@ -27,7 +27,7 @@ public class CategoryResource {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Page<Category> list(
+    public Page<CategoryRepresentation> list(
             @RequestParam Integer max,
             @RequestParam Integer page){
         return this.service.getAllCategories(
@@ -43,11 +43,23 @@ public class CategoryResource {
         return this.service.create(representation);
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public CategoryRepresentation update(
             @RequestBody CategoryRepresentation representation ,
             @PathVariable Long id){
         return this.service.update(representation, id);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        this.service.delete(id);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public void handle(EntityNotFoundException ex){
+        //handle not found
     }
 }
