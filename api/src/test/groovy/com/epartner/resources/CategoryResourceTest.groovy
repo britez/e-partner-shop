@@ -5,6 +5,8 @@ import com.epartner.services.CategoryService
 import org.springframework.data.domain.PageImpl
 import spock.lang.Specification
 
+import javax.persistence.EntityNotFoundException
+
 /**
  * Created by mbritez on 28/08/16.
  */
@@ -46,6 +48,38 @@ class CategoryResourceTest extends Specification {
         1 * mockedService.create(mockedRepresentation) >> mockedRepresentation
         result
         result == mockedRepresentation
+    }
+
+    def "update"() {
+        setup:
+        def mockedRepresentation = Mock(CategoryRepresentation)
+
+        when:
+        def result = resource.update(mockedRepresentation, 1L)
+
+        then:
+        1 * mockedService.update(mockedRepresentation, 1L) >> mockedRepresentation
+        result
+        result == mockedRepresentation
+    }
+
+    def "delete"() {
+        when:
+        resource.delete(1L)
+
+        then:
+        1 * mockedService.delete(1L)
+    }
+
+    def "handle error"() {
+        setup:
+        def mockedEx = Mock(EntityNotFoundException)
+
+        when:
+        resource.handle(mockedEx)
+
+        then:
+        true
     }
 
 }
