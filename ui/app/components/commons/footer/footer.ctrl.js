@@ -7,8 +7,6 @@ export default class footerCtrl{
 
     /*@ngInject*/
     constructor() {
-
-        console.log("footer");
-
+        console.log('footer');
     }
 }

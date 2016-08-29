@@ -1,0 +1,19 @@
+@import "variables";
+
+header-component {
+  .main-header {
+    background: $orange;
+    padding: 20px;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    height: 40px;
+
+    li {
+      list-style: none;
+      text-align: center;
+    }
+  }
+}

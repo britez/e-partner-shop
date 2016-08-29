@@ -5,12 +5,12 @@
 
 import angular from 'angular';
 
-import { NavBarComponent } from './navBar/navBar.component';
+import { HeaderComponent } from './header/header.cmp';
 import { FooterComponent } from './footer/footer.component';
 
 const common = angular
-    .module('app.common', [])
-    .component('navBar', NavBarComponent)
+    .module('commons.module', [])
+    .component('headerComponent', HeaderComponent)
     .component('footerCmp', FooterComponent)
     .name;
 

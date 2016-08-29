@@ -5,8 +5,6 @@ import angular from 'angular';
 import 'giu-module-security/app/scripts/sec.module.js';
 import 'angular-resource';
 import 'angular-ui-router';
-import 'angular-translate';
-import 'angular-translate-loader-static-files';
 import 'angular-messages';
 import 'bower:angular-bootstrap@1.3.3';
 
@@ -19,8 +17,9 @@ import OAuthCfg from './scripts/config/oauth.cfg.js';
 import ForbiddenInterceptor from './scripts/config/forbidden.interceptor.cfg.js';
 import ForbiddenConfig from './scripts/config/forbidden.config.js';
 
-import components from './components/components.js';
 import { AppComponent } from './app.component';
+
+import './components/commons/commons.module';
 
 import './templates';
 
@@ -32,7 +31,7 @@ const app = angular.module('giu-ui.app',
     'ui.bootstrap',
     'epartner-shop-ui-templates',
     'ngMessages',
-    components
+    'commons.module'
   ]);
 /* global System, document */
 
