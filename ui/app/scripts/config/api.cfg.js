@@ -4,10 +4,9 @@ let dashboardApiCfg = () => {
 
   let apiConfig = ['apiProvider', (apiProvider) => {
 
-    apiProvider.setBaseRoute('');
+    apiProvider.endpoint('categories')
+      .route('/api/categories/:id');
 
-    apiProvider.endpoint('helloWorld')
-      .route('/giu-api/hello');
   }];
 
   return apiConfig;

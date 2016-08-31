@@ -55,6 +55,10 @@ public class CategoryService {
         categoryRepository.delete(category);
     }
 
+    public CategoryRepresentation show(Long id){
+        return this.converter.convert(this.get(id));
+    }
+
     private Category get(Long id) {
         return Optional.ofNullable(categoryRepository.findOne(id)).orElseThrow(EntityNotFoundException::new);
     }

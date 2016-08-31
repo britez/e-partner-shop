@@ -17,7 +17,10 @@ import java.util.Optional;
 @RequestMapping(value = CategoryResource.RESOURCE)
 public class CategoryResource {
 
-    public static final String RESOURCE = "/categories";
+    public static final String RESOURCE = "api/categories";
+    public static final String DEFAULT_PAGE = "0";
+    public static final String DEFAULT_MAX = "10";
+    public static final String ID = "/{id}";
 
     private CategoryService service;
 
@@ -28,13 +31,17 @@ public class CategoryResource {
 
     @RequestMapping(method = RequestMethod.GET)
     public Page<CategoryRepresentation> list(
-            @RequestParam Integer max,
-            @RequestParam Integer page){
+            @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
+            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
         return this.service.getAllCategories(
                 Optional.ofNullable(max),
                 Optional.ofNullable(page));
     }
 
+    @RequestMapping(value = ID, method = RequestMethod.GET)
+    public CategoryRepresentation get(@PathVariable Long id){
+        return this.service.show(id);
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,7 +50,7 @@ public class CategoryResource {
         return this.service.create(representation);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = ID, method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public CategoryRepresentation update(
             @RequestBody CategoryRepresentation representation ,
@@ -51,7 +58,7 @@ public class CategoryResource {
         return this.service.update(representation, id);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = ID, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         this.service.delete(id);

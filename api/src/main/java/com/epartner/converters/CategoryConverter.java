@@ -28,6 +28,7 @@ public class CategoryConverter {
 
     public CategoryRepresentation convert(Category category) {
         CategoryRepresentation result = new CategoryRepresentation();
+        result.setId(category.getId());
         result.setDescription(category.getDescription());
         result.setName(category.getName());
         return result;

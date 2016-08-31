@@ -1,6 +1,6 @@
 'use strict';
 
-let giuOAuthCfg = () => {
+let OAuthCfg = () => {
 
     let oauthCfg = (OAuthProvider) => {
       OAuthProvider.configure({
@@ -13,4 +13,4 @@ let giuOAuthCfg = () => {
 
 };
 
-export default giuOAuthCfg;
+export default OAuthCfg;

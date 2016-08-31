@@ -15,8 +15,8 @@ gulp.task('serve', ['compile'], function (done) {
   routes['/styles'] = 'dist/styles';
   routes['/cdn/cdn-'+packageJson.name+'/'] = packageJson.moduleConfig.output + 'cdn-'+packageJson.name;
 
-  var proxyOptions = url.parse('http://localhost:8080/');
-  proxyOptions.route = '/giu-api';
+  var proxyOptions = url.parse('http://localhost:18100/api');
+  proxyOptions.route = '/api';
 
   proxies.push(proxyOptions);
 
