@@ -1,1 +1,11 @@
 @import "header";
+
+.btn-primary {
+  background-color: $orange;
+  border-color: $orange-border;
+}
+
+.btn-primary:hover {
+  background-color: $orange-black;
+  border-color: $orange-border
+}

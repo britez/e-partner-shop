@@ -14,8 +14,9 @@
       <!-- <script src="bundle.js"></script> -->
       <script>
         System.import('app/app').then(function() {
-          System.import('styles/layout.css!css');
-          System.import('styles/bootstrap/bootstrap.css!css');
+          System.import('styles/bootstrap/bootstrap.css!css').then(function () {
+            System.import('styles/layout.css!css');
+          });
         });
       </script>
 	</body>

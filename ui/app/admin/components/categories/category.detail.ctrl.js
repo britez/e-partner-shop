@@ -29,12 +29,25 @@ export default class CategoryDetailController {
         if(!form.$valid){
             return;
         }
-        this.api
-            .categories
-            .save({},this.entity)
-            .$promise
-            .then(() => {
-                this.$state.go('categories');
-            });
+        let params = {};
+        if(!this.isNew()){
+            params.id = this.$state.params.id;
+            this.api
+                .categories
+                .update(params,this.entity)
+                .$promise
+                .then(() => {
+                    this.$state.go('categories');
+                });
+        } else {
+            this.api
+                .categories
+                .save(params,this.entity)
+                .$promise
+                .then(() => {
+                    this.$state.go('categories');
+                });
+        }
+
     }
 }
