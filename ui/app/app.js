@@ -21,6 +21,8 @@ import { AppComponent } from './app.component';
 
 import './components/commons/commons.module';
 
+import AuthService from './scripts/services/auth.srv';
+
 import './templates';
 
 const app = angular.module('giu-ui.app',
@@ -57,6 +59,7 @@ app
     .config(OAuthCfg())
     .factory('forbiddenInterceptor', ForbiddenInterceptor)
     .config(ForbiddenConfig)
-    .component('epartnerApp', AppComponent);
+    .component('epartnerApp', AppComponent)
+    .service('authService', AuthService);
 
 export default app;

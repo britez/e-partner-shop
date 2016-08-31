@@ -32,8 +32,15 @@
         </ul>
 
         <ul class="pull-right log-in">
-            <li style="border-bottom: 3px #DCDCDC solid; width: 100px; display: inline-block; padding: 15px 0; font-size: 1.3rem; font-weight: bolder;">
-                <a>Ingresar</a>
+            <li
+                ng-if="!header.authService.isAuthenticated()"
+                style="border-bottom: 3px #DCDCDC solid; width: 100px; display: inline-block; padding: 15px 0; font-size: 1.3rem; font-weight: bolder;">
+                <a ng-click="header.authService.login()">Ingresar</a>
+            </li>
+            <li
+                ng-if="header.authService.isAuthenticated()"
+                style="border-bottom: 3px #DCDCDC solid; width: 100px; display: inline-block; padding: 15px 0; font-size: 1.3rem; font-weight: bolder;">
+                <a ui-sref="admin()">Hola admin!</a>
             </li>
         </ul>
     </div>
