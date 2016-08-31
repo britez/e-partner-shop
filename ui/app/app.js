@@ -19,7 +19,9 @@ import ForbiddenConfig from './scripts/config/forbidden.config.js';
 
 import { AppComponent } from './app.component';
 
+//Create modules
 import './components/commons/commons.module';
+import './admin/admin.module.cfg';
 
 import AuthService from './scripts/services/auth.srv';
 
@@ -33,7 +35,8 @@ const app = angular.module('giu-ui.app',
     'ui.bootstrap',
     'epartner-shop-ui-templates',
     'ngMessages',
-    'commons.module'
+    'commons.module',
+    'admin.module'
   ]);
 /* global System, document */
 
