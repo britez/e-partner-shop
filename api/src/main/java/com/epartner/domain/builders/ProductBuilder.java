@@ -45,12 +45,11 @@ public class ProductBuilder {
     }
 
     public ProductBuilder setCategory(Category category){
-
         this.category = category;
         return this;
     }
 
     public Product createProduct() {
-        return new Product(id, name, description, stock, technicaSpeficication, image, category);
+        return new Product(id, name, description, stock);
     }
 }
