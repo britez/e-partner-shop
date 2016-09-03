@@ -1,0 +1,18 @@
+<div>
+    <div uib-carousel active="home.active" interval="home.myInterval">
+        <div uib-slide ng-repeat="slide in home.slides track by slide.id" index="slide.id">
+            <img ng-src="{{slide.image}}" style="max-height: 400px; min-width: 100%; object-fit: cover;">
+            <!--
+            <div class="carousel-caption">
+                <h4>Slide {{slide.id}}</h4>
+                <p>{{slide.text}}</p>
+            </div>
+            -->
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-12">
+            <h1>Home!</h1>
+        </div>
+    </div>
+</div>
