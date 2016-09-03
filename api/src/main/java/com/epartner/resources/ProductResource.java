@@ -51,8 +51,8 @@ public class ProductResource {
     }
 
     @RequestMapping(value = ID, method = RequestMethod.GET )
-    public void get(@PathVariable Long id){
-        productService.show(id);
+    public ProductRepresentation get(@PathVariable Long id){
+        return productService.show(id);
     }
 
     @RequestMapping(method = GET)

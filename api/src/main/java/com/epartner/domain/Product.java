@@ -23,25 +23,18 @@ public class Product {
     @Column(name="technica_speficication")
     private Map<String, String> technicaSpeficication = new HashMap<>();*/
 
-    public Product(Long id, String name,
-                   String description,
-                   Integer stock, Map<String, String> technicaSpeficication,
-                   byte[] image, Category category) {
+    public Product(){}
+
+    public Product(Long id, String name, String description, Integer stock) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.stock = stock;
-        //this.technicaSpeficication = technicaSpeficication;
-        this.image = image;
-        this.category = category;
     }
 
     @ManyToOne
     @JoinColumn(name="catgory_id")
     private Category category;
-
-    private byte[] image;
-
 
     public Long getId() {
         return id;
@@ -83,14 +76,6 @@ public class Product {
         this.technicaSpeficication = technicaSpeficication;
     }*/
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -98,8 +83,4 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
-
-    public Product(){}
-
-
 }

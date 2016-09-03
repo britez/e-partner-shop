@@ -6,6 +6,7 @@ import com.epartner.domain.builders.ProductBuilder;
 import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.ProductRepresentationBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,12 @@ import java.util.stream.Collectors;
 @Component
 public class ProductConverter {
 
+    private final CategoryConverter categoryConverter;
+
+    @Autowired
+    public ProductConverter(CategoryConverter categoryConverter){
+        this.categoryConverter = categoryConverter;
+    }
 
     public Product convert(ProductRepresentation productRepresentation) {
 
@@ -28,6 +35,7 @@ public class ProductConverter {
                 .setStock(productRepresentation.getStock())
                 .setName(productRepresentation.getName())
                 .setImage(productRepresentation.getImage())
+                .setCategory(this.categoryConverter.convert(productRepresentation.getCategory()))
                 .setTechnicaSpeficication(productRepresentation.getTechnicaSpeficication())
                 .createProduct();
 
