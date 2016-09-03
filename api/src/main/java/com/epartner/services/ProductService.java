@@ -38,16 +38,15 @@ public class ProductService {
 
     public ProductRepresentation create(ProductRepresentation productRepresentation) {
         this.categoryService.show(productRepresentation.getCategory().getId());
-        Product toPersist = this.converter.convert(productRepresentation);
-        Category category = new Category();
-        category.setId(productRepresentation.getCategory().getId());
-        toPersist.setCategory(category);
         return this.converter.convert(
-                this.repository.save(toPersist));
+            this.repository.save(
+                this.converter.convert(productRepresentation)
+            ));
     }
 
     public ProductRepresentation update(ProductRepresentation productRepresentation, Long id) {
         Product product = this.get(id);
+        //TODO agregar todos los updates
         product.setName(productRepresentation.getName());
         product.setDescription(productRepresentation.getDescription());
         this.repository.save(product);
@@ -63,8 +62,7 @@ public class ProductService {
     }
 
     public void delete(long id) {
-        Product product = this.get(id);
-        repository.delete(product);
+        repository.delete(this.get(id));
     }
 
     public Page<ProductRepresentation> list(Optional<Integer> max, Optional<Integer> page) {
