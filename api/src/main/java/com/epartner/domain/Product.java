@@ -1,6 +1,10 @@
 package com.epartner.domain;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +23,7 @@ public class Product {
     private Integer stock;
 
     @OneToMany(mappedBy = "product")
+    @Cascade(CascadeType.PERSIST)
     private List<ProductImage> images;
 
     /*@ElementCollection
