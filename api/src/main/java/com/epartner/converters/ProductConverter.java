@@ -32,7 +32,6 @@ public class ProductConverter {
                 .setDescription(productRepresentation.getDescription())
                 .setStock(productRepresentation.getStock())
                 .setName(productRepresentation.getName())
-                .setImage(productRepresentation.getImage())
                 .setCategory(this.categoryConverter.convert(productRepresentation.getCategory()))
                 .setTechnicaSpeficication(productRepresentation.getTechnicaSpeficication())
                 .createProduct();
@@ -45,6 +44,10 @@ public class ProductConverter {
         return new ProductRepresentationBuilder()
                 .setId(product.getId())
                 .setDescription(product.getDescription())
+<<<<<<< 71edc4de440ed4f9841d5d2bb054cc1e51cd0557
+=======
+                .setImages(product.getImages())
+>>>>>>> se agrega el alta de imagenes
                 .setName(product.getName())
                 .setStock(product.getStock())
                 .createProductRepresentation();
