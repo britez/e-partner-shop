@@ -2,17 +2,13 @@ package com.epartner.resources;
 
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.services.ProductService;
-import org.h2.store.PageOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
-
 import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 /**
  * Created by maty on 1/9/16.
@@ -21,7 +17,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 public class ProductResource {
 
-    public static final String PRODUCTS = "/products";
+    public static final String PRODUCTS = "api/products";
     public static final String ID = "/{id}";
     private static final String DEFAULT_PAGE = "0";
     private static final String DEFAULT_MAX = "10";

@@ -2,6 +2,7 @@ package com.epartner.domain;
 
 import javax.persistence.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,6 +17,9 @@ public class Product {
     private String name;
     private String description;
     private Integer stock;
+
+    @OneToMany(mappedBy = "product")
+    private List<ProductImage> images;
 
     /*@ElementCollection
     @JoinTable(name="technical_specification", joinColumns=@JoinColumn(name="product_id"))
@@ -82,5 +86,18 @@ public class Product {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public List<ProductImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ProductImage> images) {
+        this.images = images;
+    }
+
+    public void addImage(ProductImage image) {
+
+        images.add(image);
     }
 }

@@ -47,7 +47,6 @@ public class ProductConverter {
                 .setDescription(product.getDescription())
                 .setName(product.getName())
                 .setStock(product.getStock())
-                //.setTechnicaSpeficication(product.getTechnicaSpeficication())
                 .createProductRepresentation();
 
     }
