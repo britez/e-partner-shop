@@ -1,15 +1,15 @@
 package com.epartner.services;
 
 import com.epartner.converters.ProductConverter;
-import com.epartner.domain.Category;
 import com.epartner.domain.Product;
+import com.epartner.domain.ProductImage;
 import com.epartner.repositories.ProductRepository;
-import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -23,6 +23,7 @@ public class ProductService {
     private final ProductRepository repository;
     private final ProductConverter converter;
     private final CategoryService categoryService;
+    private final StorageService storageService;
 
     private final Integer MAX = 10;
     private final Integer PAGE = 0;
@@ -30,10 +31,11 @@ public class ProductService {
     @Autowired
     public ProductService(ProductRepository productRepository,
                           ProductConverter productConverter,
-                          CategoryService categoryService){
+                          CategoryService categoryService, StorageService storageService){
         this.repository = productRepository;
         this.converter = productConverter;
         this.categoryService = categoryService;
+        this.storageService = storageService;
     }
 
     public ProductRepresentation create(ProductRepresentation productRepresentation) {
@@ -70,5 +72,19 @@ public class ProductService {
                 new PageRequest(page.orElse(PAGE), max.orElse(MAX))
         );
         return this.converter.convert(stored);
+    }
+
+    public void addImagen(Long id, MultipartFile file) {
+
+        Product product = this.get(id);
+
+        String fileName = this.storageService.store(file);
+
+        ProductImage productImage = new ProductImage(fileName,product);
+
+        product.addImage(productImage);
+
+        this.repository.save(product);
+
     }
 }

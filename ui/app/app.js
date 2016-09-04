@@ -22,6 +22,7 @@ import { AppComponent } from './app.component';
 //Create modules
 import './components/commons/commons.module';
 import './admin/admin.module.cfg';
+import 'angular-file-upload/dist/angular-file-upload';
 
 import AuthService from './scripts/services/auth.srv';
 
@@ -36,7 +37,8 @@ const app = angular.module('giu-ui.app',
     'epartner-shop-ui-templates',
     'ngMessages',
     'commons.module',
-    'admin.module'
+    'admin.module',
+      'angularFileUpload'
   ]);
 /* global System, document */
 

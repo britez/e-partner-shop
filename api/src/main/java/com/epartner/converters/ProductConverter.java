@@ -47,7 +47,7 @@ public class ProductConverter {
         return new ProductRepresentationBuilder()
                 .setId(product.getId())
                 .setDescription(product.getDescription())
-                .setImage(product.getImage())
+              //  .setImage(product.getImage())
                 .setName(product.getName())
                 .setStock(product.getStock())
                 //.setTechnicaSpeficication(product.getTechnicaSpeficication())

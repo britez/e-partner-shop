@@ -27,6 +27,7 @@
       "angular": "github:angular/bower-angular@1.5.7",
       "angular-bootstrap": "bower:angular-bootstrap@1.3.3",
       "angular-encode-uri": "bower:angular-encode-uri@^1.0.0",
+      "angular-file-upload": "npm:angular-file-upload@^2.3.4",
       "angular-messages": "npm:angular-messages@^1.4.9",
       "angular-resource": "github:angular/bower-angular-resource@1.4.5",
       "angular-ui-router": "github:angular-ui/angular-ui-router-bower@1.0.0-alpha.5",
