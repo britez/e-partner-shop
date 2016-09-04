@@ -28,4 +28,6 @@ public class ProductImageRepresentation {
         this.url = url;
         this.id = id;
     }
+
+    public ProductImageRepresentation() {}
 }

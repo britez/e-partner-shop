@@ -57,11 +57,21 @@ public class ProductRepresentationBuilder {
 
         return this;
     }
+
+    public ProductRepresentationBuilder setCategoryRepresentation(CategoryRepresentation categoryRepresentation){
+
+        this.categoryRepresentation = categoryRepresentation;
+
+        return this;
+    }
+
+
     public ProductRepresentation createProductRepresentation() {
         List<ProductImageRepresentation> imagesRepresentation = Optional.ofNullable(images).orElse(new ArrayList<>())
                 .stream()
                 .map(anImage -> new ProductImageRepresentation(anImage.getId(), anImage.getFileName()))
                 .collect(Collectors.toList());
+
         return new ProductRepresentation(id, name, description, stock, technicaSpeficication, categoryRepresentation, imagesRepresentation);
     }
 }

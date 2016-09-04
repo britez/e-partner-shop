@@ -22,6 +22,7 @@ public class ProductConverter {
 
     private final CategoryConverter categoryConverter;
 
+
     @Autowired
     public ProductConverter(CategoryConverter categoryConverter){
         this.categoryConverter = categoryConverter;
@@ -49,7 +50,12 @@ public class ProductConverter {
                 .setImages(product.getImages())
                 .setName(product.getName())
                 .setStock(product.getStock())
-                //.setTechnicaSpeficication(product.getTechnicaSpeficication())
+                .setCategoryRepresentation(
+                        this.categoryConverter
+                                .convert(
+                                        product.getCategory()
+                                )
+                )
                 .createProductRepresentation();
 
     }
