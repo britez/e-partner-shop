@@ -61,7 +61,7 @@ public class ProductService {
         product.setName(productRepresentation.getName());
         product.setDescription(productRepresentation.getDescription());
         product.setStock(productRepresentation.getStock());
-        product.setCategory(this.categoryRepository.findOne(productRepresentation.getId()));
+        product.setCategory(this.categoryRepository.findOne(productRepresentation.getCategory().getId()));
         this.repository.save(product);
         return this.converter.convert(product);
     }
