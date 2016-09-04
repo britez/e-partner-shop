@@ -34,7 +34,7 @@ public class ProductResource {
         return productService.create(productRepresentation);
     }
 
-    @RequestMapping(value = ID)
+    @RequestMapping(value = ID, method = RequestMethod.PUT)
     public ProductRepresentation update(
             @RequestBody ProductRepresentation productRepresentation,
             @PathVariable Long id){
