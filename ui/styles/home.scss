@@ -1,0 +1,14 @@
+#home {
+  .carousel-inner {
+    div {
+      width: 100%;
+      height: 400px;
+    }
+  }
+
+  .carousel-control,
+  .carousel-indicator {
+    display: none;
+  }
+
+}

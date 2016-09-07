@@ -17,6 +17,7 @@ System.config({
 
   map: {
     "angular": "github:angular/bower-angular@1.5.7",
+    "angular-animate": "github:angular/bower-angular-animate@1.5.8",
     "angular-bootstrap": "bower:angular-bootstrap@1.3.3",
     "angular-encode-uri": "bower:angular-encode-uri@1.0.0",
     "angular-messages": "npm:angular-messages@1.5.8",
@@ -56,6 +57,9 @@ System.config({
       "angular": "github:angular/bower-angular@1.5.7"
     },
     "github:angular-ui/ui-router@0.2.15": {
+      "angular": "github:angular/bower-angular@1.5.7"
+    },
+    "github:angular/bower-angular-animate@1.5.8": {
       "angular": "github:angular/bower-angular@1.5.7"
     },
     "github:angular/bower-angular-mocks@1.4.4": {

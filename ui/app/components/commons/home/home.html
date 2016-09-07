@@ -1,16 +1,12 @@
-<div>
+<div id="home">
     <div uib-carousel active="home.active" interval="home.myInterval">
-        <div uib-slide ng-repeat="slide in home.slides track by slide.id" index="slide.id">
-            <img ng-src="{{slide.image}}" style="max-height: 400px; min-width: 100%; object-fit: cover;">
-            <!--
-            <div class="carousel-caption">
-                <h4>Slide {{slide.id}}</h4>
-                <p>{{slide.text}}</p>
-            </div>
-            -->
-        </div>
+        <div uib-slide index="0" style="background-image: url('black-bg.jpg');"></div>
+        <div uib-slide index="1" style="background-image: url('white-bg.jpg');"></div>
     </div>
     <div class="container">
+        <div class="col-md-12 products" style="min-height: 200px;">
+            <span style="display: inline-block; height: 50px; padding: 15px 20px; background-color: #F38617; color: #FFF; font-size: 14px; text-transform: uppercase; font-weight: 600">Destacados</span>
+        </div>
         <div class="col-md-12">
             <h1>Home!</h1>
         </div>

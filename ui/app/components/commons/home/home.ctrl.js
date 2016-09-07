@@ -10,12 +10,12 @@ export default class HomeCtrl{
             {
                 id: 0,
                 text: 'test',
-                image: 'http://www.planwallpaper.com/static/images/518164-backgrounds.jpg'
+                image: '/cdn/cdn-epartner-shop-ui/images/black-bg.jpg'
             },
             {
                 id: 1,
                 text: 'test2',
-                image: 'http://feelgrafix.com/data/background/background-8.jpg'
+                image: '/cdn/cdn-epartner-shop-ui/images/white-bg.jpg'
             }
         ];
     }
