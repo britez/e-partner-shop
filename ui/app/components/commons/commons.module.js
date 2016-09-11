@@ -12,7 +12,7 @@ import { HomeComponent } from './home/home.component';
 const common = angular
     .module('commons.module', [])
     .component('headerComponent', HeaderComponent)
-    .component('footerCmp', FooterComponent)
+    .component('footerComponent', FooterComponent)
     .component('homeComponent', HomeComponent)
     .config(($stateProvider, $urlRouterProvider) => {
         $stateProvider
