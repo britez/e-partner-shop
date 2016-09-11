@@ -11,7 +11,7 @@ function forbiddenInterceptor($q, $state) {
         responseError: function (rejection) {
             // Catch `invalid_request` and `invalid_grant` errors and ensure that the `token` is removed.
             if (403 === rejection.status ){
-                console.log("FORBIDDEN INTERCEPTOR");
+                //console.log("FORBIDDEN INTERCEPTOR");
             }
 
             return $q.reject(rejection);
