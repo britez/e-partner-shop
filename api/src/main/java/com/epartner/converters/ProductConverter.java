@@ -1,7 +1,9 @@
 package com.epartner.converters;
 
+import com.epartner.domain.Category;
 import com.epartner.domain.Product;
 import com.epartner.domain.builders.ProductBuilder;
+import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.ProductRepresentationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,6 @@ import java.util.stream.Collectors;
 public class ProductConverter {
 
     private final CategoryConverter categoryConverter;
-
 
     @Autowired
     public ProductConverter(CategoryConverter categoryConverter){
