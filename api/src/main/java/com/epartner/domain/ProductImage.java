@@ -16,6 +16,7 @@ public class ProductImage {
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="product_id")
     private Product product;
+    private boolean isPrincipal;
 
     public Long getId() {
         return id;
@@ -47,5 +48,9 @@ public class ProductImage {
     public ProductImage(String fileName, Product product) {
         this.fileName = fileName;
         this.product = product;
+    }
+
+    public void setIsPrincipal(boolean isPrincipal) {
+        this.isPrincipal = isPrincipal;
     }
 }

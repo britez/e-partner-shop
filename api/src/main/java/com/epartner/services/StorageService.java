@@ -64,4 +64,15 @@ public class StorageService {
             throw new StorageFileNotFoundException("Could not read file: " + filename, e);
         }
     }
+
+    public void delete(String fileName) {
+
+
+        try {
+            Files.delete(this.rootLocation.resolve(fileName));
+        } catch (IOException e) {
+
+            throw new StorageFileNotFoundException("Could not read file: " + fileName, e);
+        }
+    }
 }

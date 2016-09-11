@@ -85,17 +85,31 @@ public class ProductService {
         return this.converter.convert(stored);
     }
 
-    public void addImagen(Long id, MultipartFile file) {
+    public void addImage(Long id, MultipartFile file) {
 
         Product product = this.get(id);
+        ProductImage productImage = new ProductImage(createProductImage(id, file), product);
+        saveImage(product, productImage);
+    }
 
-        String fileName = this.storageService.store(file);
+    public void addPrincipalImage(Long id, MultipartFile file) {
+        Product product = this.get(id);
+        ProductImage principalImage = new ProductImage(createProductImage(id, file), product);
+        principalImage.setIsPrincipal(true);
+        saveImage(product, principalImage);
+    }
 
-        ProductImage productImage = new ProductImage(fileName,product);
-
+    private void saveImage(Product product, ProductImage productImage) {
         product.addImage(productImage);
+        try{
+            this.repository.save(product);
+        }catch(Exception e) {
+            //TODO: agregar el logger
+            this.storageService.delete(productImage.getFileName());
+        }
+    }
 
-        this.repository.save(product);
-
+    private String createProductImage(Long id, MultipartFile file) {
+        return this.storageService.store(file);
     }
 }
