@@ -21,14 +21,14 @@ class ProductServiceTests extends Specification {
     private ProductConverter mockedConverter
     private CategoryService mockedCategoryService
 
-    def setup(){
+    def setup() {
         mockedCategoryService = Mock(CategoryService)
         mockedConverter = Mock(ProductConverter)
         mockedRepo = Mock(ProductRepository)
         service = new ProductService(mockedRepo, mockedConverter, mockedCategoryService)
     }
 
-    def "test create"(){
+    def "test create"() {
         setup:
         def mockedCategoryRepresentation = Mock(CategoryRepresentation) {
             getId() >> 1L
@@ -48,7 +48,7 @@ class ProductServiceTests extends Specification {
         result == mockedRepresentation
     }
 
-    def "test update"(){
+    def "test update"() {
         setup:
         def mockedRepresentation = Mock(ProductRepresentation)
         def mockedProduct = Mock(Product)
@@ -64,18 +64,18 @@ class ProductServiceTests extends Specification {
         result == mockedRepresentation
     }
 
-    def "test update with wrong id"(){
+    def "test update with wrong id"() {
         setup:
         def mockedRepresentation = Mock(ProductRepresentation)
         when:
         def result = service.update(mockedRepresentation, 1L)
         then:
-        1 * mockedRepo.findOne(1L) >> {throw Mock(EntityNotFoundException)}
+        1 * mockedRepo.findOne(1L) >> { throw Mock(EntityNotFoundException) }
         !result
         thrown(EntityNotFoundException)
     }
 
-    def "test show"(){
+    def "test show"() {
         setup:
         def mockedProduct = Mock(Product)
         def mockedResult = Mock(ProductRepresentation)
@@ -88,7 +88,7 @@ class ProductServiceTests extends Specification {
         result == mockedResult
     }
 
-    def "test delete"(){
+    def "test delete"() {
         setup:
         def mockedProduct = Mock(Product)
         when:
@@ -98,7 +98,7 @@ class ProductServiceTests extends Specification {
         1 * mockedRepo.delete(mockedProduct)
     }
 
-    def "test list"(){
+    def "test list"() {
         setup:
         def mockedProduct = Mock(Product)
         def mockedProductRepresentation = Mock(ProductRepresentation)
@@ -114,5 +114,4 @@ class ProductServiceTests extends Specification {
         product
         product == mockedProductRepresentation
     }
-
 }

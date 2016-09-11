@@ -3,13 +3,15 @@ package com.epartner.services;
 import com.epartner.converters.ProductConverter;
 import com.epartner.domain.Category;
 import com.epartner.domain.Product;
+import com.epartner.domain.ProductImage;
+import com.epartner.repositories.CategoryRepository;
 import com.epartner.repositories.ProductRepository;
-import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -23,6 +25,8 @@ public class ProductService {
     private final ProductRepository repository;
     private final ProductConverter converter;
     private final CategoryService categoryService;
+    private final StorageService storageService;
+    private final CategoryRepository categoryRepository;
 
     private final Integer MAX = 10;
     private final Integer PAGE = 0;
@@ -30,10 +34,15 @@ public class ProductService {
     @Autowired
     public ProductService(ProductRepository productRepository,
                           ProductConverter productConverter,
-                          CategoryService categoryService){
+                          CategoryService categoryService,
+                          StorageService storageService,
+                          CategoryRepository categoryRepository) {
+
         this.repository = productRepository;
         this.converter = productConverter;
         this.categoryService = categoryService;
+        this.storageService = storageService;
+        this.categoryRepository = categoryRepository;
     }
 
     public ProductRepresentation create(ProductRepresentation productRepresentation) {
@@ -49,6 +58,8 @@ public class ProductService {
         //TODO agregar todos los updates
         product.setName(productRepresentation.getName());
         product.setDescription(productRepresentation.getDescription());
+        product.setStock(productRepresentation.getStock());
+        product.setCategory(this.categoryRepository.findOne(productRepresentation.getCategory().getId()));
         this.repository.save(product);
         return this.converter.convert(product);
     }
@@ -70,5 +81,33 @@ public class ProductService {
                 new PageRequest(page.orElse(PAGE), max.orElse(MAX))
         );
         return this.converter.convert(stored);
+    }
+
+    public void addImage(Long id, MultipartFile file) {
+
+        Product product = this.get(id);
+        ProductImage productImage = new ProductImage(createProductImage(id, file), product);
+        saveImage(product, productImage);
+    }
+
+    public void addPrincipalImage(Long id, MultipartFile file) {
+        Product product = this.get(id);
+        ProductImage principalImage = new ProductImage(createProductImage(id, file), product);
+        principalImage.setIsPrincipal(true);
+        saveImage(product, principalImage);
+    }
+
+    private void saveImage(Product product, ProductImage productImage) {
+        product.addImage(productImage);
+        try{
+            this.repository.save(product);
+        }catch(Exception e) {
+            //TODO: agregar el logger
+            this.storageService.delete(productImage.getFileName());
+        }
+    }
+
+    private String createProductImage(Long id, MultipartFile file) {
+        return this.storageService.store(file);
     }
 }

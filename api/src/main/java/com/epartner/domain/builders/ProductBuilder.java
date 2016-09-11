@@ -39,11 +39,6 @@ public class ProductBuilder {
         return this;
     }
 
-    public ProductBuilder setImage(byte[] image) {
-        this.image = image;
-        return this;
-    }
-
     public ProductBuilder setCategory(Category category){
         this.category = category;
         return this;

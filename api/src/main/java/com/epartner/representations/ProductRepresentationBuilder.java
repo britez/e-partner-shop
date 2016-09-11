@@ -1,6 +1,13 @@
 package com.epartner.representations;
 
+import com.epartner.domain.ProductImage;
+import sun.awt.image.ImageRepresentation;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 public class ProductRepresentationBuilder {
@@ -11,8 +18,8 @@ public class ProductRepresentationBuilder {
     private String description;
     private Integer stock;
     private Map<String, String> technicaSpeficication;
-    private byte[] image;
     private CategoryRepresentation categoryRepresentation;
+    private List<ProductImage> images;
 
     public ProductRepresentationBuilder setId(Long id) {
         this.id = id;
@@ -39,8 +46,8 @@ public class ProductRepresentationBuilder {
         return this;
     }
 
-    public ProductRepresentationBuilder setImage(byte[] image) {
-        this.image = image;
+    public ProductRepresentationBuilder setImages(List<ProductImage> images) {
+        this.images = images;
         return this;
     }
 
@@ -50,7 +57,21 @@ public class ProductRepresentationBuilder {
 
         return this;
     }
+
+    public ProductRepresentationBuilder setCategoryRepresentation(CategoryRepresentation categoryRepresentation){
+
+        this.categoryRepresentation = categoryRepresentation;
+
+        return this;
+    }
+
+
     public ProductRepresentation createProductRepresentation() {
-        return new ProductRepresentation(id, name, description, stock, technicaSpeficication, image, categoryRepresentation);
+        List<ProductImageRepresentation> imagesRepresentation = Optional.ofNullable(images).orElse(new ArrayList<>())
+                .stream()
+                .map(anImage -> new ProductImageRepresentation(anImage.getId(), anImage.getFileName()))
+                .collect(Collectors.toList());
+
+        return new ProductRepresentation(id, name, description, stock, technicaSpeficication, categoryRepresentation, imagesRepresentation);
     }
 }

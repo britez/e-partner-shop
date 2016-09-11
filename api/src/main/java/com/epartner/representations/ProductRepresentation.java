@@ -1,5 +1,9 @@
 package com.epartner.representations;
 
+import sun.awt.image.ImageRepresentation;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,19 +17,20 @@ public class ProductRepresentation {
     private Integer stock;
     private Map<String, String> technicaSpeficication;
     private CategoryRepresentation category;
+    private List<ProductImageRepresentation> productImageRepresentations;
 
-    private byte[] image;
+    public ProductRepresentation(){
+        this.productImageRepresentations = new ArrayList<>();
+    }
 
-    public ProductRepresentation(){}
-
-    public ProductRepresentation(Long id, String name, String description, Integer stock, Map<String, String> technicaSpeficication, byte[] image, CategoryRepresentation categoryRepresentation) {
+    public ProductRepresentation(Long id, String name, String description, Integer stock, Map<String, String> technicaSpeficication, CategoryRepresentation categoryRepresentation, List<ProductImageRepresentation> productImageRepresentations) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.stock = stock;
         this.technicaSpeficication = technicaSpeficication;
-        this.image = image;
         this.category = categoryRepresentation;
+        this.productImageRepresentations = productImageRepresentations;
     }
 
     public Long getId() {
@@ -68,19 +73,24 @@ public class ProductRepresentation {
         this.technicaSpeficication = technicaSpeficication;
     }
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
     public CategoryRepresentation getCategory() {
         return category;
     }
 
     public void setCategory(CategoryRepresentation category) {
         this.category = category;
+    }
+
+    public void addProductImage(ProductImageRepresentation productImageRepresentation){
+
+        this.productImageRepresentations.add(productImageRepresentation);
+    }
+
+    public List<ProductImageRepresentation> getProductImageRepresentations() {
+        return productImageRepresentations;
+    }
+
+    public void setProductImageRepresentations(List<ProductImageRepresentation> productImageRepresentations) {
+        this.productImageRepresentations = productImageRepresentations;
     }
 }

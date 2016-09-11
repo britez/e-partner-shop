@@ -21,7 +21,7 @@
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>${FILE_LOG_PATTERN}</Pattern>
         </encoder>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
+        <!--<encoder class="net.logstash.logback.encoder.LogstashEncoder" />-->
     </appender>
 
     <root level="INFO">

@@ -1,7 +1,9 @@
 package com.epartner.converters;
 
+import com.epartner.domain.Category;
 import com.epartner.domain.Product;
 import com.epartner.domain.builders.ProductBuilder;
+import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.ProductRepresentationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +34,6 @@ public class ProductConverter {
                 .setDescription(productRepresentation.getDescription())
                 .setStock(productRepresentation.getStock())
                 .setName(productRepresentation.getName())
-                .setImage(productRepresentation.getImage())
                 .setCategory(this.categoryConverter.convert(productRepresentation.getCategory()))
                 .setTechnicaSpeficication(productRepresentation.getTechnicaSpeficication())
                 .createProduct();
@@ -45,9 +46,16 @@ public class ProductConverter {
         return new ProductRepresentationBuilder()
                 .setId(product.getId())
                 .setDescription(product.getDescription())
+                .setImages(product.getImages())
                 .setName(product.getName())
                 .setStock(product.getStock())
-                //.setTechnicaSpeficication(product.getTechnicaSpeficication())
+                .setCategoryRepresentation(
+                        this.categoryConverter
+                                .convert(
+                                        product.getCategory()
+                                )
+                )
+
                 .createProductRepresentation();
 
     }
