@@ -27,6 +27,7 @@ export default class CategoryDetailController {
 
     save(form) {
         if(!form.$valid){
+            form.$touched = true;
             return;
         }
         let params = {};
