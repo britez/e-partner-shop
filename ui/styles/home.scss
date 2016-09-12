@@ -8,6 +8,41 @@
       width: 100%;
       height: 400px;
     }
+
+    .header {
+      background-color: $orange;
+      color: $mate-white;
+      padding: 15px 20px;
+      position: absolute;
+      text-transform: uppercase;
+      font-size: 3rem;
+      left: 25%;
+      top: 50%;
+    }
+
+    .sub-header {
+      background-color: $black;
+      color: $mate-white;
+      padding: 15px 20px;
+      position: absolute;
+      text-transform: uppercase;
+      font-size: 2rem;
+      animation-delay: 1s;
+      left: 50%;
+      top: 25%;
+    }
+
+    .description {
+      background-color: $mate-white;
+      color: $black;
+      padding: 15px 20px;
+      position: absolute;
+      text-transform: uppercase;
+      font-size: 2rem;
+      animation-delay: 1.5s;
+      left: 50%;
+      top: 48%;
+    }
   }
 
   .carousel-control,

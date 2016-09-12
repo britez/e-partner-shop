@@ -2,18 +2,23 @@
     <div class="container">
         <span class="pull-left" style="color:#FFFFFF; font-weight: bolder; font-size: 3rem; padding: 15px 0 0 0; font-family: 'Karla'; text-transform: uppercase;">E-Partner Shop</span>
         <ul class="pull-right">
-            <li
-                style="width: 80px; display: inline-block; padding: 20px 0; font-size: 2.5rem;">
+            <li>
                 <a>
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                 </a>
             </li>
-            <li style="width: 80px; display: inline-block; padding: 20px 0; font-size: 2.5rem;">
-                <a>
-                    <i class="fa fa-search" aria-hidden="true"></i>
+            <li>
+                <a class="search">
+                    <i class="fa fa-search" aria-hidden="true" ng-click="header.search = !header.search;"></i>
                 </a>
             </li>
         </ul>
+        <div class="search-form pull-right animated" ng-class="{'fadeInDown': header.search, 'fadeOutUp': !header.search}">
+            <input type="text" placeholder="B&uacute;sca productos">
+            <span ng-click="header.search = !header.search;">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </span>
+        </div>
     </div>
 </div>
 <div class="menu clearfix">
