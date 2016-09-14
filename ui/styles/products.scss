@@ -7,10 +7,7 @@
 #product-detail {
 
   min-height: 400px;
-
-  .header {
-    padding: 20px 0 0 0;
-  }
+  padding: 20px 0 40px 0;
 
   .picture-select {
     height: 165px;
@@ -21,16 +18,23 @@
     cursor: pointer;
   }
 
-  .pictures-select {
-    flex: auto;
-    height: 165px;
-    border: 2px #CCCCCC dashed;
-    background: url("nophoto.png") 50% 50%;
-    background-size: contain;
-    cursor: pointer;
-    width: 178px;
-    display: inline;
-    float: left;
-    margin: 0 5px 0 0;
+  .pictures-container {
+    display: flex;
+    margin: 0 0 10px 0;
+
+    .pictures-select {
+      flex: auto;
+      height: 125px;
+      border: 2px #CCCCCC dashed;
+      background: url("nophoto.png") 50% 50%;
+      background-size: contain;
+      cursor: pointer;
+      margin: 0 5px 0 0;
+    }
+
+    .pictures-select:last-child {
+      margin: 0 0 0 0;
+    }
   }
+
 }
