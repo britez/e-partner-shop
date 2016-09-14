@@ -1,7 +1,5 @@
 package com.epartner.representations;
 
-import sun.awt.image.ImageRepresentation;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

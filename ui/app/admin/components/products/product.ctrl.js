@@ -3,9 +3,17 @@
 export default class ProductController {
 
     /*ngInject*/
-    constructor(api, $state){
+    constructor(api, $state, Upload, OAuth){
         this.api = api;
         this.$state = $state;
+
+        /*
+        this.uploader = new FileUploader({
+            url: 'api/products/'+this.$state.params.id+'/images',
+            headers : {'Authorization': OAuth.getAuthorizationHeader()}
+        });
+        */
+
         this.init();
     }
 

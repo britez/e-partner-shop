@@ -1,0 +1,36 @@
+@import "variables";
+
+#products {
+  min-height: 400px;
+}
+
+#product-detail {
+
+  min-height: 400px;
+
+  .header {
+    padding: 20px 0 0 0;
+  }
+
+  .picture-select {
+    height: 165px;
+    width: 100%;
+    border: 2px #CCCCCC dashed;
+    background: url("nophoto.png") 50% 50%;
+    background-size: contain;
+    cursor: pointer;
+  }
+
+  .pictures-select {
+    flex: auto;
+    height: 165px;
+    border: 2px #CCCCCC dashed;
+    background: url("nophoto.png") 50% 50%;
+    background-size: contain;
+    cursor: pointer;
+    width: 178px;
+    display: inline;
+    float: left;
+    margin: 0 5px 0 0;
+  }
+}

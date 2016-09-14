@@ -20,7 +20,6 @@ System.config({
     "angular-animate": "github:angular/bower-angular-animate@1.5.8",
     "angular-bootstrap": "bower:angular-bootstrap@1.3.3",
     "angular-encode-uri": "bower:angular-encode-uri@1.0.0",
-    "angular-file-upload": "npm:angular-file-upload@2.3.4",
     "angular-messages": "npm:angular-messages@1.5.8",
     "angular-resource": "github:angular/bower-angular-resource@1.4.5",
     "angular-translate": "github:angular-translate/bower-angular-translate@2.11.1",
@@ -34,6 +33,7 @@ System.config({
     "giu-module-security": "npm-redbee:giu-module-security@1.0.0",
     "jquery": "github:components/jquery@2.1.4",
     "module-crud-ui": "npm-redbee:module-crud-ui@1.0.0",
+    "ng-file-upload": "npm:ng-file-upload@12.2.9",
     "remarkable-bootstrap-notify": "bower:remarkable-bootstrap-notify@3.1.3",
     "bower:angular-bootstrap@1.3.3": {
       "angular": "bower:angular@1.4.5"
@@ -96,7 +96,7 @@ System.config({
       "path-browserify": "npm:path-browserify@0.0.0"
     },
     "github:jspm/nodelibs-process@0.1.2": {
-      "process": "npm:process@0.11.8"
+      "process": "npm:process@0.11.9"
     },
     "github:jspm/nodelibs-stream@0.1.0": {
       "stream-browserify": "npm:stream-browserify@1.0.0"
@@ -126,9 +126,6 @@ System.config({
       "module": "github:jspm/nodelibs-module@0.1.0",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
-    },
-    "npm:angular-file-upload@2.3.4": {
-      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:angular-uuid@0.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
@@ -189,13 +186,16 @@ System.config({
     "npm:inherits@2.0.1": {
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
+    "npm:ng-file-upload@12.2.9": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"
     },
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:process@0.11.8": {
+    "npm:process@0.11.9": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
