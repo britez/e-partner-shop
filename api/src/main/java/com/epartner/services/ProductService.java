@@ -46,10 +46,15 @@ public class ProductService {
     }
 
     public ProductRepresentation create(ProductRepresentation productRepresentation) {
+
+        //Esto esta duplicado
         this.categoryService.show(productRepresentation.getCategory().getId());
+        Category c = this.categoryRepository.findOne(productRepresentation.getCategory().getId());
+        Product p = this.converter.convert(productRepresentation);
+        p.setCategory(c);
         return this.converter.convert(
             this.repository.save(
-                this.converter.convert(productRepresentation)
+                p
             ));
     }
 
