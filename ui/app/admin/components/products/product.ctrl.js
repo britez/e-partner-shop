@@ -19,6 +19,15 @@ export default class ProductController {
 
     init(){
         this.entity = {};
+
+        this.api.categories
+            .get()
+            .$promise
+            .then((response) => {
+                this.categories = response.content;
+            })
+
+
         if(!this.isNew()){
             this.api.products
                 .get({id: this.$state.params.id})
