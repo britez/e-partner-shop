@@ -47,10 +47,9 @@ public class ProductService {
 
     public ProductRepresentation create(ProductRepresentation productRepresentation) {
         this.categoryService.show(productRepresentation.getCategory().getId());
-        return this.converter.convert(
-            this.repository.save(
-                this.converter.convert(productRepresentation)
-            ));
+        Product productToSave = this.converter.convert(productRepresentation);
+        Product productSaved = this.repository.save(productToSave);
+        return this.converter.convert(productSaved);
     }
 
     public ProductRepresentation update(ProductRepresentation productRepresentation, Long id) {

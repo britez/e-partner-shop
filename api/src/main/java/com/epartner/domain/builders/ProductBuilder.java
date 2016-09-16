@@ -45,6 +45,12 @@ public class ProductBuilder {
     }
 
     public Product createProduct() {
-        return new Product(id, name, description, stock);
+        Product result = new Product();
+        result.setId(id);
+        result.setName(name);
+        result.setDescription(description);
+        result.setStock(stock);
+        result.setCategory(category);
+        return result;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +38,9 @@ public class CategoryConverter {
     public Category convert(CategoryRepresentation category) {
         Category result = new Category();
         result.setDescription(category.getDescription());
+        if(Optional.ofNullable(category.getId()).isPresent()) {
+            result.setId(category.getId());
+        }
         result.setName(category.getName());
         return result;
     }
