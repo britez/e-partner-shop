@@ -2,7 +2,8 @@
 
 #footer {
   padding: 20px 0 5px 0;
-  background-color: $black;
+  background: $black url('footer-bg-pattern.png') repeat;
+  background-size: 350px;
   color: $white;
 
   span {
