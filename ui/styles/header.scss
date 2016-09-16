@@ -3,6 +3,11 @@
 header-component {
   .main-header {
     background: $orange;
+
+    img {
+      height: 55px;
+      padding: 15px 0 0 0;
+    }
   }
 
   ul {
@@ -12,7 +17,7 @@ header-component {
     li {
       list-style: none;
       text-align: center;
-      width: 80px;
+      width: 50px;
       display: inline-block;
       padding: 20px 0;
       font-size: 2.5rem;
