@@ -5,71 +5,160 @@
             <h3 ng-if="!ctrl.isNew()">Editar producto</h3>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="picture-select" ngf-select ng-model="ctrl.principalPic"></div>
-        </div>
-        <div class="col-md-10">
-            <form name="categoryForm" ng-submit="ctrl.save(categoryForm)">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="name">Nombre</label>
-                        <input
-                                type="text"
-                                class="form-control"
-                                id="name"
-                                placeholder="Nombre"
-                                ng-model="ctrl.entity.name">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="description">Descripci&oacute;n</label>
-                        <input
-                                type="text"
-                                class="form-control"
-                                id="description"
-                                placeholder="Descripci&oacute;n"
-                                ng-model="ctrl.entity.description">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="category">Categoria</label>
-                        <input
-                                id="category"
-                                type="text"
-                                ng-model="ctrl.entity.category"
-                                uib-typeahead="category as category.name for category in ctrl.categories  | filter:$viewValue | limitTo:8"
-                                class="form-control">
 
+    <form name="productForm" ng-submit="ctrl.save(productForm)" novalidate>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        placeholder="Nombre"
+                        required=""
+                        ng-model="ctrl.entity.name">
+                    <div ng-messages="productForm.name.$error" ng-show="productForm.$touched || productForm.name.$touched">
+                        <span class="error" ng-message="required">El nombre es requerido.</span>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="stock">Stock</label>
-                        <input
-                                type="text"
-                                class="form-control"
-                                id="stock"
-                                placeholder="Stock"
-                                ng-model="ctrl.entity.stock">
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="description">Descripci&oacute;n</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="description"
+                        name="description"
+                        required=""
+                        placeholder="Descripci&oacute;n"
+                        ng-model="ctrl.entity.description">
+                    <div ng-messages="productForm.description.$error" ng-if="productForm.$touched || productForm.description.$touched">
+                        <span class="error" ng-message="required">La descripción es requerida.</span>
                     </div>
                 </div>
-                <div class="col-md-12 pictures-container">
-                    <div class="pictures-select" ngf-select ng-model="ctrl.pictures[0]"></div>
-                    <div class="pictures-select" ngf-select ng-model="ctrl.pictures[1]"></div>
-                    <div class="pictures-select" ngf-select ng-model="ctrl.pictures[2]"></div>
-                    <div class="pictures-select" ngf-select ng-model="ctrl.pictures[3]"></div>
-                    <div class="pictures-select" ngf-select ng-model="ctrl.pictures[4]"></div>
-                    <div class="pictures-select" ngf-select ng-model="ctrl.pictures[5]"></div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary pull-right">Guardar</button>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="category">Categoria</label>
+                    <input
+                        id="category"
+                        type="text"
+                        name="category"
+                        required=""
+                        ng-model="ctrl.entity.category"
+                        uib-typeahead="category as category.name for category in ctrl.categories  | filter:$viewValue | limitTo:8"
+                        class="form-control">
+                    <div ng-messages="productForm.category.$error" ng-if="productForm.$touched || productForm.category.$touched">
+                        <span class="error" ng-message="required">La categor&iacute;a es requerida.</span>
                     </div>
                 </div>
-            </form>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="stock">Stock</label>
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="stock"
+                        name="stock"
+                        required=""
+                        placeholder="Stock"
+                        ng-model="ctrl.entity.stock">
+                    <div ng-messages="productForm.stock.$error" ng-if="productForm.$touched || productForm.stock.$touched">
+                        <span class="error" ng-message="required">El stock es requerido.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div
+                    class="picture-select"
+                    ngf-select
+                    ng-if="!ctrl.principalPic"
+                    ng-model="ctrl.principalPic"></div>
+                <img
+                    class="picture-select"
+                    ngf-select
+                    ng-if="ctrl.principalPic"
+                    ng-model="ctrl.principalPic"
+                    ngf-src="ctrl.principalPic"/>
+            </div>
+            <div class="col-md-10 pictures-container">
+                <div
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="!ctrl.pictures[0]"
+                    ng-model="ctrl.pictures[0]"></div>
+                <img
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="ctrl.pictures[0]"
+                    ng-model="ctrl.pictures[0]"
+                    ngf-src="ctrl.pictures[0]"/>
+                <div
+                        class="pictures-select"
+                        ngf-select
+                        ng-if="!ctrl.pictures[1]"
+                        ng-model="ctrl.pictures[1]"></div>
+                <img
+                        class="pictures-select"
+                        ngf-select
+                        ng-if="ctrl.pictures[1]"
+                        ng-model="ctrl.pictures[1]"
+                        ngf-src="ctrl.pictures[1]"/>
+                <div
+                        class="pictures-select"
+                        ngf-select
+                        ng-if="!ctrl.pictures[2]"
+                        ng-model="ctrl.pictures[2]"></div>
+                <img
+                        class="pictures-select"
+                        ngf-select
+                        ng-if="ctrl.pictures[2]"
+                        ng-model="ctrl.pictures[2]"
+                        ngf-src="ctrl.pictures[2]"/>
+                <div
+                        class="pictures-select"
+                        ngf-select
+                        ng-if="!ctrl.pictures[3]"
+                        ng-model="ctrl.pictures[3]"></div>
+                <img
+                        class="pictures-select"
+                        ngf-select
+                        ng-if="ctrl.pictures[3]"
+                        ng-model="ctrl.pictures[3]"
+                        ngf-src="ctrl.pictures[3]"/>
+                <div
+                        class="pictures-select"
+                        ngf-select
+                        ng-if="!ctrl.pictures[4]"
+                        ng-model="ctrl.pictures[4]"></div>
+                <img
+                        class="pictures-select"
+                        ngf-select
+                        ng-if="ctrl.pictures[4]"
+                        ng-model="ctrl.pictures[4]"
+                        ngf-src="ctrl.pictures[4]"/>
+                <div
+                        class="pictures-select"
+                        ngf-select
+                        ng-if="!ctrl.pictures[5]"
+                        ng-model="ctrl.pictures[5]"></div>
+                <img
+                        class="pictures-select"
+                        ngf-select
+                        ng-if="ctrl.pictures[5]"
+                        ng-model="ctrl.pictures[5]"
+                        ngf-src="ctrl.pictures[5]"/>
+
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary pull-right">Guardar</button>
+                </div>
+            </div>
         </div>
-    </div>
+    </form>
 </div>

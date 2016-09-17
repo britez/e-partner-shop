@@ -18,6 +18,10 @@
     cursor: pointer;
   }
 
+  img.picture-select {
+    object-fit: cover;
+  }
+
   .pictures-container {
     display: flex;
     margin: 0 0 10px 0;
@@ -29,11 +33,16 @@
       background: url("nophoto.png") 50% 50%;
       background-size: contain;
       cursor: pointer;
-      margin: 0 5px 0 0;
+      margin: 40px 5px 0 0;
+    }
+
+    img.pictures-select {
+      object-fit: cover;
+      max-width: 155px;
     }
 
     .pictures-select:last-child {
-      margin: 0 0 0 0;
+      margin-right: 0;
     }
   }
 

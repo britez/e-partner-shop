@@ -27,6 +27,8 @@ body {
 
 .form-group {
 
+  padding-bottom: 10px;
+
   .form-control {
     border-radius: 2px;
   }
@@ -42,5 +44,12 @@ body {
 
   span.error {
     color: $red;
+    position: absolute;
   }
+}
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+  background-color: #F38617;
 }

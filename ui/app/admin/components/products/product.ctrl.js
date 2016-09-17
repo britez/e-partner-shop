@@ -25,7 +25,7 @@ export default class ProductController {
             .$promise
             .then((response) => {
                 this.categories = response.content;
-            })
+            });
 
 
         if(!this.isNew()){
@@ -53,7 +53,8 @@ export default class ProductController {
                 .products
                 .update(params,this.entity)
                 .$promise
-                .then(() => {
+                .then(response => {
+                    //TODO: Deberíamos quedarnos en este producto con un alert success
                     this.$state.go('products');
                 });
         } else {
@@ -61,9 +62,8 @@ export default class ProductController {
                 .products
                 .save(params,this.entity)
                 .$promise
-                .then((response) => {
-                    console.log("sadsa",response);
-                    this.$state.go('products-image',{id:response.id});
+                .then(response => {
+                    //TODO: Deberíamos hacer la carga de imágenes
                 });
         }
 
