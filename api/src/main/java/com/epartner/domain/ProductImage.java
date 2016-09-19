@@ -18,6 +18,13 @@ public class ProductImage {
     private Product product;
     private boolean isPrincipal;
 
+    public ProductImage(){}
+
+    public ProductImage(String fileName, Product product) {
+        this.fileName = fileName;
+        this.product = product;
+    }
+
     public Long getId() {
         return id;
     }
@@ -42,15 +49,11 @@ public class ProductImage {
         this.product = product;
     }
 
-
-    public ProductImage(){}
-
-    public ProductImage(String fileName, Product product) {
-        this.fileName = fileName;
-        this.product = product;
-    }
-
     public void setIsPrincipal(boolean isPrincipal) {
         this.isPrincipal = isPrincipal;
+    }
+
+    public Boolean getIsPrincipal() {
+        return this.isPrincipal;
     }
 }

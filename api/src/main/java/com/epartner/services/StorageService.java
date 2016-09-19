@@ -31,7 +31,7 @@ public class StorageService {
 
     public String store(MultipartFile file) {
 
-        String fileName = UUID.randomUUID().toString();
+        String fileName = UUID.randomUUID().toString() + getExtensionFile(file);
 
         try {
             if (file.isEmpty()) {
@@ -43,6 +43,10 @@ public class StorageService {
         }
 
         return fileName;
+    }
+
+    private String getExtensionFile(MultipartFile file) {
+        return "." + file.getOriginalFilename().split("\\.")[1];
     }
 
     public Path load(String filename) {

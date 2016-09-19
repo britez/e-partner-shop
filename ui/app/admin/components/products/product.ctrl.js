@@ -3,18 +3,14 @@
 export default class ProductController {
 
     /*ngInject*/
-    constructor(api, $state, Upload, OAuth){
+    constructor(api, $state, Upload, OAuth, $q){
         this.api = api;
         this.$state = $state;
-
-        /*
-        this.uploader = new FileUploader({
-            url: 'api/products/'+this.$state.params.id+'/images',
-            headers : {'Authorization': OAuth.getAuthorizationHeader()}
-        });
-        */
-
+        this.uploader = Upload;
+        this.OAuth = OAuth;
+        this.$q = $q;
         this.init();
+        this.pictures = [];
     }
 
     init(){
@@ -34,6 +30,10 @@ export default class ProductController {
                 .$promise
                 .then(response => {
                     this.entity = response;
+                    this.currentPrincipalPic = this.entity
+                        .images
+                        .find(img => img.principal);
+
                 })
         }
     }
@@ -63,10 +63,38 @@ export default class ProductController {
                 .save(params,this.entity)
                 .$promise
                 .then(response => {
-                    //TODO: Deberíamos hacer la carga de imágenes
+                    let productId = response.id;
+                    var promises = [];
+                    promises.push(this.uploadPrincipalPicture(productId));
+                    promises.push(this.uploadPictures(productId));
+                    this.$q
+                        .all(promises)
+                        .then(() => {
+                           this.$state.go('products');
+                        });
                 });
         }
 
+    }
+
+    uploadPrincipalPicture(productId) {
+        return this.uploader.upload({
+            url: 'api/products/' + productId + '/principal-images',
+            data: {file: this.principalPic},
+            headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
+        });
+    }
+
+    uploadPictures(productId) {
+        let promises = [];
+        this.pictures.forEach(picture => {
+            promises.push(this.uploader.upload({
+                url: 'api/products/' + productId + '/images',
+                data: {file: picture},
+                headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
+            }))
+        });
+        return promises;
     }
 
 }

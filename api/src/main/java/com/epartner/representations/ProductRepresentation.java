@@ -15,20 +15,20 @@ public class ProductRepresentation {
     private Integer stock;
     private Map<String, String> technicaSpeficication;
     private CategoryRepresentation category;
-    private List<ProductImageRepresentation> productImageRepresentations;
+    private List<ProductImageRepresentation> images;
 
     public ProductRepresentation(){
-        this.productImageRepresentations = new ArrayList<>();
+        this.images = new ArrayList<>();
     }
 
-    public ProductRepresentation(Long id, String name, String description, Integer stock, Map<String, String> technicaSpeficication, CategoryRepresentation categoryRepresentation, List<ProductImageRepresentation> productImageRepresentations) {
+    public ProductRepresentation(Long id, String name, String description, Integer stock, Map<String, String> technicaSpeficication, CategoryRepresentation categoryRepresentation, List<ProductImageRepresentation> images) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.stock = stock;
         this.technicaSpeficication = technicaSpeficication;
         this.category = categoryRepresentation;
-        this.productImageRepresentations = productImageRepresentations;
+        this.images = images;
     }
 
     public Long getId() {
@@ -81,14 +81,14 @@ public class ProductRepresentation {
 
     public void addProductImage(ProductImageRepresentation productImageRepresentation){
 
-        this.productImageRepresentations.add(productImageRepresentation);
+        this.images.add(productImageRepresentation);
     }
 
-    public List<ProductImageRepresentation> getProductImageRepresentations() {
-        return productImageRepresentations;
+    public List<ProductImageRepresentation> getImages() {
+        return images;
     }
 
-    public void setProductImageRepresentations(List<ProductImageRepresentation> productImageRepresentations) {
-        this.productImageRepresentations = productImageRepresentations;
+    public void setImages(List<ProductImageRepresentation> images) {
+        this.images = images;
     }
 }

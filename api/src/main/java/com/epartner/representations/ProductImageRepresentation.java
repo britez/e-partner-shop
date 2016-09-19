@@ -7,6 +7,16 @@ public class ProductImageRepresentation {
 
     private String url;
     private Long id;
+    private Boolean principal;
+
+    public ProductImageRepresentation() {
+    }
+
+    public ProductImageRepresentation(Long id, String url, Boolean isPrincipal) {
+        this.url = url;
+        this.id = id;
+        this.principal = isPrincipal;
+    }
 
     public String getUrl() {
         return url;
@@ -24,10 +34,11 @@ public class ProductImageRepresentation {
         this.id = id;
     }
 
-    public ProductImageRepresentation(Long id, String url) {
-        this.url = url;
-        this.id = id;
+    public Boolean getPrincipal() {
+        return principal;
     }
 
-    public ProductImageRepresentation() {}
+    public void setPrincipal(Boolean principal) {
+        this.principal = principal;
+    }
 }

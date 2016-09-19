@@ -53,3 +53,10 @@ body {
 .dropdown-menu > .active > a:focus {
   background-color: #F38617;
 }
+
+::-webkit-input-placeholder,
+:-moz-placeholder,
+::-moz-placeholder,
+:-ms-input-placeholder {
+  color: $white;
+}

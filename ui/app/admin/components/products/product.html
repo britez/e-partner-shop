@@ -6,7 +6,7 @@
         </div>
     </div>
 
-    <form name="productForm" ng-submit="ctrl.save(productForm)" novalidate>
+    <form name="productForm" ng-submit="ctrl.save(productForm)" novalidate autocomplete="off">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
@@ -76,14 +76,21 @@
                 <div
                     class="picture-select"
                     ngf-select
-                    ng-if="!ctrl.principalPic"
+                    ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic"
                     ng-model="ctrl.principalPic"></div>
                 <img
                     class="picture-select"
                     ngf-select
                     ng-if="ctrl.principalPic"
                     ng-model="ctrl.principalPic"
+                    ng-src="{{ctrl.principalPic}}"
                     ngf-src="ctrl.principalPic"/>
+                <img
+                    class="picture-select"
+                    ng-if="ctrl.currentPrincipalPic.url && !ctrl.principalPic"
+                    ngf-select
+                    ng-model="ctrl.principalPic"
+                    ng-src="{{ctrl.currentPrincipalPic.url}}"/>
             </div>
             <div class="col-md-10 pictures-container">
                 <div
