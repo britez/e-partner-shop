@@ -7,6 +7,9 @@ let dashboardApiCfg = () => {
     apiProvider.endpoint('categories')
       .route('/api/categories/:id');
 
+    apiProvider.endpoint('categoryProducts')
+      .route('/api/categories/:id/products');
+
     apiProvider.endpoint('products')
         .route('/api/products/:id');
 

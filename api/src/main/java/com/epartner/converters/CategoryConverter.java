@@ -32,6 +32,7 @@ public class CategoryConverter {
         result.setId(category.getId());
         result.setDescription(category.getDescription());
         result.setName(category.getName());
+        result.setHighlight(category.getHighlight());
         return result;
     }
 
@@ -41,6 +42,7 @@ public class CategoryConverter {
         if(Optional.ofNullable(category.getId()).isPresent()) {
             result.setId(category.getId());
         }
+        result.setHighlight(category.getHighlight());
         result.setName(category.getName());
         return result;
     }

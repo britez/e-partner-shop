@@ -8,6 +8,7 @@ public class CategoryRepresentation {
     private Long id;
     private String name;
     private String description;
+    private Boolean highlight;
 
     public Long getId() {
         return id;
@@ -33,4 +34,11 @@ public class CategoryRepresentation {
         this.description = description;
     }
 
+    public Boolean getHighlight() {
+        return highlight;
+    }
+
+    public void setHighlight(Boolean highlight) {
+        this.highlight = highlight;
+    }
 }

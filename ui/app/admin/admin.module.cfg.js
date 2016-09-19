@@ -5,7 +5,6 @@ import { CategoryComponent } from '../admin/components/categories/category.cmp';
 import { CategoryDetailComponent } from '../admin/components/categories/category.detail.cmp';
 import { ProductsComponent } from '../admin/components/products/products.cmp';
 import { ProductComponent } from '../admin/components/products/product.cmp';
-import { ProductImagesComponent } from '../admin/components/products/images/product.images.cmp';
 
 const admin = angular
     .module('admin.module', [])
@@ -14,7 +13,6 @@ const admin = angular
     .component('categoryDetailComponent', CategoryDetailComponent)
     .component('productsComponent', ProductsComponent)
     .component('productComponent', ProductComponent)
-    .component('productImagesComponent', ProductImagesComponent)
     .config(($stateProvider) => {
         $stateProvider
             .state('admin', {
@@ -37,10 +35,6 @@ const admin = angular
                 url: '/admin/products/:id',
                 component: 'productComponent'
             })
-            .state('products-image', {
-                url: '/admin/products/:id/images',
-                component: 'productImagesComponent'
-            });
     })
     .name;
 

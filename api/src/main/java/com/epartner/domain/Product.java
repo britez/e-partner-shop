@@ -26,6 +26,10 @@ public class Product {
     @Cascade(CascadeType.PERSIST)
     private List<ProductImage> images;
 
+    @ManyToOne
+    @JoinColumn(name="catgory_id")
+    private Category category;
+
     /*@ElementCollection
     @JoinTable(name="technical_specification", joinColumns=@JoinColumn(name="product_id"))
     @MapKeyColumn (name="technical_specification_id")
@@ -40,10 +44,6 @@ public class Product {
         this.description = description;
         this.stock = stock;
     }
-
-    @ManyToOne
-    @JoinColumn(name="catgory_id")
-    private Category category;
 
     public Long getId() {
         return id;

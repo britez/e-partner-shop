@@ -17,6 +17,7 @@ export default class CategoryDetailController {
                 .$promise
                 .then(response => {
                     this.entity = response;
+                    this.loadCategoryProducts();
                 })
         }
     }
@@ -50,5 +51,19 @@ export default class CategoryDetailController {
                 });
         }
 
+    }
+
+    loadCategoryProducts() {
+        this.api
+            .categoryProducts
+            .get({id: this.$state.params.id})
+            .$promise
+            .then(response => {
+               this.categoryProducts = response.content;
+            });
+    }
+
+    getPrincipal(product) {
+        return product.images.find(img => img.principal).url;
     }
 }

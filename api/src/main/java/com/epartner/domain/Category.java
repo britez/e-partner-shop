@@ -1,7 +1,5 @@
 package com.epartner.domain;
 
-import com.epartner.representations.CategoryRepresentation;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +19,7 @@ public class Category implements Serializable {
     private long id;
     private String name;
     private String description;
+    private Boolean highlight;
 
     public Long getId() {
         return id;
@@ -47,6 +46,11 @@ public class Category implements Serializable {
     }
 
 
+    public Boolean getHighlight() {
+        return highlight;
+    }
 
-
+    public void setHighlight(Boolean highlight) {
+        this.highlight = highlight;
+    }
 }

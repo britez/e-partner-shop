@@ -39,6 +39,27 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12" ng-if="!ctrl.isNew()">
+                <div class="form-group">
+                    <label for="description">Destacar categoria?</label>
+                    <div class="checkbox-group">
+                        <div
+                            class="checkbox"
+                            style="width: 25px; height: 25px; border: 1px #CECECE solid; border-radius: 2px; text-align: center; display: inline-block; margin: 0 10px 0 0; cursor: pointer;"
+                            ng-click="ctrl.entity.highlight = !ctrl.entity.highlight">
+                            <span class="fa fa-check" style="padding: 4px 0 0 0;" ng-class="{'fa-check':ctrl.entity.highlight, 'fa-times':!ctrl.entity.highlight}"></span>
+                        </div>
+                        <span ng-if="ctrl.entity.highlight">SI</span>
+                        <span ng-if="!ctrl.entity.highlight">NO</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" ng-if="!ctrl.isNew()" ng-repeat="product in ctrl.categoryProducts">
+                <div class="category-item">
+                    <img src="{{getPrincipal(product)}}" style="width: 150px; object-fit: cover"/>
+                    <span>{{product.name}}</span>
+                </div>
+            </div>
             <div class="col-md-12">
                 <div class="form-group clearfix">
                     <button type="submit" class="btn btn-primary pull-right">Guardar</button>

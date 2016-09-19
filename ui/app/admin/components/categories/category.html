@@ -14,12 +14,13 @@
             <div class="category-item">
                 <div class="row">
                     <div class="col-md-6">
-                        <span>{{category.name}}</span>
+                        <span class="title">{{category.name}}</span>
+                        <span>{{category.description}}</span>
                     </div>
                     <div class="col-md-6">
                         <ul>
                             <li ui-sref="categories-detail({id: category.id})">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                <i class="fa fa-eye" aria-hidden="true"></i>
                             </li>
                             <li>
                                 <i class="fa fa-trash" aria-hidden="true"></i>
@@ -27,8 +28,6 @@
                         </ul>
                     </div>
                 </div>
-                <p>{{category.description}}</p>
-                <p>100 productos en esta categor&iacute;a</p>
             </div>
         </div>
     </div>

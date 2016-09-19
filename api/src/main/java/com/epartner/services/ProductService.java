@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -85,15 +86,23 @@ public class ProductService {
     public void addImage(Long id, MultipartFile file) {
 
         Product product = this.get(id);
-        ProductImage productImage = new ProductImage(createProductImage(id, file), product);
+        ProductImage productImage = new ProductImage(createProductImage(file), product);
         saveImage(product, productImage);
     }
 
     public void addPrincipalImage(Long id, MultipartFile file) {
         Product product = this.get(id);
-        ProductImage principalImage = new ProductImage(createProductImage(id, file), product);
+        ProductImage principalImage = new ProductImage(createProductImage(file), product);
         principalImage.setIsPrincipal(true);
         saveImage(product, principalImage);
+    }
+
+    public Page<ProductRepresentation> listByCategoryId(
+            Long id, Optional<Integer> max, Optional<Integer> page) {
+        Category param = new Category();
+        param.setId(id);
+        return this.converter.convert(
+                this.repository.findAllByCategory(param, new PageRequest(page.orElse(PAGE), max.orElse(MAX))));
     }
 
     private void saveImage(Product product, ProductImage productImage) {
@@ -106,7 +115,7 @@ public class ProductService {
         }
     }
 
-    private String createProductImage(Long id, MultipartFile file) {
+    private String createProductImage(MultipartFile file) {
         return this.storageService.store(file);
     }
 }
