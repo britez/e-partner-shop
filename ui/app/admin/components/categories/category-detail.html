@@ -54,10 +54,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6" ng-if="!ctrl.isNew()" ng-repeat="product in ctrl.categoryProducts">
-                <div class="category-item">
-                    <img src="{{getPrincipal(product)}}" style="width: 150px; object-fit: cover"/>
-                    <span>{{product.name}}</span>
+            <div class="col-md-12" ng-if="!ctrl.isNew() && ctrl.entity.highlight">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Seleccione los productos a destacar.</label>
+                    </div>
+                    <div class="col-md-6 category-item" ng-repeat="product in ctrl.categoryProducts" style="cursor:pointer;" ng-click="product.highlight = !product.highlight">
+                        <img ng-src="{{product.principalImage.url}}" style="width: 150px; object-fit: cover"/>
+                        <span>{{product.name}}</span>
+                        <span>{{product.description}}</span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-12">

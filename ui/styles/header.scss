@@ -64,10 +64,46 @@ header-component {
 
   .menu {
     background: $black;
+
+    li {
+      width: 100px;
+      display: inline-block;
+      padding: 15px 0 13px 0;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      font-weight: bolder;
+      background-color: $black;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    li:hover {
+      background-color: $light-black;
+      border-bottom: 5px $white solid;
+      a {
+        text-decoration: none;
+      }
+    }
+
+    li.active {
+      background-color: $light-black;
+      border-bottom: 5px $orange solid;
+    }
+
   }
 
   .log-in {
       background-color: $light-black;
+
+      li {
+        border-bottom: 5px $white solid;
+        width: 100px;
+        display: inline-block;
+        padding: 15px 0 13px 0;
+        font-size: 1.3rem;
+        font-weight: bolder;
+      }
+
       a {
         color: $white;
       }

@@ -47,6 +47,7 @@ public class CategoryService {
         Category category = this.get(id);
         category.setDescription(representation.getDescription());
         category.setName(representation.getName());
+        category.setHighlight(representation.getHighlight());
         return converter.convert(categoryRepository.save(category));
     }
 

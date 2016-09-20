@@ -1,17 +1,11 @@
 <div class="main-header clearfix">
     <div class="container">
-        <img class="pull-left" src="e-partner-white.png"></img>
+        <a ui-sref="home()"><img class="pull-left" src="e-partner-white.png" /></a>
         <ul class="pull-right">
-            <li>
-                <a>
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                </a>
-            </li>
-            <li>
-                <a class="search">
-                    <i class="fa fa-search" aria-hidden="true" ng-click="header.search = !header.search;"></i>
-                </a>
-            </li>
+            <li><a><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+            <li><a class="search">
+                <i class="fa fa-search" aria-hidden="true" ng-click="header.search = !header.search;"></i>
+            </a></li>
         </ul>
         <div class="search-form pull-right animated" ng-class="{'fadeInDown': header.search, 'fadeOutUp': !header.search}">
             <input type="text" placeholder="B&uacute;sca productos">
@@ -24,32 +18,16 @@
 <div class="menu clearfix">
     <div class="container">
         <ul class="pull-left">
-            <li style="width: 100px; display: inline-block; padding: 15px 0; font-size: 1.3rem; text-transform: uppercase; font-weight: bolder; border-bottom: 3px #F38617 solid; margin: 0 15px 0 0; background-color: #424242">
-                <a>
-                    Home
-                </a>
-            </li>
-            <li style="width: 100px; display: inline-block; padding: 15px 0; font-size: 1.3rem; text-transform: uppercase; font-weight: bolder">
-                <a ui-sref="categories()">
-                    Categorias
-                </a>
-            </li>
-            <li style="width: 100px; display: inline-block; padding: 15px 0; font-size: 1.3rem; text-transform: uppercase; font-weight: bolder">
-                <a ui-sref="products()">
-                    Productos
-                </a>
-            </li>
+            <li ui-sref="home()" ui-sref-active="active"><a>Inicio</a></li>
+            <li ui-sref="categories()" ui-sref-active="active"><a>Categorias</a></li>
+            <li ui-sref="products()" ui-sref-active="active"><a>Productos</a></li>
         </ul>
 
         <ul class="pull-right log-in">
-            <li
-                ng-if="!header.authService.isAuthenticated()"
-                style="border-bottom: 3px #DCDCDC solid; width: 100px; display: inline-block; padding: 15px 0; font-size: 1.3rem; font-weight: bolder;">
+            <li ng-if="!header.authService.isAuthenticated()">
                 <a ng-click="header.authService.login()">Ingresar</a>
             </li>
-            <li
-                ng-if="header.authService.isAuthenticated()"
-                style="border-bottom: 3px #DCDCDC solid; width: 100px; display: inline-block; padding: 15px 0; font-size: 1.3rem; font-weight: bolder;">
+            <li ng-if="header.authService.isAuthenticated()">
                 <a ui-sref="admin()">Hola admin!</a>
             </li>
         </ul>

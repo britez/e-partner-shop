@@ -59,11 +59,11 @@ export default class CategoryDetailController {
             .get({id: this.$state.params.id})
             .$promise
             .then(response => {
-               this.categoryProducts = response.content;
+                this.categoryProducts = response.content;
+                this.categoryProducts.map(categoryProduct => {
+                    categoryProduct.principalImage = categoryProduct.images.find(image => image.principal);
+                })
             });
     }
 
-    getPrincipal(product) {
-        return product.images.find(img => img.principal).url;
-    }
 }

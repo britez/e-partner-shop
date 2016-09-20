@@ -102,7 +102,6 @@ public class Product {
     }
 
     public void addImage(ProductImage image) {
-
         images.add(image);
     }
 }
