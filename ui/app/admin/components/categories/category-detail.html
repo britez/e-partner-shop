@@ -5,8 +5,18 @@
             <h3 ng-if="!ctrl.isNew()">Editar categor&iacute;a</h3>
         </div>
     </div>
+    <div class="row" ng-if="ctrl.updated">
+       <div class="col-md-12">
+           <div class="alert alert-success" role="alert">
+               Categoría actualizada correctamente.
+           </div>
+       </div>
+    </div>
     <div class="row">
-        <form name="categoryForm" ng-submit="ctrl.save(categoryForm)" novalidate>
+        <form
+            name="categoryForm"
+            ng-submit="ctrl.save(categoryForm)"
+            novalidate autocomplete="off">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">Nombre</label>

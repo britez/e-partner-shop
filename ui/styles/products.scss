@@ -2,6 +2,14 @@
 
 #products {
   min-height: 400px;
+
+  span.title {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    color: $black;
+    font-weight: 600;
+    padding: 0 10px 0 0;
+  }
 }
 
 #product-detail {

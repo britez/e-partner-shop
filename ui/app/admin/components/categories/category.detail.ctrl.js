@@ -39,7 +39,8 @@ export default class CategoryDetailController {
                 .update(params,this.entity)
                 .$promise
                 .then(() => {
-                    this.$state.go('categories');
+                    this.updated = true;
+                    this.init();
                 });
         } else {
             this.api
@@ -47,7 +48,7 @@ export default class CategoryDetailController {
                 .save(params,this.entity)
                 .$promise
                 .then(() => {
-                    this.$state.go('categories');
+                    this.$state.go('categories', {created: true});
                 });
         }
 

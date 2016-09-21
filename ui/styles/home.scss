@@ -26,6 +26,10 @@
       top: 50%;
     }
 
+    .header.coming-soon {
+      left: 70%;
+    }
+
     .sub-header {
       background-color: $black;
       color: $mate-white;
@@ -48,6 +52,12 @@
       animation-delay: 0.8s;
       left: 50%;
       top: 48%;
+    }
+
+    .product-new {
+      position: absolute;
+      top: 100%;
+      margin-top: -495px;
     }
   }
 

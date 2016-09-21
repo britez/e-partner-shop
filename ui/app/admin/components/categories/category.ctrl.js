@@ -3,8 +3,13 @@
 export default class CategoryController {
 
     /*ngInject*/
-    constructor(api){
+    constructor(api, $stateParams){
         this.api = api;
+        this.params = $stateParams;
+        this.init();
+    }
+
+    init() {
         this.getAllCategories();
     }
 

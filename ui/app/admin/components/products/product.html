@@ -5,6 +5,13 @@
             <h3 ng-if="!ctrl.isNew()">Editar producto</h3>
         </div>
     </div>
+    <div class="row" ng-if="ctrl.updated">
+        <div class="col-md-12">
+            <div class="alert alert-success" role="alert">
+                Producto actualizado correctamente.
+            </div>
+        </div>
+    </div>
 
     <form name="productForm" ng-submit="ctrl.save(productForm)" novalidate autocomplete="off">
         <div class="row">
@@ -48,6 +55,7 @@
                         type="text"
                         name="category"
                         required=""
+                        placeholder="Elija la categoría"
                         ng-model="ctrl.entity.category"
                         uib-typeahead="category as category.name for category in ctrl.categories  | filter:$viewValue | limitTo:8"
                         class="form-control">
@@ -93,10 +101,11 @@
                     ng-src="{{ctrl.currentPrincipalPic.url}}"/>
             </div>
             <div class="col-md-10 pictures-container">
+                <!-- Image 1 -->
                 <div
                     class="pictures-select"
                     ngf-select
-                    ng-if="!ctrl.pictures[0]"
+                    ng-if="!ctrl.pictures[0] && !ctrl.currentPics[0]"
                     ng-model="ctrl.pictures[0]"></div>
                 <img
                     class="pictures-select"
@@ -104,62 +113,102 @@
                     ng-if="ctrl.pictures[0]"
                     ng-model="ctrl.pictures[0]"
                     ngf-src="ctrl.pictures[0]"/>
-                <div
-                        class="pictures-select"
-                        ngf-select
-                        ng-if="!ctrl.pictures[1]"
-                        ng-model="ctrl.pictures[1]"></div>
                 <img
-                        class="pictures-select"
-                        ngf-select
-                        ng-if="ctrl.pictures[1]"
-                        ng-model="ctrl.pictures[1]"
-                        ngf-src="ctrl.pictures[1]"/>
+                    class="pictures-select"
+                    ng-if="ctrl.currentPics[0] && !ctrl.pictures[0]"
+                    ngf-select
+                    ng-model="ctrl.pictures[0]"
+                    ng-src="{{ctrl.currentPics[0].url}}"/>
+                <!-- Image 2 -->
                 <div
-                        class="pictures-select"
-                        ngf-select
-                        ng-if="!ctrl.pictures[2]"
-                        ng-model="ctrl.pictures[2]"></div>
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="!ctrl.pictures[1] && !ctrl.currentPics[1]"
+                    ng-model="ctrl.pictures[1]"></div>
                 <img
-                        class="pictures-select"
-                        ngf-select
-                        ng-if="ctrl.pictures[2]"
-                        ng-model="ctrl.pictures[2]"
-                        ngf-src="ctrl.pictures[2]"/>
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="ctrl.pictures[1]"
+                    ng-model="ctrl.pictures[1]"
+                    ngf-src="ctrl.pictures[1]"/>
+                <img
+                    class="pictures-select"
+                    ng-if="ctrl.currentPics[1] && !ctrl.pictures[1]"
+                    ngf-select
+                    ng-model="ctrl.pictures[1]"
+                    ng-src="{{ctrl.currentPics[1].url}}"/>
+                <!-- Image 3 -->
                 <div
-                        class="pictures-select"
-                        ngf-select
-                        ng-if="!ctrl.pictures[3]"
-                        ng-model="ctrl.pictures[3]"></div>
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="!ctrl.pictures[2] && !ctrl.currentPics[2]"
+                    ng-model="ctrl.pictures[2]"></div>
                 <img
-                        class="pictures-select"
-                        ngf-select
-                        ng-if="ctrl.pictures[3]"
-                        ng-model="ctrl.pictures[3]"
-                        ngf-src="ctrl.pictures[3]"/>
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="ctrl.pictures[2]"
+                    ng-model="ctrl.pictures[2]"
+                    ngf-src="ctrl.pictures[2]"/>
+                <img
+                    class="pictures-select"
+                    ng-if="ctrl.currentPics[2] && !ctrl.pictures[2]"
+                    ngf-select
+                    ng-model="ctrl.pictures[2]"
+                    ng-src="{{ctrl.currentPics[2].url}}"/>
+                <!-- Image 4 -->
                 <div
-                        class="pictures-select"
-                        ngf-select
-                        ng-if="!ctrl.pictures[4]"
-                        ng-model="ctrl.pictures[4]"></div>
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="!ctrl.pictures[3] && !ctrl.currentPics[3]"
+                    ng-model="ctrl.pictures[3]"></div>
                 <img
-                        class="pictures-select"
-                        ngf-select
-                        ng-if="ctrl.pictures[4]"
-                        ng-model="ctrl.pictures[4]"
-                        ngf-src="ctrl.pictures[4]"/>
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="ctrl.pictures[3]"
+                    ng-model="ctrl.pictures[3]"
+                    ngf-src="ctrl.pictures[3]"/>
+                <img
+                    class="pictures-select"
+                    ng-if="ctrl.currentPics[3] && !ctrl.pictures[3]"
+                    ngf-select
+                    ng-model="ctrl.pictures[3]"
+                    ng-src="{{ctrl.currentPics[3].url}}"/>
+                <!-- Image 5 -->
                 <div
-                        class="pictures-select"
-                        ngf-select
-                        ng-if="!ctrl.pictures[5]"
-                        ng-model="ctrl.pictures[5]"></div>
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="!ctrl.pictures[4] && !ctrl.currentPics[4]"
+                    ng-model="ctrl.pictures[4]"></div>
                 <img
-                        class="pictures-select"
-                        ngf-select
-                        ng-if="ctrl.pictures[5]"
-                        ng-model="ctrl.pictures[5]"
-                        ngf-src="ctrl.pictures[5]"/>
-
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="ctrl.pictures[4]"
+                    ng-model="ctrl.pictures[4]"
+                    ngf-src="ctrl.pictures[4]"/>
+                <img
+                    class="pictures-select"
+                    ng-if="ctrl.currentPics[4] && !ctrl.pictures[4]"
+                    ngf-select
+                    ng-model="ctrl.pictures[4]"
+                    ng-src="{{ctrl.currentPics[4].url}}"/>
+                <!-- Image 6 -->
+                <div
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="!ctrl.pictures[5] && !ctrl.currentPics[5]"
+                    ng-model="ctrl.pictures[5]"></div>
+                <img
+                    class="pictures-select"
+                    ngf-select
+                    ng-if="ctrl.pictures[5]"
+                    ng-model="ctrl.pictures[5]"
+                    ngf-src="ctrl.pictures[5]"/>
+                <img
+                    class="pictures-select"
+                    ng-if="ctrl.currentPics[5] && !ctrl.pictures[5]"
+                    ngf-select
+                    ng-model="ctrl.pictures[5]"
+                    ng-src="{{ctrl.currentPics[5].url}}"/>
             </div>
             <div class="col-md-12">
                 <div class="form-group">

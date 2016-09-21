@@ -10,6 +10,16 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-12" ng-if="ctrl.categories.length === 0">
+            <div class="alert alert-info" role="alert">
+                No existen categor&iacute;as creadas, por favor cree una <a ui-sref="categories-detail({id: null})">aqu&iacute;</a>.
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="ctrl.params.created">
+            <div class="alert alert-success" role="alert">
+                Categoría creada correctamente.
+            </div>
+        </div>
         <div class="col-md-12" ng-repeat="category in ctrl.categories">
             <div class="category-item">
                 <div class="row">

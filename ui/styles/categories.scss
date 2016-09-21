@@ -40,16 +40,22 @@
       height: 25px;
       padding: 3px 0 0 0;
       list-style: none;
-      color: $black;
+      color: $black ;
       display: inline;
       float: left;
       margin: 0 5px;
       cursor: pointer;
       text-align: center;
+      transition: all 0.3s ease;
 
       i {
         font-size: 1.5rem;
       }
+    }
+
+    li:hover {
+      color: $white;
+      background: $orange;
     }
   }
 }

@@ -10,11 +10,12 @@ export default class ProductController {
         this.OAuth = OAuth;
         this.$q = $q;
         this.init();
-        this.pictures = [];
     }
 
     init(){
         this.entity = {};
+        this.pictures = [];
+        this.currentPics = [];
 
         this.api.categories
             .get()
@@ -33,7 +34,9 @@ export default class ProductController {
                     this.currentPrincipalPic = this.entity
                         .images
                         .find(img => img.principal);
-
+                    this.currentPics = this.entity
+                        .images
+                        .filter(img => !img.principal);
                 })
         }
     }
@@ -53,9 +56,9 @@ export default class ProductController {
                 .products
                 .update(params,this.entity)
                 .$promise
-                .then(response => {
-                    //TODO: Deberíamos quedarnos en este producto con un alert success
-                    this.$state.go('products');
+                .then(() => {
+                    this.updated = true;
+                    this.init();
                 });
         } else {
             this.api
@@ -70,7 +73,7 @@ export default class ProductController {
                     this.$q
                         .all(promises)
                         .then(() => {
-                           this.$state.go('products');
+                           this.$state.go('products', {created: true});
                         });
                 });
         }

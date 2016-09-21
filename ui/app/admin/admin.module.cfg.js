@@ -20,7 +20,7 @@ const admin = angular
                 component: 'adminComponent'
             })
             .state('categories', {
-                url: '/admin/categories',
+                url: '/admin/categories?created',
                 component: 'categoryComponent'
             })
             .state('categories-detail', {
@@ -28,7 +28,7 @@ const admin = angular
                 component: 'categoryDetailComponent'
             })
             .state('products', {
-                url: '/admin/products',
+                url: '/admin/products?created',
                 component: 'productsComponent'
             })
             .state('products-detail', {

@@ -3,8 +3,9 @@
 export default class ProductsController {
 
     /*ngInject*/
-    constructor(api){
+    constructor(api, $stateParams){
         this.api = api;
+        this.params = $stateParams;
         this.getAllProducts();
     }
 

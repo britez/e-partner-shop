@@ -5,21 +5,32 @@
         </div>
         <div class="col-md-6">
             <a
-                    class="btn-lg btn-primary pull-right"
-                    ui-sref="products-detail({id: null})">Nuevo Producto</a>
+                class="btn-lg btn-primary pull-right"
+                ui-sref="products-detail({id: null})">Nuevo Producto</a>
         </div>
     </div>
     <div class="row">
+        <div class="col-md-12" ng-if="ctrl.products.length === 0">
+            <div class="alert alert-info" role="alert">
+                No existen productos creados, por favor cree uno <a ui-sref="products-detail({id: null})">aqu&iacute;</a>.
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="ctrl.params.created">
+            <div class="alert alert-success" role="alert">
+                Producto creado correctamente.
+            </div>
+        </div>
         <div class="col-md-12" ng-repeat="product in ctrl.products">
             <div class="category-item">
                 <div class="row">
                     <div class="col-md-6">
-                        <span>{{product.name}}</span>
+                        <span class="title">{{product.name}}</span>
+                        <span>{{product.description}}</span>
                     </div>
                     <div class="col-md-6">
                         <ul>
                             <li ui-sref="products-detail({id: product.id})">
-                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                <i class="fa fa-eye" aria-hidden="true"></i>
                             </li>
                             <li>
                                 <i class="fa fa-trash" aria-hidden="true"></i>
@@ -27,8 +38,6 @@
                         </ul>
                     </div>
                 </div>
-                <p>{{product.description}}</p>
-                <p>100 productos en esta categor&iacute;a</p>
             </div>
         </div>
     </div>
