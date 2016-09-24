@@ -5,9 +5,8 @@ import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by maty on 1/9/16.
@@ -21,6 +20,11 @@ public class Product {
     private String name;
     private String description;
     private Integer stock;
+    private Double price;
+
+    @OneToMany(mappedBy = "product")
+    @Cascade(CascadeType.PERSIST)
+    private List<TechnicalSpecification> technicalSpecifications;
 
     @OneToMany(mappedBy = "product")
     @Cascade(CascadeType.PERSIST)
@@ -30,12 +34,6 @@ public class Product {
     @JoinColumn(name="catgory_id")
     private Category category;
 
-    /*@ElementCollection
-    @JoinTable(name="technical_specification", joinColumns=@JoinColumn(name="product_id"))
-    @MapKeyColumn (name="technical_specification_id")
-    @Column(name="technica_speficication")
-    private Map<String, String> technicaSpeficication = new HashMap<>();*/
-
     public Product(){}
 
     public Product(Long id, String name, String description, Integer stock) {
@@ -43,6 +41,14 @@ public class Product {
         this.name = name;
         this.description = description;
         this.stock = stock;
+    }
+
+    public List<TechnicalSpecification> getTechnicalSpecifications() {
+        return technicalSpecifications;
+    }
+
+    public void setTechnicalSpecifications(List<TechnicalSpecification> technicalSpecifications) {
+        this.technicalSpecifications = technicalSpecifications;
     }
 
     public Long getId() {
@@ -77,13 +83,6 @@ public class Product {
         this.stock = stock;
     }
 
-    /*public Map<String, String> getTechnicaSpeficication() {
-        return technicaSpeficication;
-    }
-
-    public void setTechnicaSpeficication(Map<String, String> technicaSpeficication) {
-        this.technicaSpeficication = technicaSpeficication;
-    }*/
 
     public Category getCategory() {
         return category;
@@ -101,7 +100,35 @@ public class Product {
         this.images = images;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
     public void addImage(ProductImage image) {
         images.add(image);
+    }
+
+    public void addTechnicalSpecifications(List<TechnicalSpecification> technicalSpecificationList) {
+        technicalSpecificationList.stream().map(this::addTechnicalSpecification).collect(Collectors.toList());
+    }
+
+    public void removeTechinicalSpecification(TechnicalSpecification technicalSpecification){
+
+        this.technicalSpecifications.remove(technicalSpecification);
+    }
+
+
+    private TechnicalSpecification addTechnicalSpecification(TechnicalSpecification technicalSpecification) {
+
+        technicalSpecification.setProduct(this);
+        if(technicalSpecifications == null){
+            this.technicalSpecifications = new ArrayList<>();
+        }
+        this.technicalSpecifications.add(technicalSpecification);
+        return technicalSpecification;
     }
 }

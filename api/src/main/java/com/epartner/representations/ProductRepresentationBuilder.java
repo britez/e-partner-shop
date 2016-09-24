@@ -19,9 +19,15 @@ public class ProductRepresentationBuilder {
     private String name;
     private String description;
     private Integer stock;
-    private Map<String, String> technicaSpeficication;
+    private Double price;
     private CategoryRepresentation categoryRepresentation;
     private List<ProductImage> images;
+    private List<TechnicalSpecificationRepresentation> technicalSpecificationRepresentations;
+
+    public ProductRepresentationBuilder setThenicalSpecification(List<TechnicalSpecificationRepresentation> technicalSpecificationRepresentations){
+        this.technicalSpecificationRepresentations = technicalSpecificationRepresentations;
+        return this;
+    }
 
     public ProductRepresentationBuilder setId(Long id) {
         this.id = id;
@@ -43,10 +49,11 @@ public class ProductRepresentationBuilder {
         return this;
     }
 
-    public ProductRepresentationBuilder setTechnicaSpeficication(Map<String, String> technicaSpeficication) {
-        this.technicaSpeficication = technicaSpeficication;
+    public ProductRepresentationBuilder setPrice(Double price) {
+        this.price = price;
         return this;
     }
+
 
     public ProductRepresentationBuilder setImages(List<ProductImage> images) {
         this.images = images;
@@ -76,7 +83,14 @@ public class ProductRepresentationBuilder {
                 .map(this::buildImageRepresentation)
                 .collect(Collectors.toList());
 
-        return new ProductRepresentation(id, name, description, stock, technicaSpeficication, categoryRepresentation, imagesRepresentation);
+        return new ProductRepresentation(id,
+                name,
+                description,
+                stock,
+                categoryRepresentation,
+                imagesRepresentation,
+                price,
+                technicalSpecificationRepresentations);
     }
 
     private ProductImageRepresentation buildImageRepresentation(ProductImage image){

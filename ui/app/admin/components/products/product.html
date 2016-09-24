@@ -80,6 +80,22 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 col-md-offset-6">
+                <div class="form-group">
+                    <label for="price">Precio</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="price"
+                        name="price"
+                        placeholder="Precio"
+                        required=""
+                        ng-model="ctrl.entity.price">
+                    <div ng-messages="productForm.price.$error" ng-show="productForm.$touched || productForm.price.$touched">
+                        <span class="error" ng-message="required">El Precio es requerido.</span>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-2">
                 <div
                     class="picture-select"

@@ -2,7 +2,9 @@ package com.epartner.domain.builders;
 
 import com.epartner.domain.Category;
 import com.epartner.domain.Product;
+import com.epartner.domain.TechnicalSpecification;
 
+import java.util.List;
 import java.util.Map;
 
 public class ProductBuilder {
@@ -10,9 +12,14 @@ public class ProductBuilder {
     private String name;
     private String description;
     private Integer stock;
-    private Map<String, String> technicaSpeficication;
-    private byte[] image;
+    private Double price;
+    private List<TechnicalSpecification> technicaSpeficication;
     private Category category;
+
+   public ProductBuilder setTechnicalSpecification(List<TechnicalSpecification> technicalSpecification){
+       this.technicaSpeficication = technicalSpecification;
+       return this;
+   }
 
     public ProductBuilder setId(Long id) {
         this.id = id;
@@ -29,15 +36,16 @@ public class ProductBuilder {
         return this;
     }
 
+    public ProductBuilder setPrice(Double price) {
+        this.price = price;
+        return this;
+    }
+
     public ProductBuilder setStock(Integer stock) {
         this.stock = stock;
         return this;
     }
 
-    public ProductBuilder setTechnicaSpeficication(Map<String, String> technicaSpeficication) {
-        this.technicaSpeficication = technicaSpeficication;
-        return this;
-    }
 
     public ProductBuilder setCategory(Category category){
         this.category = category;
@@ -49,6 +57,8 @@ public class ProductBuilder {
         result.setId(id);
         result.setName(name);
         result.setDescription(description);
+        result.setTechnicalSpecifications(technicaSpeficication);
+        result.setPrice(price);
         result.setStock(stock);
         result.setCategory(category);
         return result;

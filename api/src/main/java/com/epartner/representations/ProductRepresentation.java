@@ -2,7 +2,6 @@ package com.epartner.representations;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by maty on 1/9/16.
@@ -13,22 +12,39 @@ public class ProductRepresentation {
     private String name;
     private String description;
     private Integer stock;
-    private Map<String, String> technicaSpeficication;
     private CategoryRepresentation category;
     private List<ProductImageRepresentation> images;
+    private Double price;
+    private List<TechnicalSpecificationRepresentation> technicalSpecifications;
 
     public ProductRepresentation(){
         this.images = new ArrayList<>();
     }
 
-    public ProductRepresentation(Long id, String name, String description, Integer stock, Map<String, String> technicaSpeficication, CategoryRepresentation categoryRepresentation, List<ProductImageRepresentation> images) {
+    public ProductRepresentation(Long id,
+                                 String name,
+                                 String description,
+                                 Integer stock,
+                                 CategoryRepresentation categoryRepresentation,
+                                 List<ProductImageRepresentation> images,
+                                 Double price,
+                                 List<TechnicalSpecificationRepresentation> technicalSpecifications) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.stock = stock;
-        this.technicaSpeficication = technicaSpeficication;
         this.category = categoryRepresentation;
         this.images = images;
+        this.price = price;
+        this.technicalSpecifications = technicalSpecifications;
+    }
+
+    public List<TechnicalSpecificationRepresentation> getTechnicalSpecifications() {
+        return technicalSpecifications;
+    }
+
+    public void setTechnicalSpecifications(List<TechnicalSpecificationRepresentation> technicalSpecifications) {
+        this.technicalSpecifications = technicalSpecifications;
     }
 
     public Long getId() {
@@ -63,14 +79,6 @@ public class ProductRepresentation {
         this.stock = stock;
     }
 
-    public Map<String, String> getTechnicaSpeficication() {
-        return technicaSpeficication;
-    }
-
-    public void setTechnicaSpeficication(Map<String, String> technicaSpeficication) {
-        this.technicaSpeficication = technicaSpeficication;
-    }
-
     public CategoryRepresentation getCategory() {
         return category;
     }
@@ -90,5 +98,13 @@ public class ProductRepresentation {
 
     public void setImages(List<ProductImageRepresentation> images) {
         this.images = images;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

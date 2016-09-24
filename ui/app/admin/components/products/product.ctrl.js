@@ -61,6 +61,11 @@ export default class ProductController {
                     this.init();
                 });
         } else {
+
+            this.entity.technicalSpecifications = [{
+                key: 'Maxi', value: 'Britez'
+            }];
+
             this.api
                 .products
                 .save(params,this.entity)

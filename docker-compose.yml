@@ -1,0 +1,18 @@
+version: '2'
+services:
+  config:
+    build: cloud-config/build/docker
+    ports:
+     - "18090:18090"
+    volumes:
+     - /home/mbritez/.ssh:/root/.ssh
+  nginx-img:
+    build: images
+    volumes:
+     - /tmp/images:/usr/share/nginx/html:ro
+    ports:
+     - "18120:18120"
+  sso:
+    build: sso/build/docker
+    ports:
+     - "18080:18080"

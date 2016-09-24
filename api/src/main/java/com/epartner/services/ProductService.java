@@ -1,6 +1,7 @@
 package com.epartner.services;
 
 import com.epartner.converters.ProductConverter;
+import com.epartner.converters.TechnicalSpecificationConverter;
 import com.epartner.domain.Category;
 import com.epartner.domain.Product;
 import com.epartner.domain.ProductImage;
@@ -31,16 +32,19 @@ public class ProductService {
 
     private final Integer MAX = 10;
     private final Integer PAGE = 0;
+    private final TechnicalSpecificationConverter technicalSpecificationConverter;
 
     @Autowired
     public ProductService(ProductRepository productRepository,
                           ProductConverter productConverter,
+                          TechnicalSpecificationConverter technicalSpecificationConverter,
                           CategoryService categoryService,
                           StorageService storageService,
                           CategoryRepository categoryRepository) {
 
         this.repository = productRepository;
         this.converter = productConverter;
+        this.technicalSpecificationConverter = technicalSpecificationConverter;
         this.categoryService = categoryService;
         this.storageService = storageService;
         this.categoryRepository = categoryRepository;
@@ -49,6 +53,8 @@ public class ProductService {
     public ProductRepresentation create(ProductRepresentation productRepresentation) {
         this.categoryService.show(productRepresentation.getCategory().getId());
         Product productToSave = this.converter.convert(productRepresentation);
+        productToSave.addTechnicalSpecifications(this.technicalSpecificationConverter.convertList(productRepresentation.getTechnicalSpecifications()));
+        //TODO MEjorar esto
         Product productSaved = this.repository.save(productToSave);
         return this.converter.convert(productSaved);
     }
@@ -58,6 +64,7 @@ public class ProductService {
         //TODO agregar todos los updates
         product.setName(productRepresentation.getName());
         product.setDescription(productRepresentation.getDescription());
+        product.setPrice(productRepresentation.getPrice());
         product.setStock(productRepresentation.getStock());
         product.setCategory(this.categoryRepository.findOne(productRepresentation.getCategory().getId()));
         this.repository.save(product);

@@ -1,9 +1,7 @@
 package com.epartner.converters;
 
-import com.epartner.domain.Category;
 import com.epartner.domain.Product;
 import com.epartner.domain.builders.ProductBuilder;
-import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.ProductRepresentationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +19,12 @@ import java.util.stream.Collectors;
 public class ProductConverter {
 
     private final CategoryConverter categoryConverter;
+    private final TechnicalSpecificationConverter technicalSpecificationConverter;
 
     @Autowired
-    public ProductConverter(CategoryConverter categoryConverter){
+    public ProductConverter(CategoryConverter categoryConverter, TechnicalSpecificationConverter technicalSpecificationConverter){
         this.categoryConverter = categoryConverter;
+        this.technicalSpecificationConverter = technicalSpecificationConverter;
     }
 
     public Product convert(ProductRepresentation productRepresentation) {
@@ -34,8 +34,8 @@ public class ProductConverter {
                 .setDescription(productRepresentation.getDescription())
                 .setStock(productRepresentation.getStock())
                 .setName(productRepresentation.getName())
+                .setPrice(productRepresentation.getPrice())
                 .setCategory(this.categoryConverter.convert(productRepresentation.getCategory()))
-                .setTechnicaSpeficication(productRepresentation.getTechnicaSpeficication())
                 .createProduct();
 
 
@@ -48,6 +48,7 @@ public class ProductConverter {
                 .setDescription(product.getDescription())
                 .setImages(product.getImages())
                 .setName(product.getName())
+                .setPrice(product.getPrice())
                 .setStock(product.getStock())
                 .setCategoryRepresentation(
                         this.categoryConverter
@@ -55,7 +56,8 @@ public class ProductConverter {
                                         product.getCategory()
                                 )
                 )
-
+                .setThenicalSpecification(
+                        this.technicalSpecificationConverter.convert(product.getTechnicalSpecifications()))
                 .createProductRepresentation();
 
     }
