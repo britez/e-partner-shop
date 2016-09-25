@@ -8,6 +8,7 @@ import 'angular-ui-router';
 import 'angular-messages';
 import 'angular-animate';
 import 'bower:angular-bootstrap@1.3.3';
+import 'github:jotielim/ng-magnify@master/src/js/ng-magnify';
 
 //Todo: Revisar
 import 'module-crud-ui/app/scripts/crud.module.js';
@@ -40,6 +41,7 @@ const app = angular.module('giu-ui.app',
     'ngMessages',
     'commons.module',
     'admin.module',
+    'ngMagnify',
     'ngFileUpload'
   ]);
 /* global System, document */
