@@ -1,40 +1,48 @@
 <div class="container" style="background: #fbfbfb; padding: 40px 0;">
     <div class="col-md-6">
-        <div style="padding: 0 60px;">
-            <div style="width: 100%; height: 350px; object-fit: cover;"
-                 data-ng-magnify
-                 data-glass-width="200"
-                 data-glass-height="200"
-                 data-image-src="{{item.entity.currentImage}}">
+        <div class="row" style="padding: 0 60px;">
+            <div class="col-md-12 animated fadeInLeftBig">
+                <div style="width: 100%; height: 350px; object-fit: cover;"
+                     data-ng-magnify
+                     data-glass-width="200"
+                     data-glass-height="200"
+                     data-image-src="{{item.entity.currentImage}}">
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-top: 25px;">
+                <img class=""
+                     alt=""
+                     ng-repeat="img in item.entity.images"
+                     ng-src="{{img}}"
+                     ng-click="item.entity.currentImage = img"
+                     style="border:1px #ccc solid; cursor: pointer; max-width: 120px; margin-right: 25px;">
             </div>
         </div>
     </div>
     <div class="col-md-6">
-        <h2 class="col-md-12 animated fadeInLeftBig">Tv Led 32 Tcl Sint Digital Hd Usb Hdmi Mod. Tc32d2700</h2>
-
-    </div>
-
-
-    <div class="col-md-4 animated fadeInLeftBig">
-    </div>
-
-    <div class="col-md-8">
-        <div class="animated fadeInUp"><h2>$400.00</h2></div>
-        <div class="animated fadeInRightBig" style="color: #666666">Breve descripcion del Producto</div>
-        <a style="margin: 20px 0" class="btn btn-lg btn-primary animated fadeInRight">Comprar <i class="fa fa-shopping-cart"></i></a>
-        <h6>Compartir esta publicacion.</h6>
-        <ul class="inline list-inline">
-            <li class="facebook sharrre"><a href="#" title="" data-original-title="Facebook: 0"><i
-                    class="fa fa-facebook"></i></a></li>
-            <li class="twitter sharrre"><a href="#"><i class="fa fa-twitter"></i></a></li>
-        </ul>
-    </div>
-    <div class="col-md-12" style="padding: 20px 15px">
-        <img class=""
-             alt=""
-             ng-repeat="img in item.entity.images"
-             ng-src="{{img}}"
-             ng-click="item.entity.currentImage = img"
-             style="border:1px #ccc solid; cursor: pointer; max-width: 120px;">
+        <div class="row">
+            <span style="text-transform: uppercase; font-size: 2.3rem; font-weight: 700; margin: 0 0 20px 0;" class="col-md-12 animated fadeInLeftBig">{{item.entity.title}}</span>
+            <div class="col-md-12" style="margin: 0 0 20px 0;">
+                <span style="background: #F38617; color: #fff; height: 30px; display: inline-block; padding: 5px 20px; margin: 0 15px 0 0;">Hay stock!</span>
+                <span style="font-size: 2rem" class="animated fadeInUp">${{item.entity.price}}</span>
+            </div>
+            <div class="col-md-12">
+                <label style="color: #666666">Cantidad</label>
+            </div>
+            <div class="col-md-12" style="margin: 0 0 20px 0;">
+                <input class="form-control input-lg pull-left" style="max-width: 150px; border-radius: 2px;">
+                <a style="margin: 0 10px;" class="pull-left btn btn-lg btn-primary animated fadeInRight">Comprar <i class="fa fa-shopping-cart"></i></a>
+            </div>
+            <div class="col-md-12" style="margin: 0 0 20px 0;">
+                <div class="animated fadeInRightBig" style="color: #666666">{{item.entity.description}}</div>
+            </div>
+            <div class="col-md-12">
+                <label style="color: #666666">Características</label>
+                <ul style="padding: 10px 0 0 20px;">
+                    <li style="color: #666666; font-size: 1.2rem;"
+                        ng-repeat="technicalSpec in item.entity.technicalSpecifications">{{technicalSpec}}</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
