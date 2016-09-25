@@ -10,10 +10,14 @@ import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.TagRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by martin on 24/09/16.
@@ -71,5 +75,28 @@ public class TagService {
         );
 
         return this.converter.convert(stored);
+    }
+
+
+    public Page<TagRepresentation> findAllTagByProduct(Long productId) {
+
+
+        Product product = this.productRepository.findOne(productId);
+
+       return new PageImpl<TagRepresentation>(
+                product
+                .getTags()
+                .stream()
+                .map(t -> {
+
+                    TagRepresentation t2 = this.converter.convert(t);
+                    t2.setProductRepresentationList(new ArrayList<ProductRepresentation>());
+
+                    return t2;
+                })
+                .filter(t1 -> !t1.getIsCategory())
+                .collect(Collectors.toList())
+        );
+
     }
 }
