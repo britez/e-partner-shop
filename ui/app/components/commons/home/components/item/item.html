@@ -1,7 +1,6 @@
 <div class="container" style="background: #fbfbfb;">
-
-    <h2 class="col-md-12 animated fadeInLeftBig">Tv Led 32 Tcl Sint Digital Hd Usb Hdmi Mod. Tc32d2700</h2>
-    <div class="col-md-4 animated fadeInLeftBig">
+    <h2 class="col-md-12 animated fadeInLeftBig">{{item.entity.title}}</h2>
+    <div class="col-md-5 animated fadeInLeftBig">
         <div style="width: 100%; height: 350px; object-fit: cover;"
              data-ng-magnify
              data-glass-width="200"
@@ -9,11 +8,16 @@
              data-image-src="{{item.entity.currentImage}}">
         </div>
     </div>
-
-    <div class="col-md-8">
-        <div class="animated fadeInUp"><h2>$400.00</h2></div>
-        <div class="animated fadeInRightBig" style="color: #666666">Breve descripcion del Producto</div>
+    <div class="col-md-7">
+        <div class="animated fadeInUp"><h2>${{item.entity.price}}</h2></div>
+        <div class="animated fadeInRightBig" style="color: #666666">{{item.entity.description}}</div>
         <a style="margin: 20px 0" class="btn btn-lg btn-primary animated fadeInRight">Comprar <i class="fa fa-shopping-cart"></i></a>
+        <h3>Caracteristicas</h3>
+        <div class="table-responsive" ng-repeat="technicalSpec in item.entity.technicalSpecifications">
+            <ul>
+             <li>{{technicalSpec}}</li>
+         </ul>
+        </div>
         <h6>Compartir esta publicacion.</h6>
         <ul class="inline list-inline">
             <li class="facebook sharrre"><a href="#" title="" data-original-title="Facebook: 0"><i
