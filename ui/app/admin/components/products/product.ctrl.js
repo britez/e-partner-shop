@@ -38,6 +38,8 @@ export default class ProductController {
                         .images
                         .filter(img => !img.principal);
                 })
+        } else {
+            this.entity.technicalSpecifications = [{}];
         }
     }
 
@@ -61,11 +63,6 @@ export default class ProductController {
                     this.init();
                 });
         } else {
-
-            this.entity.technicalSpecifications = [{
-                key: 'Maxi', value: 'Britez'
-            }];
-
             this.api
                 .products
                 .save(params,this.entity)
@@ -103,6 +100,14 @@ export default class ProductController {
             }))
         });
         return promises;
+    }
+
+    addTechnicalSpecification() {
+        this.entity.technicalSpecifications.push({});
+    }
+
+    removeTechnicalSpecification(position) {
+        this.entity.technicalSpecifications.splice(position, 1);
     }
 
 }

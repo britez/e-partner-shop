@@ -145,4 +145,18 @@ public class Product {
         this.technicalSpecifications.add(technicalSpecification);
         return technicalSpecification;
     }
+
+    public List<Tag> getTags() {
+
+        if(tags == null){
+
+            tags = new ArrayList<>();
+        }
+
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
 }

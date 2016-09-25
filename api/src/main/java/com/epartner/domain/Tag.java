@@ -33,7 +33,7 @@ public class Tag {
         }
 
         this.products.add(product);
-        product.addTag(this);
+       // product.addTag(this);
     }
 
     public Long getId() {
@@ -60,7 +60,11 @@ public class Tag {
         isCategory = category;
     }
 
-    public List getProducts() {
+    public List<Product> getProducts() {
+
+        if(products == null){
+            products = new ArrayList<>();
+        }
         return products;
     }
 
