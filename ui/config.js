@@ -31,6 +31,7 @@ System.config({
     "core-js": "npm:core-js@1.2.7",
     "css": "github:systemjs/plugin-css@0.1.15",
     "giu-module-security": "npm-redbee:giu-module-security@1.0.0",
+    "jotielim/ng-magnify": "github:jotielim/ng-magnify@master",
     "jquery": "github:components/jquery@2.1.4",
     "module-crud-ui": "npm-redbee:module-crud-ui@1.0.0",
     "ng-file-upload": "npm:ng-file-upload@12.2.9",
