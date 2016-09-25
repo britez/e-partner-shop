@@ -46,6 +46,99 @@ body {
     color: $red;
     position: absolute;
   }
+
+  .cart{
+    background-color: #F38617;
+    color: #fff;
+    padding: 15px 20px;
+    position: initial;
+    top: 50%;
+  }
+
+
+}
+
+.thumbnail {
+  height: 50px;
+  padding: 2px;
+}
+
+.large {
+  width: 405px;
+}
+
+.mainimageshell {
+  background-color: #fff;
+  border-radius: 8px;
+  float: left;
+  width: 400px;
+  padding: 10px;
+}
+
+.viewwindow {
+  width: 400px;
+  height: 307px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.fullsizelist{
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition:  left .8s ease;
+  -ms-transition:  left .8s ease;
+  -o-transition:  left .8s ease;
+  -webkit-transition:  left .8s ease;
+  -moz-transition:  left .8s ease;
+}
+
+.bg {
+  background-color: #333;
+  padding: 10px;
+  border-radius: 8px;
+  float: left;
+}
+
+
+.thumbsshell {
+  background-color:#fff;
+  width:400px;
+  padding:10px;
+  border-radius:8px;
+  float:left;
+}
+
+ .thumbswrapper {
+  overflow-x: scroll;
+  width:394px;
+  height:60px;
+  margin:20px auto;
+}
+
+.thumbwrapper {
+  float:left;
+  height:60px;
+}
+
+.captionshell {
+  margin:0 0 10px 5px;
+  background-color:#fff;
+  width:175px;
+  height:324px;
+  padding:0 10px;
+  border-radius:8px;
+  float:left;
+}
+
+.logoshell {
+  margin:0 0 0 5px;
+  text-align:center;
+  background-color:#fff;
+  width:175px;
+  padding:9px 10px;
+  border-radius:8px;
+  float:left;
 }
 
 .dropdown-menu > .active > a,

@@ -32,6 +32,7 @@ System.config({
     "css": "github:systemjs/plugin-css@0.1.15",
     "giu-module-security": "npm-redbee:giu-module-security@1.0.0",
     "jquery": "github:components/jquery@2.1.4",
+    "magnify": "bower:magnify@1.6.5",
     "module-crud-ui": "npm-redbee:module-crud-ui@1.0.0",
     "ng-file-upload": "npm:ng-file-upload@12.2.9",
     "remarkable-bootstrap-notify": "bower:remarkable-bootstrap-notify@3.1.3",
@@ -45,6 +46,10 @@ System.config({
       "angular": "bower:angular@1.4.5"
     },
     "bower:bootstrap@3.3.7": {
+      "jquery": "bower:jquery@3.1.0"
+    },
+    "bower:magnify@1.6.5": {
+      "css": "github:systemjs/plugin-css@0.1.15",
       "jquery": "bower:jquery@3.1.0"
     },
     "bower:remarkable-bootstrap-notify@3.1.3": {

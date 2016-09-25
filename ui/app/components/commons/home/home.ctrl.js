@@ -3,7 +3,7 @@
 export default class HomeCtrl{
 
     /*@ngInject*/
-    constructor() {
+    constructor($state) {
         this.myInterval = 5000;
         this.active = 0;
         this.slides = [
@@ -18,5 +18,11 @@ export default class HomeCtrl{
                 image: '/cdn/cdn-epartner-shop-ui/images/white-bg.jpg'
             }
         ];
+        this.state = $state;
+    }
+
+    redirect(){
+        this.state.go('item')
+
     }
 }

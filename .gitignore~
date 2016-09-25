@@ -1,6 +1,6 @@
 .idea
 *.iml
-/ui/bower_components
+
 .gradle
 /node_modules
 log
