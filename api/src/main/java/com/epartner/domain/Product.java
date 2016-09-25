@@ -1,5 +1,6 @@
 package com.epartner.domain;
 
+import org.aspectj.weaver.ArrayAnnotationValue;
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
 
@@ -34,6 +35,9 @@ public class Product {
     @JoinColumn(name="catgory_id")
     private Category category;
 
+    @ManyToMany(mappedBy = "products")
+    private List<Tag> tags;
+
     public Product(){}
 
     public Product(Long id, String name, String description, Integer stock) {
@@ -41,6 +45,16 @@ public class Product {
         this.name = name;
         this.description = description;
         this.stock = stock;
+    }
+
+    public void addTag(Tag tag){
+
+        if(tags == null){
+
+            this.tags = new ArrayList<>();
+        }
+
+        this.tags.add(tag);
     }
 
     public List<TechnicalSpecification> getTechnicalSpecifications() {
