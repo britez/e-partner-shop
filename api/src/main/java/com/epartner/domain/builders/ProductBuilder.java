@@ -2,8 +2,10 @@ package com.epartner.domain.builders;
 
 import com.epartner.domain.Category;
 import com.epartner.domain.Product;
+import com.epartner.domain.Tag;
 import com.epartner.domain.TechnicalSpecification;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,7 @@ public class ProductBuilder {
     private Double price;
     private List<TechnicalSpecification> technicaSpeficication;
     private Category category;
+    private List<Tag> tags;
 
    public ProductBuilder setTechnicalSpecification(List<TechnicalSpecification> technicalSpecification){
        this.technicaSpeficication = technicalSpecification;
@@ -52,7 +55,15 @@ public class ProductBuilder {
         return this;
     }
 
+    public ProductBuilder setTags(List<Tag> tags){
+
+        this.tags = tags;
+
+        return this;
+    }
+
     public Product createProduct() {
+
         Product result = new Product();
         result.setId(id);
         result.setName(name);
@@ -61,6 +72,8 @@ public class ProductBuilder {
         result.setPrice(price);
         result.setStock(stock);
         result.setCategory(category);
+        result.setTags(tags == null ? new ArrayList<>() : tags);
+
         return result;
     }
 }

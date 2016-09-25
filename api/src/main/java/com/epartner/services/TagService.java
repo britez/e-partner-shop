@@ -4,6 +4,7 @@ import com.epartner.converters.ProductConverter;
 import com.epartner.converters.TagConverter;
 import com.epartner.domain.Product;
 import com.epartner.domain.Tag;
+import com.epartner.repositories.ProductRepository;
 import com.epartner.repositories.TagRepository;
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.TagRepresentation;
@@ -21,18 +22,22 @@ public class TagService {
     private ProductConverter productConverter;
     private final ProductService productService;
 
+    private final ProductRepository productRepository;
+
 
     @Autowired
     public TagService(
         TagConverter tagConverter,
         TagRepository repository,
         ProductConverter productConverter,
-        ProductService productService){
+        ProductService productService,
+        ProductRepository productRepository){
 
         this.repository = repository;
         this.tagConverter = tagConverter;
         this.productConverter = productConverter;
         this.productService = productService;
+        this.productRepository = productRepository;
     }
 
     public TagRepresentation create(TagRepresentation tagRepresentation) {
@@ -44,6 +49,7 @@ public class TagService {
     public TagRepresentation createTagProduct(
             Long  tagId,
             Long  productId) {
+
         Product product = this.productConverter.convert(
                 this.productService.show(productId));
 

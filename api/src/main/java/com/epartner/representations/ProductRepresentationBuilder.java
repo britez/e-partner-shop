@@ -1,6 +1,7 @@
 package com.epartner.representations;
 
 import com.epartner.domain.ProductImage;
+import com.epartner.domain.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class ProductRepresentationBuilder {
     private CategoryRepresentation categoryRepresentation;
     private List<ProductImage> images;
     private List<TechnicalSpecificationRepresentation> technicalSpecificationRepresentations;
+    private List<TagRepresentation> tags;
 
     public ProductRepresentationBuilder setThenicalSpecification(List<TechnicalSpecificationRepresentation> technicalSpecificationRepresentations){
         this.technicalSpecificationRepresentations = technicalSpecificationRepresentations;
@@ -75,6 +77,12 @@ public class ProductRepresentationBuilder {
     }
 
 
+    public ProductRepresentationBuilder setTags(List<TagRepresentation> tags){
+
+        this.tags = tags;
+
+        return this;
+    }
     public ProductRepresentation createProductRepresentation() {
         List<ProductImageRepresentation> imagesRepresentation = Optional
                 .ofNullable(images)
@@ -83,6 +91,7 @@ public class ProductRepresentationBuilder {
                 .map(this::buildImageRepresentation)
                 .collect(Collectors.toList());
 
+
         return new ProductRepresentation(id,
                 name,
                 description,
@@ -90,7 +99,8 @@ public class ProductRepresentationBuilder {
                 categoryRepresentation,
                 imagesRepresentation,
                 price,
-                technicalSpecificationRepresentations);
+                technicalSpecificationRepresentations,
+                tags == null ? new ArrayList<>() : tags);
     }
 
     private ProductImageRepresentation buildImageRepresentation(ProductImage image){

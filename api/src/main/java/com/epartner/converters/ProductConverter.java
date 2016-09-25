@@ -1,14 +1,17 @@
 package com.epartner.converters;
 
 import com.epartner.domain.Product;
+import com.epartner.domain.Tag;
 import com.epartner.domain.builders.ProductBuilder;
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.ProductRepresentationBuilder;
+import com.epartner.representations.TagRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,14 +23,21 @@ public class ProductConverter {
 
     private final CategoryConverter categoryConverter;
     private final TechnicalSpecificationConverter technicalSpecificationConverter;
+    private final TagConverter tagConverter;
 
     @Autowired
-    public ProductConverter(CategoryConverter categoryConverter, TechnicalSpecificationConverter technicalSpecificationConverter){
+    public ProductConverter(CategoryConverter categoryConverter
+            ,TechnicalSpecificationConverter technicalSpecificationConverter
+            ,TagConverter tagConverter){
+
         this.categoryConverter = categoryConverter;
         this.technicalSpecificationConverter = technicalSpecificationConverter;
+        this.tagConverter = tagConverter;
     }
 
     public Product convert(ProductRepresentation productRepresentation) {
+
+        List<TagRepresentation> tags =  (productRepresentation.getTags() == null) ? new ArrayList<>() :  productRepresentation.getTags();
 
         return new ProductBuilder()
                 .setId(productRepresentation.getId())
@@ -36,6 +46,14 @@ public class ProductConverter {
                 .setName(productRepresentation.getName())
                 .setPrice(productRepresentation.getPrice())
                 .setCategory(this.categoryConverter.convert(productRepresentation.getCategory()))
+                .setTags(
+                        productRepresentation
+                        .getTags()
+                        .stream()
+                        .map( tr -> this.tagConverter.convert(tr))
+                        .collect(Collectors.toList())
+
+                )
                 .createProduct();
 
 
@@ -58,6 +76,13 @@ public class ProductConverter {
                 )
                 .setThenicalSpecification(
                         this.technicalSpecificationConverter.convert(product.getTechnicalSpecifications()))
+                .setTags(
+                        product
+                        .getTags()
+                        .stream()
+                        .map(t -> this.tagConverter.convert(t))
+                        .collect(Collectors.toList())
+                        )
                 .createProductRepresentation();
 
     }
