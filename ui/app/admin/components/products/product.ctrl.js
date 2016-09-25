@@ -38,6 +38,8 @@ export default class ProductController {
                         .images
                         .filter(img => !img.principal);
                 })
+        } else {
+            this.entity.technicalSpecifications = [{}];
         }
     }
 
@@ -103,6 +105,14 @@ export default class ProductController {
             }))
         });
         return promises;
+    }
+
+    addTechnicalSpecification() {
+        this.entity.technicalSpecifications.push({});
+    }
+
+    removeTechnicalSpecification(position) {
+        this.entity.technicalSpecifications.splice(position, 1);
     }
 
 }

@@ -21,6 +21,11 @@
     resize: none;
   }
 
+  .input-group.labeled,
+  input.labeled {
+    margin: 24px 0 0 0;
+  }
+
   .picture-select {
     height: 165px;
     width: 100%;
