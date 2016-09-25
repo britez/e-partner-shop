@@ -1,5 +1,7 @@
 package com.epartner.representations;
 
+import com.epartner.domain.Tag;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class ProductRepresentation {
     private List<ProductImageRepresentation> images;
     private Double price;
     private List<TechnicalSpecificationRepresentation> technicalSpecifications;
+    private  List<TagRepresentation> tags;
 
     public ProductRepresentation(){
         this.images = new ArrayList<>();
@@ -28,7 +31,8 @@ public class ProductRepresentation {
                                  CategoryRepresentation categoryRepresentation,
                                  List<ProductImageRepresentation> images,
                                  Double price,
-                                 List<TechnicalSpecificationRepresentation> technicalSpecifications) {
+                                 List<TechnicalSpecificationRepresentation> technicalSpecifications,
+                                 List<TagRepresentation> tags) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -37,6 +41,7 @@ public class ProductRepresentation {
         this.images = images;
         this.price = price;
         this.technicalSpecifications = technicalSpecifications;
+        this.tags = tags;
     }
 
     public List<TechnicalSpecificationRepresentation> getTechnicalSpecifications() {
@@ -106,5 +111,18 @@ public class ProductRepresentation {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public List<TagRepresentation> getTags() {
+
+        if(tags == null){
+
+            tags = new ArrayList<>();
+        }
+        return tags;
+    }
+
+    public void setTags(List<TagRepresentation> tags) {
+        this.tags = tags;
     }
 }

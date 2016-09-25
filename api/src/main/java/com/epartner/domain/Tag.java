@@ -33,7 +33,7 @@ public class Tag {
         }
 
         this.products.add(product);
-        product.addTag(this);
+       // product.addTag(this);
     }
 
     public Long getId() {
