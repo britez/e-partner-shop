@@ -33,22 +33,6 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="description">Descripci&oacute;n</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="description"
-                        name="description"
-                        required=""
-                        placeholder="Descripci&oacute;n"
-                        ng-model="ctrl.entity.description">
-                    <div ng-messages="productForm.description.$error" ng-if="productForm.$touched || productForm.description.$touched">
-                        <span class="error" ng-message="required">La descripción es requerida.</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
                     <label for="category">Categoria</label>
                     <input
                         id="category"
@@ -80,19 +64,91 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-md-offset-6">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="price">Precio</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="price"
-                        name="price"
-                        placeholder="Precio"
-                        required=""
-                        ng-model="ctrl.entity.price">
+                    <div class="input-group">
+                        <span class="input-group-addon">$</span>
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="price"
+                            name="price"
+                            placeholder="Precio"
+                            required=""
+                            ng-model="ctrl.entity.price">
+                    </div>
                     <div ng-messages="productForm.price.$error" ng-show="productForm.$touched || productForm.price.$touched">
                         <span class="error" ng-message="required">El Precio es requerido.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" ng-repeat="technicalSpecification in ctrl.entity.technicalSpecifications track by $index">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="technicalDescription_{{$index}}" ng-show="$index === 0">Especificación Técnica</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="technicalDescription_{{$index}}"
+                                name="technicalDescription_{{$index}}"
+                                placeholder="T&iacute;tulo"
+                                required=""
+                                ng-model="technicalSpecification.key">
+                            <div ng-messages="productForm['technicalDescription_' + $index].$error" ng-show="productForm.$touched || productForm['technicalDescription_' + $index].$touched">
+                                <span class="error" ng-message="required">Campo requerido.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div
+                                class="input-group"
+                                ng-class="{'labeled':$index === 0}">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="technicalDescriptionValue_{{$index}}"
+                                    name="technicalDescriptionValue_{{$index}}"
+                                    placeholder="Valor"
+                                    required=""
+                                    ng-model="technicalSpecification.value">
+                                <span class="input-group-btn">
+                                    <button
+                                        ng-click="ctrl.addTechnicalSpecification()"
+                                        class="btn btn-primary"
+                                        type="button"
+                                        ng-if="$index === ctrl.entity.technicalSpecifications.length -1">Agregar otro</button>
+                                    <button
+                                        ng-click="ctrl.removeTechnicalSpecification($index)"
+                                        class="btn btn-primary"
+                                        type="button"
+                                        ng-if="$index !== ctrl.entity.technicalSpecifications.length -1">Quitar</button>
+                                </span>
+                            </div>
+                            <div ng-messages="productForm['technicalDescriptionValue_' + $index].$error" ng-show="productForm.$touched || productForm['technicalDescriptionValue_' + $index].$touched">
+                                <span class="error" ng-message="required">Campo requerido.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="description">Descripci&oacute;n</label>
+                    <textarea
+                        class="form-control"
+                        id="description"
+                        name="description"
+                        required=""
+                        style="resize: none;"
+                        placeholder="Descripci&oacute;n"
+                        ng-model="ctrl.entity.description">
+                    </textarea>
+                    <div ng-messages="productForm.description.$error" ng-if="productForm.$touched || productForm.description.$touched">
+                        <span class="error" ng-message="required">La descripción es requerida.</span>
                     </div>
                 </div>
             </div>
