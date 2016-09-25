@@ -9,7 +9,11 @@ import com.epartner.repositories.TagRepository;
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.TagRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Created by martin on 24/09/16.
@@ -17,13 +21,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class TagService {
 
-    private TagConverter tagConverter;
+    private TagConverter converter;
     private TagRepository repository;
     private ProductConverter productConverter;
     private final ProductService productService;
 
     private final ProductRepository productRepository;
 
+    private final Integer MAX = 10;
+    private final Integer PAGE = 0;
 
     @Autowired
     public TagService(
@@ -34,16 +40,16 @@ public class TagService {
         ProductRepository productRepository){
 
         this.repository = repository;
-        this.tagConverter = tagConverter;
+        this.converter = tagConverter;
         this.productConverter = productConverter;
         this.productService = productService;
         this.productRepository = productRepository;
     }
 
     public TagRepresentation create(TagRepresentation tagRepresentation) {
-        return this.tagConverter.convert(
+        return this.converter.convert(
                 this.repository.save(
-                    this.tagConverter.convert(tagRepresentation)));
+                    this.converter.convert(tagRepresentation)));
     }
 
     public TagRepresentation createTagProduct(
@@ -56,6 +62,14 @@ public class TagService {
         Tag tag = this.repository.findOne(tagId);
         tag.addProduct(product);
 
-        return this.tagConverter.convert(this.repository.save(tag));
+        return this.converter.convert(this.repository.save(tag));
+    }
+
+    public Page<TagRepresentation> list(Optional<Integer> max, Optional<Integer> page) {
+        Page<Tag> stored = this.repository.findAll(
+                new PageRequest(page.orElse(PAGE), max.orElse(MAX))
+        );
+
+        return this.converter.convert(stored);
     }
 }

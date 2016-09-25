@@ -60,7 +60,11 @@ public class Tag {
         isCategory = category;
     }
 
-    public List getProducts() {
+    public List<Product> getProducts() {
+
+        if(products == null){
+            products = new ArrayList<>();
+        }
         return products;
     }
 

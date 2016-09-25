@@ -23,16 +23,15 @@ public class ProductConverter {
 
     private final CategoryConverter categoryConverter;
     private final TechnicalSpecificationConverter technicalSpecificationConverter;
-    private final TagConverter tagConverter;
+
 
     @Autowired
     public ProductConverter(CategoryConverter categoryConverter
-            ,TechnicalSpecificationConverter technicalSpecificationConverter
-            ,TagConverter tagConverter){
+            ,TechnicalSpecificationConverter technicalSpecificationConverter){
 
         this.categoryConverter = categoryConverter;
         this.technicalSpecificationConverter = technicalSpecificationConverter;
-        this.tagConverter = tagConverter;
+
     }
 
     public Product convert(ProductRepresentation productRepresentation) {
@@ -46,14 +45,14 @@ public class ProductConverter {
                 .setName(productRepresentation.getName())
                 .setPrice(productRepresentation.getPrice())
                 .setCategory(this.categoryConverter.convert(productRepresentation.getCategory()))
-                .setTags(
+       /*         .setTags(
                         productRepresentation
                         .getTags()
                         .stream()
                         .map( tr -> this.tagConverter.convert(tr))
                         .collect(Collectors.toList())
 
-                )
+                )*/
                 .createProduct();
 
 
@@ -76,13 +75,13 @@ public class ProductConverter {
                 )
                 .setThenicalSpecification(
                         this.technicalSpecificationConverter.convert(product.getTechnicalSpecifications()))
-                .setTags(
+                /*.setTags(
                         product
                         .getTags()
                         .stream()
                         .map(t -> this.tagConverter.convert(t))
                         .collect(Collectors.toList())
-                        )
+                        )*/
                 .createProductRepresentation();
 
     }
