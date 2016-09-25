@@ -17,6 +17,10 @@
   min-height: 400px;
   padding: 20px 0 40px 0;
 
+  textarea {
+    resize: none;
+  }
+
   .picture-select {
     height: 165px;
     width: 100%;
