@@ -1,11 +1,14 @@
 package com.epartner.resources;
 
 import com.epartner.representations.ProductRepresentation;
+import com.epartner.representations.TagRepresentation;
 import com.epartner.services.ProductService;
+import com.epartner.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -19,14 +22,21 @@ public class ProductResource {
 
     public static final String PRODUCTS = "api/products";
     public static final String ID = "/{id}";
+
+    public static final String TAGS =  ID + "/tags";
     private static final String DEFAULT_PAGE = "0";
     private static final String DEFAULT_MAX = "10";
 
     private final ProductService productService;
+    private final TagService tagService;
+
 
     @Autowired
-    public ProductResource(ProductService productService) {
+    public ProductResource(ProductService productService,
+                           TagService tagService) {
+
         this.productService = productService;
+        this.tagService = tagService;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -56,5 +66,13 @@ public class ProductResource {
         @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
         @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
         return this.productService.list(Optional.ofNullable(max), Optional.ofNullable(page));
+    }
+
+    @RequestMapping(method = GET, value = TAGS)
+    public Page<TagRepresentation> findProductTags(@PathVariable("id") Long id){
+
+
+        return this.tagService.findAllTagByProduct(id);
+
     }
 }
