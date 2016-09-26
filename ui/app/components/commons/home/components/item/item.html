@@ -15,13 +15,13 @@
                      ng-repeat="img in item.entity.images"
                      ng-src="{{img}}"
                      ng-click="item.entity.currentImage = img"
-                     style="border:1px #ccc solid; cursor: pointer; max-width: 120px; margin-right: 25px;">
+                     style="border:1px #ccc solid; cursor: pointer; max-width: 120px; height: 120px; object-fit: cover; margin-right: 25px; margin-bottom: 25px;">
             </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="row">
-            <span style="text-transform: uppercase; font-size: 2.3rem; font-weight: 700; margin: 0 0 20px 0;" class="col-md-12 animated fadeInLeftBig">{{item.entity.title}}</span>
+            <span style="text-transform: uppercase; font-size: 2.3rem; font-weight: 700; margin: 0 0 20px 0;" class="col-md-12 animated fadeInLeftBig">{{item.entity.name}}</span>
             <div class="col-md-12" style="margin: 0 0 20px 0;">
                 <span style="background: #F38617; color: #fff; height: 30px; display: inline-block; padding: 5px 20px; margin: 0 15px 0 0;">Hay stock!</span>
                 <span style="font-size: 2rem" class="animated fadeInUp">${{item.entity.price}}</span>
@@ -40,7 +40,7 @@
                 <label style="color: #666666">Características</label>
                 <ul style="padding: 10px 0 0 20px;">
                     <li style="color: #666666; font-size: 1.2rem;"
-                        ng-repeat="technicalSpec in item.entity.technicalSpecifications">{{technicalSpec}}</li>
+                        ng-repeat="technicalSpec in item.entity.technicalSpecifications">{{technicalSpec.key}}: {{technicalSpec.value}}</li>
                 </ul>
             </div>
         </div>

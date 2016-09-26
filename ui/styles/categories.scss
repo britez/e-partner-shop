@@ -17,14 +17,23 @@
 
     .category-item {
       cursor: pointer;
+      background: #F5f5f5;
+      border: 2px #ececec solid;
+      transition: all 0.5s ease;
 
       img {
-        width: 150px; object-fit: cover;
+        width: 100%;
+        object-fit: cover;
+        padding: 0 0 10px 0;
+      }
+
+      span {
+        padding: 10px 0 0 0;
       }
     }
 
     .category-item.toggled {
-      background: $orange;
+      border: 2px $orange solid;
     }
   }
 }

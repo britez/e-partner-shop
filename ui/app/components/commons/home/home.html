@@ -22,7 +22,7 @@
                     <span>SMART TV Led 32</span>
                     <p>$400</p>
                     <div class="overlay">
-                        <a ng-click="home.redirect()">Ver mas</a>
+                        <a ui-sref="item({id: null})">Ver mas</a>
                     </div>
                 </div>
                 <div class="product col-md-3">
@@ -125,6 +125,21 @@
                     <p>$40077</p>
                     <div class="overlay">
                         <a>Ver mas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 products" ng-repeat="tag in home.tags">
+            <div class="row">
+                <div class="float-label">
+                    <span>{{tag.name}}</span>
+                </div>
+                <div class="product col-md-3" ng-repeat="product in tag.productRepresentationList">
+                    <img ng-src="{{product.principalImage}}">
+                    <span>{{product.name}}</span>
+                    <p>${{product.price}}</p>
+                    <div class="overlay">
+                        <a ui-sref="item({id: product.id})">Ver mas</a>
                     </div>
                 </div>
             </div>

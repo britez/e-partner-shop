@@ -30,7 +30,7 @@ const common = angular
             });
         $stateProvider
             .state('item', {
-                url: '/item',
+                url: '/item/:id',
                 component: 'itemComponent'
             });
         $urlRouterProvider.otherwise('/');

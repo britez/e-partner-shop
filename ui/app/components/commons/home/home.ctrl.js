@@ -3,7 +3,7 @@
 export default class HomeCtrl{
 
     /*@ngInject*/
-    constructor($state) {
+    constructor($state, api) {
         this.myInterval = 5000;
         this.active = 0;
         this.slides = [
@@ -19,10 +19,22 @@ export default class HomeCtrl{
             }
         ];
         this.state = $state;
+        this.api = api;
+        this.getTags();
     }
 
-    redirect(){
-        this.state.go('item')
-
+    getTags(){
+        this.api
+            .tags
+            .get()
+            .$promise
+            .then(response => {
+                this.tags = response.content;
+                this.tags.forEach(tag => {
+                    tag.productRepresentationList.forEach(product => {
+                        product.principalImage = product.images.find(img => img.principal).url
+                    });
+                })
+            })
     }
 }
