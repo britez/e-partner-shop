@@ -3,9 +3,10 @@
 export default class CategoryDetailController {
 
     /*ngInject*/
-    constructor(api, $state){
+    constructor(api, $state, $q){
         this.api = api;
         this.$state = $state;
+        this.$q = $q;
         this.init();
     }
 
@@ -38,9 +39,27 @@ export default class CategoryDetailController {
                 .categories
                 .update(params,this.entity)
                 .$promise
-                .then(() => {
+                .then((response) => {
                     this.updated = true;
-                    this.init();
+                    this.entity = response;
+                    if(this.entity.highlight) {
+                        this.api
+                            .tags
+                            .save({}, {isCategory: true, name: this.entity.name})
+                            .$promise
+                            .then(response => {
+                                let prodIds = this.categoryProducts
+                                    .filter(prod => prod.highlight);
+                                let promises = [];
+                                prodIds.forEach(it => {
+                                    promises.push(this.api
+                                        .tagsProducts
+                                        .save({id: response.id, productId: it.id})
+                                        .$promise);
+                                });
+                                this.$q.all(promises);
+                            })
+                    }
                 });
         } else {
             this.api

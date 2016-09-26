@@ -1,7 +1,5 @@
 package com.epartner.resources;
 
-import com.epartner.domain.Tag;
-import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.TagRepresentation;
 import com.epartner.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-
-import static com.epartner.resources.TagResource.PRODUCT_TAG;
 
 /**
  * Created by martin on 24/09/16.
