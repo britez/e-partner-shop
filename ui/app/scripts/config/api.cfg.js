@@ -11,11 +11,16 @@ let dashboardApiCfg = () => {
       .route('/api/categories/:id/products');
 
     apiProvider.endpoint('products')
-        .route('/api/products/:id');
+      .route('/api/products/:id');
 
     apiProvider.endpoint('productImages')
-        .route('/api/products/:id/images');
+      .route('/api/products/:id/images');
 
+    apiProvider.endpoint('tags')
+      .route('/api/tags/:id');
+
+    apiProvider.endpoint('tagsProducts')
+      .route('/api/tags/:id/product/:productId')
   }];
 
   return apiConfig;
