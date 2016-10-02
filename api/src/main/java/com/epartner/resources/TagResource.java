@@ -24,38 +24,28 @@ public class TagResource {
     private static final String DEFAULT_PAGE = "0";
     private static final String DEFAULT_MAX = "10";
 
-
     @Autowired
     public TagResource(TagService tagService){
-
         this.tagService = tagService;
     }
-
 
     @RequestMapping(method =  RequestMethod.GET)
     public Page<TagRepresentation> list(@RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
                           @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
-
-
-
         return this.tagService.list(Optional.ofNullable(max), Optional.ofNullable(page));
     }
-
 
     @RequestMapping(method = RequestMethod.POST)
     public TagRepresentation create(@RequestBody TagRepresentation tagRepresentation){
         return tagService.create(tagRepresentation);
     }
 
+    //TODO: Sacar deberíamos hacerlo todo junto
     @RequestMapping(value = PRODUCT_TAG,method = RequestMethod.POST)
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void createTagProduct(@PathVariable("id") Long tagId, @PathVariable("productId") Long productId){
-
         tagService.createTagProduct(tagId, productId );
     }
 
-
-
-
+    //TODO: Falta el put
 }

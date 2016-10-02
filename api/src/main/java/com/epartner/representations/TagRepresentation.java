@@ -10,8 +10,7 @@ public class TagRepresentation {
     private Long id;
     private String name;
     private Boolean isCategory;
-    private List<ProductRepresentation> productRepresentationList;
-
+    private List<ProductRepresentation> products;
 
     public Long getId() {
         return id;
@@ -29,12 +28,12 @@ public class TagRepresentation {
         this.name = name;
     }
 
-    public List<ProductRepresentation> getProductRepresentationList() {
-        return productRepresentationList;
+    public List<ProductRepresentation> getProducts() {
+        return products;
     }
 
-    public void setProductRepresentationList(List<ProductRepresentation> productRepresentationList) {
-        this.productRepresentationList = productRepresentationList;
+    public void setProducts(List<ProductRepresentation> products) {
+        this.products = products;
     }
 
     public Boolean getIsCategory() {

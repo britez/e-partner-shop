@@ -1,7 +1,5 @@
 package com.epartner.representations;
 
-import com.epartner.domain.Tag;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +16,7 @@ public class ProductRepresentation {
     private List<ProductImageRepresentation> images;
     private Double price;
     private List<TechnicalSpecificationRepresentation> technicalSpecifications;
-    private  List<TagRepresentation> tags;
+    private List<TagRepresentation> tags;
 
     public ProductRepresentation(){
         this.images = new ArrayList<>();

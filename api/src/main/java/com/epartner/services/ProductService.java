@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -29,10 +28,10 @@ public class ProductService {
     private final CategoryService categoryService;
     private final StorageService storageService;
     private final CategoryRepository categoryRepository;
+    private final TechnicalSpecificationConverter technicalSpecificationConverter;
 
     private final Integer MAX = 10;
     private final Integer PAGE = 0;
-    private final TechnicalSpecificationConverter technicalSpecificationConverter;
 
     @Autowired
     public ProductService(ProductRepository productRepository,
@@ -51,22 +50,21 @@ public class ProductService {
     }
 
     public ProductRepresentation create(ProductRepresentation productRepresentation) {
+        //Checks if category exists
         this.categoryService.show(productRepresentation.getCategory().getId());
-        Product productToSave = this.converter.convert(productRepresentation);
-        productToSave.addTechnicalSpecifications(this.technicalSpecificationConverter.convertList(productRepresentation.getTechnicalSpecifications()));
-        //TODO MEjorar esto
-        Product productSaved = this.repository.save(productToSave);
-        return this.converter.convert(productSaved);
+        return this.converter.convert(
+                this.repository.save(
+                        this.converter.convert(productRepresentation)));
     }
 
     public ProductRepresentation update(ProductRepresentation productRepresentation, Long id) {
         Product product = this.get(id);
-        //TODO agregar todos los updates
         product.setName(productRepresentation.getName());
         product.setDescription(productRepresentation.getDescription());
         product.setPrice(productRepresentation.getPrice());
         product.setStock(productRepresentation.getStock());
         product.setCategory(this.categoryRepository.findOne(productRepresentation.getCategory().getId()));
+        //TODO agregar update de tech spec
         this.repository.save(product);
         return this.converter.convert(product);
     }
@@ -91,10 +89,8 @@ public class ProductService {
     }
 
     public void addImage(Long id, MultipartFile file) {
-
         Product product = this.get(id);
-        ProductImage productImage = new ProductImage(createProductImage(file), product);
-        saveImage(product, productImage);
+        saveImage(product, new ProductImage(createProductImage(file), product));
     }
 
     public void addPrincipalImage(Long id, MultipartFile file) {

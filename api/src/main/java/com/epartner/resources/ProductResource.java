@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -30,11 +29,9 @@ public class ProductResource {
     private final ProductService productService;
     private final TagService tagService;
 
-
     @Autowired
     public ProductResource(ProductService productService,
                            TagService tagService) {
-
         this.productService = productService;
         this.tagService = tagService;
     }
@@ -68,11 +65,10 @@ public class ProductResource {
         return this.productService.list(Optional.ofNullable(max), Optional.ofNullable(page));
     }
 
+    //TODO Sacar nadie usa este recurso
+    @Deprecated
     @RequestMapping(method = GET, value = TAGS)
     public Page<TagRepresentation> findProductTags(@PathVariable("id") Long id){
-
-
         return this.tagService.findAllTagByProduct(id);
-
     }
 }

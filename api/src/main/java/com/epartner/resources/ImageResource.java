@@ -22,16 +22,9 @@ public class ImageResource {
     public final static String IMAGES = ProductResource.PRODUCTS + "/{productId}";
     private ProductService productService;
 
-
     @Autowired
     public ImageResource(ProductService productService) {
         this.productService = productService;
-    }
-
-    @ExceptionHandler(StorageException.class)
-    public ResponseEntity handleStorageException(StorageException se) {
-        logger.error("Error guardando imagen ", se);
-        return ResponseEntity.notFound().build();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/images")
@@ -40,10 +33,15 @@ public class ImageResource {
         return ResponseEntity.ok().build();
     }
 
-
     @RequestMapping(method = RequestMethod.POST, value= "/principal-images")
     public ResponseEntity createPrincipalImage(@PathVariable("productId") Long id, @RequestParam("file") MultipartFile file){
         productService.addPrincipalImage(id, file);
         return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler(StorageException.class)
+    public ResponseEntity handleStorageException(StorageException se) {
+        logger.error("Error guardando imagen ", se);
+        return ResponseEntity.notFound().build();
     }
 }

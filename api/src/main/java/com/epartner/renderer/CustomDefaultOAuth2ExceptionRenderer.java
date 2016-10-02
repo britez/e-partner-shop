@@ -1,27 +1,26 @@
 package com.epartner.renderer;
-    import org.apache.commons.logging.Log;
-    import org.apache.commons.logging.LogFactory;
-    import org.springframework.http.*;
-    import org.springframework.http.converter.HttpMessageConverter;
-    import org.springframework.http.server.ServerHttpResponse;
-    import org.springframework.http.server.ServletServerHttpRequest;
-    import org.springframework.http.server.ServletServerHttpResponse;
-    import org.springframework.security.oauth2.http.converter.jaxb.JaxbOAuth2ExceptionMessageConverter;
-    import org.springframework.security.oauth2.provider.error.DefaultOAuth2ExceptionRenderer;
-    import org.springframework.web.HttpMediaTypeNotAcceptableException;
-    import org.springframework.web.client.RestTemplate;
-    import org.springframework.web.context.request.NativeWebRequest;
-    import org.springframework.web.context.request.ServletWebRequest;
 
-    import javax.servlet.http.HttpServletRequest;
-    import javax.servlet.http.HttpServletResponse;
-    import java.io.IOException;
-    import java.util.ArrayList;
-    import java.util.Collections;
-    import java.util.List;
-/**
- * Created by julian on 19/07/16.
- */
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.http.*;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.http.server.ServletServerHttpResponse;
+import org.springframework.security.oauth2.http.converter.jaxb.JaxbOAuth2ExceptionMessageConverter;
+import org.springframework.security.oauth2.provider.error.DefaultOAuth2ExceptionRenderer;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.ServletWebRequest;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class CustomDefaultOAuth2ExceptionRenderer extends DefaultOAuth2ExceptionRenderer{
 
     public static final String GIU_TOKEN = "Token";
@@ -68,15 +67,8 @@ public class CustomDefaultOAuth2ExceptionRenderer extends DefaultOAuth2Exception
     }
 
     private String getTokenURL(ServletWebRequest webRequest) {
-        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        //return String.format(URL_FORMAT, getBaseURL(request.getRequestURL().toString()));
         return String.format(URL_FORMAT, oauthHost);
     }
-
-    /*private String getBaseURL(String requestURL) {
-        String contentToRemove = requestURL.replaceAll("(http|https)://[a-zA-Z0-9:.]+/[a-zA-Z-]+","");
-        return requestURL.replace(contentToRemove,"");
-    }*/
 
     private void writeWithMessageConverters(Object returnValue, HttpInputMessage inputMessage,
                                             HttpOutputMessage outputMessage) throws IOException, HttpMediaTypeNotAcceptableException {

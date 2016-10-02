@@ -1,6 +1,5 @@
 package com.epartner.repositories;
 
-import com.epartner.domain.Product;
 import com.epartner.domain.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 

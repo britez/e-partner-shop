@@ -4,9 +4,7 @@ import com.epartner.converters.ProductConverter;
 import com.epartner.converters.TagConverter;
 import com.epartner.domain.Product;
 import com.epartner.domain.Tag;
-import com.epartner.repositories.ProductRepository;
 import com.epartner.repositories.TagRepository;
-import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.TagRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,8 +27,6 @@ public class TagService {
     private ProductConverter productConverter;
     private final ProductService productService;
 
-    private final ProductRepository productRepository;
-
     private final Integer MAX = 10;
     private final Integer PAGE = 0;
 
@@ -40,14 +35,12 @@ public class TagService {
         TagConverter tagConverter,
         TagRepository repository,
         ProductConverter productConverter,
-        ProductService productService,
-        ProductRepository productRepository){
+        ProductService productService){
 
         this.repository = repository;
         this.converter = tagConverter;
         this.productConverter = productConverter;
         this.productService = productService;
-        this.productRepository = productRepository;
     }
 
     public TagRepresentation create(TagRepresentation tagRepresentation) {
@@ -77,26 +70,24 @@ public class TagService {
         return this.converter.convert(stored);
     }
 
-
+    //TODO: No creo que necesitemos este servicio
+    @Deprecated
     public Page<TagRepresentation> findAllTagByProduct(Long productId) {
-
-
-        Product product = this.productRepository.findOne(productId);
-
-       return new PageImpl<TagRepresentation>(
+        Product product = null;//this.productService.show(productId);
+        return new PageImpl<>(
                 product
-                .getTags()
-                .stream()
-                .map(t -> {
+                    .getTags()
+                    .stream()
+                    .map(t -> {
 
-                    TagRepresentation t2 = this.converter.convert(t);
-                    t2.setProductRepresentationList(new ArrayList<ProductRepresentation>());
+                        TagRepresentation t2 = this.converter.convert(t);
+                        t2.setProducts(new ArrayList<>());
 
-                    return t2;
-                })
-                .filter(t1 -> !t1.getIsCategory())
-                .collect(Collectors.toList())
-        );
+                        return t2;
+                    })
+                    .filter(t1 -> !t1.getIsCategory())
+                    .collect(Collectors.toList())
+            );
 
     }
 }

@@ -1,9 +1,6 @@
 package com.epartner.domain;
 
-import org.hibernate.annotations.*;
-
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,15 +22,8 @@ public class Tag {
             ,inverseJoinColumns={@JoinColumn(name="product_id")})
     private List<Product> products;
 
-    public void addProduct(Product product) {
-
-        if(this.products == null) {
-
-            this.products = new ArrayList<>();
-        }
-
-        this.products.add(product);
-       // product.addTag(this);
+    public Tag() {
+        this.products = new ArrayList<>();
     }
 
     public Long getId() {
@@ -61,14 +51,14 @@ public class Tag {
     }
 
     public List<Product> getProducts() {
-
-        if(products == null){
-            products = new ArrayList<>();
-        }
         return products;
     }
 
     public void setProducts(List products) {
         this.products = products;
+    }
+
+    public void addProduct(Product product) {
+        this.products.add(product);
     }
 }

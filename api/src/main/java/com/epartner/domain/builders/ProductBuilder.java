@@ -7,7 +7,6 @@ import com.epartner.domain.TechnicalSpecification;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ProductBuilder {
     private Long id;
@@ -15,12 +14,12 @@ public class ProductBuilder {
     private String description;
     private Integer stock;
     private Double price;
-    private List<TechnicalSpecification> technicaSpeficication;
+    private List<TechnicalSpecification> technicalSpeficication;
     private Category category;
     private List<Tag> tags;
 
    public ProductBuilder setTechnicalSpecification(List<TechnicalSpecification> technicalSpecification){
-       this.technicaSpeficication = technicalSpecification;
+       this.technicalSpeficication = technicalSpecification;
        return this;
    }
 
@@ -56,9 +55,7 @@ public class ProductBuilder {
     }
 
     public ProductBuilder setTags(List<Tag> tags){
-
         this.tags = tags;
-
         return this;
     }
 
@@ -68,7 +65,7 @@ public class ProductBuilder {
         result.setId(id);
         result.setName(name);
         result.setDescription(description);
-        result.setTechnicalSpecifications(technicaSpeficication);
+        result.addTechnicalSpecifications(technicalSpeficication);
         result.setPrice(price);
         result.setStock(stock);
         result.setCategory(category);

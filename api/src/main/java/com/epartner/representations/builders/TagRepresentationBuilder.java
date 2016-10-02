@@ -1,6 +1,7 @@
-package com.epartner.representations;
+package com.epartner.representations.builders;
 
-import com.epartner.domain.Product;
+import com.epartner.representations.ProductRepresentation;
+import com.epartner.representations.TagRepresentation;
 
 import java.util.List;
 
@@ -9,12 +10,10 @@ import java.util.List;
  */
 public class TagRepresentationBuilder {
 
-
     private Long id;
     private Boolean isCategory;
-    private List<ProductRepresentation> product;
+    private List<ProductRepresentation> products;
     private String name;
-
 
     public TagRepresentationBuilder setId(Long id) {
         this.id = id;
@@ -26,8 +25,8 @@ public class TagRepresentationBuilder {
         return this;
     }
 
-    public TagRepresentationBuilder setProducts(List<ProductRepresentation> product){
-        this.product = product;
+    public TagRepresentationBuilder setProducts(List<ProductRepresentation> products){
+        this.products = products;
         return this;
     }
 
@@ -41,9 +40,7 @@ public class TagRepresentationBuilder {
         toCreate.setId(id);
         toCreate.setName(name);
         toCreate.setIsCategory(isCategory);
-        toCreate.setProductRepresentationList(product);
+        toCreate.setProducts(products);
         return toCreate;
     }
-
-
 }

@@ -11,9 +11,11 @@ public class TechnicalSpecification {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-
     private String key;
     private String value;
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name="product_id")
+    private Product product;
 
     public Long getId() {
         return id;
@@ -22,10 +24,6 @@ public class TechnicalSpecification {
     public void setId(Long id) {
         this.id = id;
     }
-
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="product_id")
-    private Product product;
 
     public Product getProduct() {
         return product;
@@ -48,7 +46,6 @@ public class TechnicalSpecification {
     }
 
     private boolean sameAsFormer(Product product){
-
         return this.product == null ? product == null : this.product.equals(product);
     }
 
@@ -66,7 +63,6 @@ public class TechnicalSpecification {
 
     public void setKey(String key) {
         this.key = key;
-
     }
 
     @Override
@@ -84,6 +80,5 @@ public class TechnicalSpecification {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
-
 
 }

@@ -1,33 +1,27 @@
-package com.epartner.representations;
+package com.epartner.representations.builders;
 
 import com.epartner.domain.ProductImage;
-import com.epartner.domain.Tag;
+import com.epartner.representations.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
 public class ProductRepresentationBuilder {
-
-    //TODO: Mover esto a otro lugar para poder usar spring cloud config
-    private static final String BASE_IMAGE_URL = "http://localhost:18120/";
-    private ProductRepresentation productRepresentation;
 
     private Long id;
     private String name;
     private String description;
     private Integer stock;
     private Double price;
-    private CategoryRepresentation categoryRepresentation;
+    private CategoryRepresentation category;
     private List<ProductImage> images;
-    private List<TechnicalSpecificationRepresentation> technicalSpecificationRepresentations;
+    private List<TechnicalSpecificationRepresentation> technicalSpecifications;
     private List<TagRepresentation> tags;
 
-    public ProductRepresentationBuilder setThenicalSpecification(List<TechnicalSpecificationRepresentation> technicalSpecificationRepresentations){
-        this.technicalSpecificationRepresentations = technicalSpecificationRepresentations;
+    public ProductRepresentationBuilder setTechnicalSpecifications(List<TechnicalSpecificationRepresentation> technicalSpecificationRepresentations){
+        this.technicalSpecifications = technicalSpecificationRepresentations;
         return this;
     }
 
@@ -62,33 +56,24 @@ public class ProductRepresentationBuilder {
         return this;
     }
 
-    public ProductRepresentationBuilder setProductRepresentation(ProductRepresentation productRepresentation){
+    public ProductRepresentationBuilder setCategory(CategoryRepresentation category){
 
-        this.productRepresentation = productRepresentation;
-
-        return this;
-    }
-
-    public ProductRepresentationBuilder setCategoryRepresentation(CategoryRepresentation categoryRepresentation){
-
-        this.categoryRepresentation = categoryRepresentation;
+        this.category = category;
 
         return this;
     }
-
 
     public ProductRepresentationBuilder setTags(List<TagRepresentation> tags){
-
         this.tags = tags;
-
         return this;
     }
-    public ProductRepresentation createProductRepresentation() {
+
+    public ProductRepresentation createProductRepresentation(String baseImageUrl) {
         List<ProductImageRepresentation> imagesRepresentation = Optional
                 .ofNullable(images)
                 .orElse(new ArrayList<>())
                 .stream()
-                .map(this::buildImageRepresentation)
+                .map(it -> this.buildImageRepresentation(it, baseImageUrl))
                 .collect(Collectors.toList());
 
 
@@ -96,18 +81,18 @@ public class ProductRepresentationBuilder {
                 name,
                 description,
                 stock,
-                categoryRepresentation,
+                category,
                 imagesRepresentation,
                 price,
-                technicalSpecificationRepresentations,
+                technicalSpecifications,
                 tags == null ? new ArrayList<>() : tags);
     }
 
-    private ProductImageRepresentation buildImageRepresentation(ProductImage image){
+    private ProductImageRepresentation buildImageRepresentation(ProductImage image, String baseImageUrl){
         ProductImageRepresentation result = new ProductImageRepresentation();
         result.setId(image.getId());
         result.setPrincipal(image.getIsPrincipal());
-        result.setUrl(BASE_IMAGE_URL + image.getFileName());
+        result.setUrl(baseImageUrl + image.getFileName());
         return result;
     }
 }

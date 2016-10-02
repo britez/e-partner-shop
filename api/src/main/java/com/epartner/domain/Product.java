@@ -1,12 +1,11 @@
 package com.epartner.domain;
 
-import org.aspectj.weaver.ArrayAnnotationValue;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +37,10 @@ public class Product {
     @ManyToMany(mappedBy = "products")
     private List<Tag> tags;
 
-    public Product(){}
+    public Product(){
+        this.technicalSpecifications = new ArrayList<>();
+        this.tags = new ArrayList<>();
+    }
 
     public Product(Long id, String name, String description, Integer stock) {
         this.id = id;
@@ -48,12 +50,6 @@ public class Product {
     }
 
     public void addTag(Tag tag){
-
-        if(tags == null){
-
-            this.tags = new ArrayList<>();
-        }
-
         this.tags.add(tag);
     }
 
@@ -61,7 +57,8 @@ public class Product {
         return technicalSpecifications;
     }
 
-    public void setTechnicalSpecifications(List<TechnicalSpecification> technicalSpecifications) {
+    public void setTechnicalSpecifications(
+            List<TechnicalSpecification> technicalSpecifications) {
         this.technicalSpecifications = technicalSpecifications;
     }
 
@@ -97,7 +94,6 @@ public class Product {
         this.stock = stock;
     }
 
-
     public Category getCategory() {
         return category;
     }
@@ -130,29 +126,17 @@ public class Product {
         technicalSpecificationList.stream().map(this::addTechnicalSpecification).collect(Collectors.toList());
     }
 
-    public void removeTechinicalSpecification(TechnicalSpecification technicalSpecification){
-
-        this.technicalSpecifications.remove(technicalSpecification);
-    }
-
-
     private TechnicalSpecification addTechnicalSpecification(TechnicalSpecification technicalSpecification) {
-
         technicalSpecification.setProduct(this);
-        if(technicalSpecifications == null){
-            this.technicalSpecifications = new ArrayList<>();
-        }
         this.technicalSpecifications.add(technicalSpecification);
         return technicalSpecification;
     }
 
+    public void removeTechinicalSpecification(TechnicalSpecification technicalSpecification){
+        this.technicalSpecifications.remove(technicalSpecification);
+    }
+
     public List<Tag> getTags() {
-
-        if(tags == null){
-
-            tags = new ArrayList<>();
-        }
-
         return tags;
     }
 
