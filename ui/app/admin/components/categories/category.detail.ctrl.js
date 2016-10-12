@@ -43,21 +43,14 @@ export default class CategoryDetailController {
                     this.updated = true;
                     this.entity = response;
                     if(this.entity.highlight) {
+                        let prodIds = this.categoryProducts
+                            .filter(prod => prod.highlight);
                         this.api
                             .tags
-                            .save({}, {isCategory: true, name: this.entity.name})
+                            .save({}, {isCategory: true, name: this.entity.name, products: prodIds})
                             .$promise
                             .then(response => {
-                                let prodIds = this.categoryProducts
-                                    .filter(prod => prod.highlight);
-                                let promises = [];
-                                prodIds.forEach(it => {
-                                    promises.push(this.api
-                                        .tagsProducts
-                                        .save({id: response.id, productId: it.id})
-                                        .$promise);
-                                });
-                                this.$q.all(promises);
+                                //todo hacer algo
                             })
                     }
                 });
