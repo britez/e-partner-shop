@@ -39,7 +39,9 @@ public class CategoryConverter {
     public Category convert(CategoryRepresentation category) {
         Category result = new Category();
         result.setDescription(category.getDescription());
-        result.setId(Optional.ofNullable(category.getId()).orElse(null));
+        if(Optional.ofNullable(category.getId()).isPresent()) {
+            result.setId(category.getId());
+        }
         result.setHighlight(category.getHighlight());
         result.setName(category.getName());
         return result;

@@ -12,7 +12,6 @@ import java.io.Serializable;
 @Entity
 public class Category implements Serializable {
 
-    public Category() {}
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -20,6 +19,10 @@ public class Category implements Serializable {
     private String name;
     private String description;
     private Boolean highlight;
+
+    public Category() {
+        this.highlight = false;
+    }
 
     public Long getId() {
         return id;

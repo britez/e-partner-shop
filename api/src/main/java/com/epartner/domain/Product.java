@@ -50,6 +50,12 @@ public class Product {
     }
 
     public void addTag(Tag tag){
+
+        if(tags == null){
+
+            this.tags = new ArrayList<>();
+        }
+
         this.tags.add(tag);
     }
 
@@ -137,6 +143,12 @@ public class Product {
     }
 
     public List<Tag> getTags() {
+
+        if(tags == null){
+
+            tags = new ArrayList<>();
+        }
+
         return tags;
     }
 

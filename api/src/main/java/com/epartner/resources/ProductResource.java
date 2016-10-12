@@ -6,8 +6,10 @@ import com.epartner.services.ProductService;
 import com.epartner.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -36,7 +38,7 @@ public class ProductResource {
         this.tagService = tagService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+     @RequestMapping(method = RequestMethod.POST)
     public ProductRepresentation create(@RequestBody ProductRepresentation productRepresentation){
         return productService.create(productRepresentation);
     }
@@ -48,7 +50,7 @@ public class ProductResource {
         return productService.update(productRepresentation, id);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE, value = ID)
     public void delete(@PathVariable Long id){
         productService.delete(id);
     }
@@ -63,6 +65,12 @@ public class ProductResource {
         @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
         @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
         return this.productService.list(Optional.ofNullable(max), Optional.ofNullable(page));
+    }
+
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    public void handle(){
+        //Nothing to do
     }
 
     //TODO Sacar nadie usa este recurso

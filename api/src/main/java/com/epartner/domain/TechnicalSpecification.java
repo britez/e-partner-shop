@@ -46,6 +46,7 @@ public class TechnicalSpecification {
     }
 
     private boolean sameAsFormer(Product product){
+
         return this.product == null ? product == null : this.product.equals(product);
     }
 
