@@ -64,6 +64,7 @@ public class ProductService {
         product.setPrice(productRepresentation.getPrice());
         product.setStock(productRepresentation.getStock());
         product.setCategory(this.categoryRepository.findOne(productRepresentation.getCategory().getId()));
+        product.addTechnicalSpecifications(this.technicalSpecificationConverter.convertList(productRepresentation.getTechnicalSpecifications()));
         //TODO agregar update de tech spec
         this.repository.save(product);
         return this.converter.convert(product);

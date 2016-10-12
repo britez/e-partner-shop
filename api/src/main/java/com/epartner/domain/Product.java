@@ -132,9 +132,26 @@ public class Product {
         technicalSpecificationList.stream().map(this::addTechnicalSpecification).collect(Collectors.toList());
     }
 
+
+    //TODO: refactorizar esto
     private TechnicalSpecification addTechnicalSpecification(TechnicalSpecification technicalSpecification) {
-        technicalSpecification.setProduct(this);
-        this.technicalSpecifications.add(technicalSpecification);
+
+        if(technicalSpecification.isNew()){
+
+            technicalSpecification.setProduct(this);
+            this.technicalSpecifications.add(technicalSpecification);
+        }else{
+
+           TechnicalSpecification persistedEspecification = this.technicalSpecifications
+                    .stream()
+                    .filter(ts -> ts.getId().equals(technicalSpecification.getId()))
+                    .findFirst()
+                    .get();
+
+            persistedEspecification.merge(technicalSpecification);
+        }
+
+
         return technicalSpecification;
     }
 

@@ -7,6 +7,7 @@ public class TechnicalSpecificationRepresentation {
 
     private String value;
     private String key;
+    private Long id;
 
     public String getValue() {
         return value;
@@ -24,4 +25,11 @@ public class TechnicalSpecificationRepresentation {
         this.key = key;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

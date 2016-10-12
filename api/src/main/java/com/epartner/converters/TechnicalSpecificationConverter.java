@@ -22,6 +22,7 @@ public class TechnicalSpecificationConverter {
 
     private TechnicalSpecification convert(TechnicalSpecificationRepresentation technicalSpecificationRepresentation) {
         TechnicalSpecification result = new TechnicalSpecification();
+        result.setId(technicalSpecificationRepresentation.getId());
         result.setKey(technicalSpecificationRepresentation.getKey());
         result.setValue(technicalSpecificationRepresentation.getValue());
         return result;
@@ -29,6 +30,7 @@ public class TechnicalSpecificationConverter {
 
     private TechnicalSpecificationRepresentation convert(TechnicalSpecification technicalSpecification){
         TechnicalSpecificationRepresentation result = new TechnicalSpecificationRepresentation();
+        result.setId(technicalSpecification.getId());
         result.setKey(technicalSpecification.getKey());
         result.setValue(technicalSpecification.getValue());
         return result;
