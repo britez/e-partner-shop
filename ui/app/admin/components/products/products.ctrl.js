@@ -18,4 +18,13 @@ export default class ProductsController {
             })
     }
 
+    deleteProduct(product) {
+        this.api.products
+            .remove({id: product.id})
+            .$promise
+            .then(() => {
+                this.getAllProducts();
+            })
+    }
+
 }

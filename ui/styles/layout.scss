@@ -36,7 +36,7 @@ body {
     border-radius: 2px;
   }
 
-  .form-control.ng-invalid.ng-touched {
+  .form-control.invalid {
     border-color: $red;
   }
 

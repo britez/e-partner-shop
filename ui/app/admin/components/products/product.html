@@ -18,7 +18,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">Nombre</label>
-                    <input
+                    <input ng-class = "{'invalid': (productForm.name.$invalid && productForm.name.$touched) || (productForm.$submitted && productForm.name.$invalid)}"
                         type="text"
                         class="form-control"
                         id="name"
@@ -26,7 +26,7 @@
                         placeholder="Nombre"
                         required=""
                         ng-model="ctrl.entity.name">
-                    <div ng-messages="productForm.name.$error" ng-show="productForm.$touched || productForm.name.$touched">
+                    <div ng-messages="productForm.name.$error" ng-show="productForm.name.$touched || productForm.$submitted">
                         <span class="error" ng-message="required">El nombre es requerido.</span>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="category">Categoria</label>
-                    <input
+                    <input ng-class = "{'invalid': (productForm.category.$invalid && productForm.category.$touched) || (productForm.$submitted && productForm.category.$invalid)}"
                         id="category"
                         type="text"
                         name="category"
@@ -42,8 +42,9 @@
                         placeholder="Elija la categoría"
                         ng-model="ctrl.entity.category"
                         uib-typeahead="category as category.name for category in ctrl.categories  | filter:$viewValue | limitTo:8"
-                        class="form-control">
-                    <div ng-messages="productForm.category.$error" ng-if="productForm.$touched || productForm.category.$touched">
+                        typeahead-editable="false"
+                           class="form-control">
+                    <div ng-messages="productForm.category.$error" ng-show="productForm.category.$touched || productForm.$submitted">
                         <span class="error" ng-message="required">La categor&iacute;a es requerida.</span>
                     </div>
                 </div>
@@ -51,7 +52,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="stock">Stock</label>
-                    <input
+                    <input ng-class = "{'invalid': (productForm.stock.$invalid && productForm.stock.$touched) || (productForm.$submitted && productForm.stock.$invalid)}"
                         type="number"
                         class="form-control"
                         id="stock"
@@ -59,7 +60,7 @@
                         required=""
                         placeholder="Stock"
                         ng-model="ctrl.entity.stock">
-                    <div ng-messages="productForm.stock.$error" ng-if="productForm.$touched || productForm.stock.$touched">
+                    <div ng-messages="productForm.stock.$error" ng-if="productForm.stock.$touched || productForm.$submitted">
                         <span class="error" ng-message="required">El stock es requerido.</span>
                     </div>
                 </div>
@@ -69,7 +70,7 @@
                     <label for="price">Precio</label>
                     <div class="input-group">
                         <span class="input-group-addon">$</span>
-                        <input
+                        <input ng-class = "{'invalid': (productForm.price.$invalid && productForm.price.$touched) || (productForm.$submitted && productForm.price.$invalid)}"
                             type="number"
                             class="form-control"
                             id="price"
@@ -78,7 +79,7 @@
                             required=""
                             ng-model="ctrl.entity.price">
                     </div>
-                    <div ng-messages="productForm.price.$error" ng-show="productForm.$touched || productForm.price.$touched">
+                    <div ng-messages="productForm.price.$error" ng-if="productForm.$submitted || productForm.price.$touched">
                         <span class="error" ng-message="required">El Precio es requerido.</span>
                     </div>
                 </div>
@@ -89,7 +90,7 @@
                         <div class="form-group">
                             <label for="technicalDescription_{{$index}}" ng-show="$index === 0">Especificación Técnica</label>
                             <input type="hidden" ng-model="technicalSpecification.id">
-                            <input
+                            <input ng-class = "{'invalid': (productForm['technicalDescription_' + $index].$invalid && productForm['technicalDescription_' + $index].$touched) || (productForm.$submitted && productForm['technicalDescription_' + $index].$invalid)}"
                                 type="text"
                                 class="form-control"
                                 id="technicalDescription_{{$index}}"
@@ -97,7 +98,7 @@
                                 placeholder="T&iacute;tulo"
                                 required=""
                                 ng-model="technicalSpecification.key">
-                            <div ng-messages="productForm['technicalDescription_' + $index].$error" ng-show="productForm.$touched || productForm['technicalDescription_' + $index].$touched">
+                            <div ng-messages="productForm['technicalDescription_' + $index].$error" ng-if="productForm.$submitted || productForm['technicalDescription_' + $index].$touched">
                                 <span class="error" ng-message="required">Campo requerido.</span>
                             </div>
                         </div>
@@ -108,7 +109,7 @@
                             <div
                                 class="input-group"
                                 ng-class="{'labeled':$index === 0}">
-                                <input
+                                <input ng-class = "{'invalid': (productForm['technicalDescriptionValue_' + $index].$invalid && productForm['technicalDescriptionValue_' + $index].$touched) || (productForm.$submitted && productForm['technicalDescriptionValue_' + $index].$invalid)}"
                                     type="text"
                                     class="form-control"
                                     id="technicalDescriptionValue_{{$index}}"
@@ -118,18 +119,18 @@
                                     ng-model="technicalSpecification.value">
                                 <span class="input-group-btn">
                                     <button
-                                        ng-click="ctrl.addTechnicalSpecification()"
-                                        class="btn btn-primary"
-                                        type="button"
-                                        ng-if="$index === ctrl.entity.technicalSpecifications.length -1">Agregar otro</button>
-                                    <button
                                         ng-click="ctrl.removeTechnicalSpecification($index)"
                                         class="btn btn-primary"
                                         type="button"
-                                        ng-if="$index !== ctrl.entity.technicalSpecifications.length -1">Quitar</button>
+                                        ng-if="ctrl.entity.technicalSpecifications.length > 1"><span class="glyphicon glyphicon-minus"></span></button>
+                                    <button
+                                        ng-click="ctrl.addTechnicalSpecification()"
+                                        class="btn btn-primary"
+                                        type="button"
+                                        ng-if="$index === ctrl.entity.technicalSpecifications.length -1"><span class="glyphicon glyphicon-plus"></span></button>
                                 </span>
                             </div>
-                            <div ng-messages="productForm['technicalDescriptionValue_' + $index].$error" ng-show="productForm.$touched || productForm['technicalDescriptionValue_' + $index].$touched">
+                            <div ng-messages="productForm['technicalDescriptionValue_' + $index].$error" ng-if="productForm.$submitted || productForm['technicalDescriptionValue_' + $index].$touched">
                                 <span class="error" ng-message="required">Campo requerido.</span>
                             </div>
                         </div>
@@ -139,7 +140,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="description">Descripci&oacute;n</label>
-                    <textarea
+                    <textarea ng-class = "{'invalid': (productForm.description.$invalid && productForm.description.$touched) || (productForm.$submitted && productForm.description.$invalid)}"
                         class="form-control"
                         id="description"
                         name="description"
@@ -148,7 +149,7 @@
                         placeholder="Descripci&oacute;n"
                         ng-model="ctrl.entity.description">
                     </textarea>
-                    <div ng-messages="productForm.description.$error" ng-if="productForm.$touched || productForm.description.$touched">
+                    <div ng-messages="productForm.description.$error" ng-if="productForm.$submitted || productForm.description.$touched">
                         <span class="error" ng-message="required">La descripción es requerida.</span>
                     </div>
                 </div>

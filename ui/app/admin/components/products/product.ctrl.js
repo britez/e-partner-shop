@@ -47,6 +47,11 @@ export default class ProductController {
         return this.$state.params.id === '';
     }
 
+    shouldSelect($event){
+        console.log($event);
+        return typeof this.entity.category == 'object';
+    }
+
     save(form) {
         if(!form.$valid){
             return;

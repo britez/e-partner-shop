@@ -32,9 +32,20 @@
                             <li ui-sref="products-detail({id: product.id})">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                             </li>
-                            <li>
+                            <li ng-click="product.show = true">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                             </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row delete-form" uib-collapse="!product.show">
+                    <div class="col-md-6">
+                        <label class="title">Estás seguro de borrar este producto?</label>
+                    </div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li ng-click="product.show = false">NO</li>
+                            <li class="primary" ng-click="ctrl.deleteProduct(product)">SI</li>
                         </ul>
                     </div>
                 </div>

@@ -10,6 +10,15 @@
     font-weight: 600;
     padding: 0 10px 0 0;
   }
+
+  .delete-form {
+    margin-top: 10px;
+
+    .primary {
+      background: $red;
+      color: $mate-white;
+    }
+  }
 }
 
 #product-detail {
