@@ -5,6 +5,7 @@ import com.epartner.converters.TechnicalSpecificationConverter;
 import com.epartner.domain.Category;
 import com.epartner.domain.Product;
 import com.epartner.domain.ProductImage;
+import com.epartner.domain.TechnicalSpecification;
 import com.epartner.repositories.CategoryRepository;
 import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.ProductRepresentation;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -65,7 +67,6 @@ public class ProductService {
         product.setStock(productRepresentation.getStock());
         product.setCategory(this.categoryRepository.findOne(productRepresentation.getCategory().getId()));
         product.addTechnicalSpecifications(this.technicalSpecificationConverter.convertList(productRepresentation.getTechnicalSpecifications()));
-        //TODO agregar update de tech spec
         this.repository.save(product);
         return this.converter.convert(product);
     }
@@ -122,4 +123,5 @@ public class ProductService {
     private String createProductImage(MultipartFile file) {
         return this.storageService.store(file);
     }
+
 }

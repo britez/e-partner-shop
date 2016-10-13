@@ -1,11 +1,13 @@
 package com.epartner.domain;
 
+import groovyjarjarcommonscli.Option;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -23,7 +25,7 @@ public class Product {
     private Double price;
 
     @OneToMany(mappedBy = "product")
-    @Cascade(CascadeType.PERSIST)
+    @Cascade(CascadeType.ALL)
     private List<TechnicalSpecification> technicalSpecifications;
 
     @OneToMany(mappedBy = "product")
@@ -129,30 +131,45 @@ public class Product {
     }
 
     public void addTechnicalSpecifications(List<TechnicalSpecification> technicalSpecificationList) {
-        technicalSpecificationList.stream().map(this::addTechnicalSpecification).collect(Collectors.toList());
+        technicalSpecificationList.forEach(this::addTechnicalSpecification);
+        removeSpecs(technicalSpecificationList);
     }
 
+    private void removeSpecs(List<TechnicalSpecification> technicalSpecificationList) {
+        List<TechnicalSpecification> toRemove = this.technicalSpecifications
+                .stream()
+                .filter(spec ->
+                    Optional.ofNullable(
+                        technicalSpecificationList
+                            .stream()
+                            .filter(it -> Optional.ofNullable(spec.getId()).isPresent() &&
+                                    !spec.getId().equals(it.getId()))
+                            .findFirst()
+                            .orElse(null)).isPresent())
+                .collect(Collectors.toList());
 
-    //TODO: refactorizar esto
+        toRemove.forEach(it -> {
+            this.technicalSpecifications.remove(it);
+            it.setProduct(null);
+        });
+    }
+
     private TechnicalSpecification addTechnicalSpecification(TechnicalSpecification technicalSpecification) {
 
         if(technicalSpecification.isNew()){
-
             technicalSpecification.setProduct(this);
             this.technicalSpecifications.add(technicalSpecification);
+            return technicalSpecification;
         }else{
-
-           TechnicalSpecification persistedEspecification = this.technicalSpecifications
-                    .stream()
-                    .filter(ts -> ts.getId().equals(technicalSpecification.getId()))
-                    .findFirst()
-                    .get();
-
-            persistedEspecification.merge(technicalSpecification);
+            TechnicalSpecification persisted = this.technicalSpecifications
+                .stream()
+                .filter(ts -> ts.getId().equals(technicalSpecification.getId()))
+                .findFirst()
+                .get();
+            persisted
+                .merge(technicalSpecification);
+            return persisted;
         }
-
-
-        return technicalSpecification;
     }
 
     public void removeTechinicalSpecification(TechnicalSpecification technicalSpecification){

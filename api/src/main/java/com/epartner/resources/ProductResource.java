@@ -38,7 +38,7 @@ public class ProductResource {
         this.tagService = tagService;
     }
 
-     @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ProductRepresentation create(@RequestBody ProductRepresentation productRepresentation){
         return productService.create(productRepresentation);
     }

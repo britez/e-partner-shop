@@ -1,7 +1,5 @@
 package com.epartner.domain;
 
-import org.springframework.web.servlet.tags.form.OptionsTag;
-
 import javax.persistence.*;
 import java.util.Optional;
 
