@@ -1,5 +1,4 @@
 apply plugin: 'idea'
-apply plugin: 'sonar-runner'
 
 subprojects {
     apply plugin: 'java'

@@ -1,6 +1,9 @@
 package com.epartner.domain;
 
+import org.springframework.web.servlet.tags.form.OptionsTag;
+
 import javax.persistence.*;
+import java.util.Optional;
 
 /**
  * Created by mbritez on 24/09/16.
@@ -82,4 +85,16 @@ public class TechnicalSpecification {
         return id != null ? id.hashCode() : 0;
     }
 
+    public boolean isNew() {
+
+        return !Optional.ofNullable(this.id).isPresent();
+    }
+
+    public TechnicalSpecification merge(TechnicalSpecification technicalSpecification) {
+
+        this.key = technicalSpecification.getKey();
+        this.value = technicalSpecification.getValue();
+
+        return this;
+    }
 }
