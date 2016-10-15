@@ -155,24 +155,30 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <div
-                    class="picture-select"
-                    ngf-select
-                    ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic"
+                <div class="form-group">
+                    <div
+                        class="picture-select"
+                        ng-class = "{'invalid': productForm.$submitted && !ctrl.principalPic}"
+                        ngf-select
+                        ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic"
                     ng-model="ctrl.principalPic"></div>
-                <img
-                    class="picture-select"
-                    ngf-select
-                    ng-if="ctrl.principalPic"
-                    ng-model="ctrl.principalPic"
-                    ng-src="{{ctrl.principalPic}}"
-                    ngf-src="ctrl.principalPic"/>
-                <img
-                    class="picture-select"
-                    ng-if="ctrl.currentPrincipalPic.url && !ctrl.principalPic"
-                    ngf-select
-                    ng-model="ctrl.principalPic"
-                    ng-src="{{ctrl.currentPrincipalPic.url}}"/>
+                    <img
+                        class="picture-select"
+                        ngf-select
+                        ng-if="ctrl.principalPic"
+                        ng-model="ctrl.principalPic"
+                        ng-src="{{ctrl.principalPic}}"
+                        ngf-src="ctrl.principalPic"/>
+                    <img
+                        class="picture-select"
+                        ng-if="ctrl.currentPrincipalPic.url && !ctrl.principalPic"
+                        ngf-select
+                        ng-model="ctrl.principalPic"
+                        ng-src="{{ctrl.currentPrincipalPic.url}}"/>
+                    <div ng-if="productForm.$submitted && !ctrl.principalPic">
+                        <span class="error">La imágen es requerida.</span>
+                    </div>
+                </div>
             </div>
             <div class="col-md-10 pictures-container">
                 <!-- Image 1 -->
