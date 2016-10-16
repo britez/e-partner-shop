@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by maty on 1/9/16.
@@ -90,15 +91,21 @@ public class ProductService {
         return this.converter.convert(stored);
     }
 
-    public void addImage(Long id, MultipartFile file) {
+    public void addImage(Long id, List<MultipartFile> files) {
         Product product = this.get(id);
-        saveImage(product, new ProductImage(createProductImage(file)), false);
+
+        files.forEach(file -> {
+            ProductImage pi = createProductImage(file);
+            product.addImage(pi);
+        });
+
+        saveImages(product);
     }
 
     public void addPrincipalImage(Long id, MultipartFile file) {
         Product product = this.get(id);
-        ProductImage principalImage = new ProductImage(createProductImage(file));
-        saveImage(product, principalImage, true);
+        product.setPrincipalImage(createProductImage(file));
+        saveProduct(product);
     }
 
     public Page<ProductRepresentation> listByCategoryId(
@@ -109,22 +116,24 @@ public class ProductService {
                 this.repository.findAllByCategory(param, new PageRequest(page.orElse(PAGE), max.orElse(MAX))));
     }
 
-    private void saveImage(Product product, ProductImage productImage, Boolean isPrincipal) {
-        if(!isPrincipal){
-            product.addImage(productImage);
-        } else {
-            product.setPrincipalImage(productImage);
-        }
+    private void saveProduct(Product product) {
         try{
             this.repository.save(product);
         }catch(Exception e) {
-            //TODO: agregar el logger
-            this.storageService.delete(productImage.getFileName());
+            this.storageService.delete(product.getPrincipalImage().getFileName());
         }
     }
 
-    private String createProductImage(MultipartFile file) {
-        return this.storageService.store(file);
+    private void saveImages(Product product) {
+        try{
+            this.repository.save(product);
+        }catch(Exception e) {
+            product.getImages().forEach(img -> this.storageService.delete(img.getFileName()));
+        }
+    }
+
+    private ProductImage createProductImage(MultipartFile file) {
+        return new ProductImage(this.storageService.store(file));
     }
 
 }

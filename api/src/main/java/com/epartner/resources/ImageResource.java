@@ -2,13 +2,14 @@ package com.epartner.resources;
 
 import com.epartner.exceptions.StorageException;
 import com.epartner.services.ProductService;
-import com.epartner.services.StorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * Created by maty on 4/9/16.
@@ -28,8 +29,8 @@ public class ImageResource {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/images")
-    public ResponseEntity create(@PathVariable("productId") Long id, @RequestParam("file") MultipartFile file){
-        productService.addImage(id, file);
+    public ResponseEntity create(@PathVariable("productId") Long id, @RequestParam("files") List<MultipartFile> files){
+        productService.addImage(id, files);
         return ResponseEntity.ok().build();
     }
 

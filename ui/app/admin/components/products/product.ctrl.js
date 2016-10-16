@@ -88,6 +88,15 @@ export default class ProductController {
 
     }
 
+    uploadProductAndPrincipalPicture(productId) {
+        return this.uploader.upload({
+            url: 'api/products/' + productId + '/product-images',
+            data: {file: this.pictures},
+            arrayKey: '',
+            headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
+        });
+    }
+
     uploadPrincipalPicture(productId) {
         return this.uploader.upload({
             url: 'api/products/' + productId + '/principal-images',
@@ -97,15 +106,12 @@ export default class ProductController {
     }
 
     uploadPictures(productId) {
-        let promises = [];
-        this.pictures.forEach(picture => {
-            promises.push(this.uploader.upload({
-                url: 'api/products/' + productId + '/images',
-                data: {file: picture},
-                headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
-            }))
+        return this.uploader.upload({
+            url: 'api/products/' + productId + '/images',
+            data: {files: this.pictures},
+            arrayKey: '',
+            headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
-        return promises;
     }
 
     addTechnicalSpecification() {
