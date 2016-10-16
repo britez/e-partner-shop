@@ -50,6 +50,7 @@ public class ProductConverter {
         return new ProductRepresentationBuilder()
                 .setId(product.getId())
                 .setDescription(product.getDescription())
+                .setPrincipalImage(product.getPrincipalImage())
                 .setImages(product.getImages())
                 .setName(product.getName())
                 .setPrice(product.getPrice())

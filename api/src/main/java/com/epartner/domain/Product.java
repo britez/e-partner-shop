@@ -28,8 +28,12 @@ public class Product {
     @Cascade(CascadeType.ALL)
     private List<TechnicalSpecification> technicalSpecifications;
 
-    @OneToMany(mappedBy = "product")
-    @Cascade(CascadeType.PERSIST)
+    @OneToOne
+    @Cascade(CascadeType.ALL)
+    private ProductImage principalImage;
+
+    @OneToMany
+    @Cascade(CascadeType.ALL)
     private List<ProductImage> images;
 
     @ManyToOne
@@ -188,5 +192,13 @@ public class Product {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public ProductImage getPrincipalImage() {
+        return principalImage;
+    }
+
+    public void setPrincipalImage(ProductImage principalImage) {
+        this.principalImage = principalImage;
     }
 }

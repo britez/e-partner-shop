@@ -92,14 +92,13 @@ public class ProductService {
 
     public void addImage(Long id, MultipartFile file) {
         Product product = this.get(id);
-        saveImage(product, new ProductImage(createProductImage(file), product));
+        saveImage(product, new ProductImage(createProductImage(file)), false);
     }
 
     public void addPrincipalImage(Long id, MultipartFile file) {
         Product product = this.get(id);
-        ProductImage principalImage = new ProductImage(createProductImage(file), product);
-        principalImage.setIsPrincipal(true);
-        saveImage(product, principalImage);
+        ProductImage principalImage = new ProductImage(createProductImage(file));
+        saveImage(product, principalImage, true);
     }
 
     public Page<ProductRepresentation> listByCategoryId(
@@ -110,8 +109,12 @@ public class ProductService {
                 this.repository.findAllByCategory(param, new PageRequest(page.orElse(PAGE), max.orElse(MAX))));
     }
 
-    private void saveImage(Product product, ProductImage productImage) {
-        product.addImage(productImage);
+    private void saveImage(Product product, ProductImage productImage, Boolean isPrincipal) {
+        if(!isPrincipal){
+            product.addImage(productImage);
+        } else {
+            product.setPrincipalImage(productImage);
+        }
         try{
             this.repository.save(product);
         }catch(Exception e) {

@@ -16,6 +16,7 @@ public class ProductRepresentationBuilder {
     private Integer stock;
     private Double price;
     private CategoryRepresentation category;
+    private ProductImage principalImage;
     private List<ProductImage> images;
     private List<TechnicalSpecificationRepresentation> technicalSpecifications;
     private List<TagRepresentation> tags;
@@ -50,16 +51,13 @@ public class ProductRepresentationBuilder {
         return this;
     }
 
-
     public ProductRepresentationBuilder setImages(List<ProductImage> images) {
         this.images = images;
         return this;
     }
 
     public ProductRepresentationBuilder setCategory(CategoryRepresentation category){
-
         this.category = category;
-
         return this;
     }
 
@@ -76,12 +74,16 @@ public class ProductRepresentationBuilder {
                 .map(it -> this.buildImageRepresentation(it, baseImageUrl))
                 .collect(Collectors.toList());
 
+        ProductImageRepresentation imageRepresentation = Optional.ofNullable(this.principalImage)
+                .map(it -> buildImageRepresentation(it, baseImageUrl))
+                .orElse(null);
 
         return new ProductRepresentation(id,
                 name,
                 description,
                 stock,
                 category,
+                imageRepresentation,
                 imagesRepresentation,
                 price,
                 technicalSpecifications,
@@ -91,8 +93,12 @@ public class ProductRepresentationBuilder {
     private ProductImageRepresentation buildImageRepresentation(ProductImage image, String baseImageUrl){
         ProductImageRepresentation result = new ProductImageRepresentation();
         result.setId(image.getId());
-        result.setPrincipal(image.getIsPrincipal());
         result.setUrl(baseImageUrl + image.getFileName());
         return result;
+    }
+
+    public ProductRepresentationBuilder setPrincipalImage(ProductImage principalImage) {
+        this.principalImage = principalImage;
+        return this;
     }
 }

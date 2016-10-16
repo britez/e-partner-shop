@@ -1,5 +1,7 @@
 package com.epartner.representations;
 
+import com.epartner.domain.ProductImage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class ProductRepresentation {
     private String description;
     private Integer stock;
     private CategoryRepresentation category;
+    private ProductImageRepresentation principalImage;
     private List<ProductImageRepresentation> images;
     private Double price;
     private List<TechnicalSpecificationRepresentation> technicalSpecifications;
@@ -27,6 +30,7 @@ public class ProductRepresentation {
                                  String description,
                                  Integer stock,
                                  CategoryRepresentation categoryRepresentation,
+                                 ProductImageRepresentation principalImage,
                                  List<ProductImageRepresentation> images,
                                  Double price,
                                  List<TechnicalSpecificationRepresentation> technicalSpecifications,
@@ -36,6 +40,7 @@ public class ProductRepresentation {
         this.description = description;
         this.stock = stock;
         this.category = categoryRepresentation;
+        this.principalImage = principalImage;
         this.images = images;
         this.price = price;
         this.technicalSpecifications = technicalSpecifications;
@@ -122,5 +127,13 @@ public class ProductRepresentation {
 
     public void setTags(List<TagRepresentation> tags) {
         this.tags = tags;
+    }
+
+    public ProductImageRepresentation getPrincipalImage() {
+        return principalImage;
+    }
+
+    public void setPrincipalImage(ProductImageRepresentation principalImage) {
+        this.principalImage = principalImage;
     }
 }

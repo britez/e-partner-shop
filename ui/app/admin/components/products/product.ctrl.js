@@ -32,8 +32,7 @@ export default class ProductController {
                 .then(response => {
                     this.entity = response;
                     this.currentPrincipalPic = this.entity
-                        .images
-                        .find(img => img.principal);
+                        .principalImage;
                     this.currentPics = this.entity
                         .images
                         .filter(img => !img.principal);

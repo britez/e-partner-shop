@@ -11,18 +11,12 @@ public class ProductImage {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-
     private String fileName;
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="product_id")
-    private Product product;
-    private boolean isPrincipal;
 
     public ProductImage(){}
 
-    public ProductImage(String fileName, Product product) {
+    public ProductImage(String fileName) {
         this.fileName = fileName;
-        this.product = product;
     }
 
     public Long getId() {
@@ -39,21 +33,5 @@ public class ProductImage {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public void setIsPrincipal(boolean isPrincipal) {
-        this.isPrincipal = isPrincipal;
-    }
-
-    public Boolean getIsPrincipal() {
-        return this.isPrincipal;
     }
 }
