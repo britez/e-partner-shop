@@ -12,8 +12,15 @@
             </div>
         </div>
     </div>
+    <div class="row" ng-if="ctrl.error">
+        <div class="col-md-12">
+            <div class="alert alert-danger" role="alert">
+                {{ctrl.error}}.
+            </div>
+        </div>
+    </div>
 
-    <form name="productForm" ng-submit="ctrl.save(productForm)" novalidate autocomplete="off">
+    <form name="productForm" ng-submit="ctrl.save(productForm)" novalidate autocomplete="off" ng-if="!ctrl.error">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">

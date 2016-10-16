@@ -20,7 +20,7 @@ export default class ProductController {
         this.api.categories
             .get()
             .$promise
-            .then((response) => {
+            .then(response => {
                 this.categories = response.content;
             });
 
@@ -37,6 +37,8 @@ export default class ProductController {
                     this.currentPics = this.entity
                         .images
                         .filter(img => !img.principal);
+                }, error => {
+                    this.error = 'El producto seleccionado no existe';
                 })
         } else {
             this.entity.technicalSpecifications = [{}];
@@ -53,7 +55,7 @@ export default class ProductController {
     }
 
     save(form) {
-        if(!form.$valid){
+        if(!form.$valid || !this.principalPic){
             return;
         }
         let params = {};
