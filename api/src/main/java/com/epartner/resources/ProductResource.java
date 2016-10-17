@@ -67,11 +67,7 @@ public class ProductResource {
         return this.productService.list(Optional.ofNullable(max), Optional.ofNullable(page));
     }
 
-    @ExceptionHandler(value = EntityNotFoundException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public void handle(){
-        //Nothing to do
-    }
+
 
     //TODO Sacar nadie usa este recurso
     @Deprecated
