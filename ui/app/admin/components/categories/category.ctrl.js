@@ -27,7 +27,7 @@ export default class CategoryController {
     }
 
     expand(category) {
-        if(this.isDisabled(category)){
+        if(CategoryController.isDisabled(category)){
             return;
         }
         category.show = true;

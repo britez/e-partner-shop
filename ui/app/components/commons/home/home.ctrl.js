@@ -30,11 +30,6 @@ export default class HomeCtrl{
             .$promise
             .then(response => {
                 this.tags = response.content;
-                this.tags.forEach(tag => {
-                    tag.productRepresentationList.forEach(product => {
-                        product.principalImage = product.images.find(img => img.principal).url
-                    });
-                })
             })
     }
 }

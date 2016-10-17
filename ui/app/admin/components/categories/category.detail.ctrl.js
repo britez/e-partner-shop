@@ -19,7 +19,7 @@ export default class CategoryDetailController {
                 .then(response => {
                     this.entity = response;
                     this.loadCategoryProducts();
-                })
+                }, error => { this.error = 'No existe la categoría seleccionada.'})
         }
     }
 
