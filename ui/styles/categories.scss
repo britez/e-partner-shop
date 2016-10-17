@@ -2,6 +2,15 @@
 
 #categories {
   min-height: 400px;
+
+  .delete-form {
+    margin-top: 10px;
+
+    .primary {
+      background: $red;
+      color: $mate-white;
+    }
+  }
 }
 
 #category-detail {
@@ -17,8 +26,8 @@
 
     .category-item {
       cursor: pointer;
-      background: #F5f5f5;
-      border: 2px #ececec solid;
+      background: $mate-white;
+      border: 2px $gray solid;
       transition: all 0.5s ease;
 
       img {
@@ -79,8 +88,15 @@
     }
 
     li:hover {
-      color: $white;
+      color: $mate-white;
       background: $orange;
+    }
+
+    li.disabled:hover,
+    li.disabled {
+      background: $black;
+      color: $white;
+      cursor: not-allowed;
     }
   }
 }

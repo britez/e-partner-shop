@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +30,12 @@ public class ProductConverter {
         this.categoryConverter = categoryConverter;
         this.technicalSpecificationConverter = technicalSpecificationConverter;
         this.baseImageUrl = baseImageUrl;
+    }
+
+    public List<Product> convertList(List<ProductRepresentation> list){
+        return list.stream()
+                .map(this::convert)
+                .collect(Collectors.toList());
     }
 
     public Product convert(ProductRepresentation productRepresentation) {

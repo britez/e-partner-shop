@@ -32,9 +32,27 @@
                             <li ui-sref="categories-detail({id: category.id})">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                             </li>
-                            <li>
+                            <li ng-click="ctrl.expand(category)"
+                                uib-tooltip="La categoría posee productos"
+                                tooltip-placement="left-top"
+                                tooltip-enable="ctrl.isDisabled(category)"
+                                ng-class="{'disabled': ctrl.isDisabled(category)}">
                                 <i class="fa fa-trash" aria-hidden="true"></i>
                             </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12">
+                        <i>{{category.totalProducts}} producto(s) en esta categoría.</i>
+                    </div>
+                </div>
+                <div class="row delete-form" uib-collapse="!category.show">
+                    <div class="col-md-6">
+                        <label class="title">Estás seguro de borrar esta categoría?</label>
+                    </div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li ng-click="category.show = false">NO</li>
+                            <li class="primary" ng-click="ctrl.delete(category)">SI</li>
                         </ul>
                     </div>
                 </div>

@@ -1,5 +1,6 @@
 package com.epartner.domain.builders;
 
+import com.epartner.domain.Product;
 import com.epartner.domain.Tag;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public class TagBuilder {
     private Long id;
     private String name;
     private Boolean isCategory;
-    private List products;
+    private List<Product> products;
 
     public TagBuilder setName(String name) {
         this.name = name;
@@ -21,7 +22,7 @@ public class TagBuilder {
         return this;
     }
 
-    public TagBuilder setProducts(List products) {
+    public TagBuilder setProducts(List<Product> products) {
         this.products = products;
         return this;
     }

@@ -4,6 +4,7 @@ import com.epartner.converters.ProductConverter;
 import com.epartner.converters.TagConverter;
 import com.epartner.domain.Product;
 import com.epartner.domain.Tag;
+import com.epartner.repositories.ProductRepository;
 import com.epartner.repositories.TagRepository;
 import com.epartner.representations.TagRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -25,7 +27,7 @@ public class TagService {
     private TagConverter converter;
     private TagRepository repository;
     private ProductConverter productConverter;
-    private final ProductService productService;
+    private final ProductRepository productRepository;
 
     private final Integer MAX = 10;
     private final Integer PAGE = 0;
@@ -35,26 +37,32 @@ public class TagService {
         TagConverter tagConverter,
         TagRepository repository,
         ProductConverter productConverter,
-        ProductService productService){
+        ProductRepository productRepository){
 
         this.repository = repository;
         this.converter = tagConverter;
         this.productConverter = productConverter;
-        this.productService = productService;
+        this.productRepository = productRepository;
     }
 
     public TagRepresentation create(TagRepresentation tagRepresentation) {
-        return this.converter.convert(
-                this.repository.save(
-                    this.converter.convert(tagRepresentation)));
+
+        Tag tag = new Tag();
+        tag.setIsCategory(tagRepresentation.getIsCategory());
+        tag.setName(tagRepresentation.getName());
+
+        tagRepresentation.getProducts().forEach(it -> tag.addProduct(this.productRepository.findOne(it.getId())));
+
+        this.repository.save(tag);
+
+        return this.converter.convert(tag);
     }
 
     public TagRepresentation createTagProduct(
             Long  tagId,
             Long  productId) {
 
-        Product product = this.productConverter.convert(
-                this.productService.show(productId));
+        Product product = this.productRepository.findOne(productId);
 
         Tag tag = this.repository.findOne(tagId);
         tag.addProduct(product);

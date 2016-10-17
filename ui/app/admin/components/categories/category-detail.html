@@ -20,7 +20,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">Nombre</label>
-                    <input
+                    <input ng-class="{'invalid': (categoryForm.name.$invalid && categoryForm.name.$touched) || (categoryForm.$submitted && categoryForm.name.$invalid)}"
                         type="text"
                         class="form-control"
                         required=""
@@ -28,7 +28,7 @@
                         placeholder="L&iacute;nea blanca"
                         name="name"
                         ng-model="ctrl.entity.name">
-                    <div ng-messages="categoryForm.name.$error" ng-if="categoryForm.$touched || categoryForm.name.$touched">
+                    <div ng-messages="categoryForm.name.$error" ng-if="categoryForm.$submitted || categoryForm.name.$touched">
                         <span class="error" ng-message="required">El nombre es requerido.</span>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="description">Descripci&oacute;n</label>
-                    <input
+                    <input ng-class="{'invalid': (categoryForm.description.$invalid && categoryForm.description.$touched) || (categoryForm.$submitted && categoryForm.description.$invalid)}"
                         type="text"
                         class="form-control"
                         required=""
@@ -44,7 +44,7 @@
                         placeholder="Electrodom&eacute;sticos de cocina y lavadero."
                         name="description"
                         ng-model="ctrl.entity.description">
-                    <div ng-messages="categoryForm.description.$error" ng-if="categoryForm.$touched || categoryForm.description.$touched">
+                    <div ng-messages="categoryForm.description.$error" ng-if="categoryForm.$submitted || categoryForm.description.$touched">
                         <span class="error" ng-message="required">La descripci&oacute;n es requerida.</span>
                     </div>
                 </div>

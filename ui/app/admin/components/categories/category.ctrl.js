@@ -22,4 +22,24 @@ export default class CategoryController {
             })
     }
 
+    isDisabled(category) {
+        return category.totalProducts > 0;
+    }
+
+    expand(category) {
+        if(this.isDisabled(category)){
+            return;
+        }
+        category.show = true;
+    }
+
+    delete(category) {
+        this.api.categories
+            .remove({id: category.id})
+            .$promise
+            .then(() => {
+                this.getAllCategories();
+            })
+    }
+
 }

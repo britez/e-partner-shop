@@ -16,17 +16,6 @@ import java.util.stream.Collectors;
 @Component
 public class CategoryConverter {
 
-    public Page<CategoryRepresentation> convert(Page<Category> page) {
-        PageImpl<CategoryRepresentation> result;
-        List<CategoryRepresentation> content = page
-                .getContent()
-                .stream()
-                .map(this::convert)
-                .collect(Collectors.toList());
-        result = new PageImpl<>(content);
-        return result;
-    }
-
     public CategoryRepresentation convert(Category category) {
         CategoryRepresentation result = new CategoryRepresentation();
         result.setId(category.getId());

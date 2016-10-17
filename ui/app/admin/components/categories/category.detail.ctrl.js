@@ -73,9 +73,6 @@ export default class CategoryDetailController {
             .$promise
             .then(response => {
                 this.categoryProducts = response.content;
-                this.categoryProducts.map(categoryProduct => {
-                    categoryProduct.principalImage = categoryProduct.images.find(image => image.principal);
-                })
             });
     }
 

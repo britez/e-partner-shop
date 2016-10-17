@@ -165,7 +165,7 @@ public class Product {
             this.technicalSpecifications.add(technicalSpecification);
             return technicalSpecification;
         }else{
-            TechnicalSpecification persisted = this.technicalSpecifications
+                TechnicalSpecification persisted = this.technicalSpecifications
                 .stream()
                 .filter(ts -> ts.getId().equals(technicalSpecification.getId()))
                 .findFirst()

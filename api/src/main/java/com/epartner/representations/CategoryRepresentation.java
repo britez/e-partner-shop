@@ -9,6 +9,7 @@ public class CategoryRepresentation {
     private String name;
     private String description;
     private Boolean highlight;
+    private Long totalProducts;
 
     public Long getId() {
         return id;
@@ -40,5 +41,13 @@ public class CategoryRepresentation {
 
     public void setHighlight(Boolean highlight) {
         this.highlight = highlight;
+    }
+
+    public void setTotalProducts(Long totalProducts) {
+        this.totalProducts = totalProducts;
+    }
+
+    public Long getTotalProducts() {
+        return totalProducts;
     }
 }

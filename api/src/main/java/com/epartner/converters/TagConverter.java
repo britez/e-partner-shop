@@ -44,7 +44,7 @@ public class TagConverter {
         return new TagBuilder()
                 .setId(tagRepresentation.getId())
                 .setIsCategory(tagRepresentation.getIsCategory())
-                .setProducts(tagRepresentation.getProducts())
+                .setProducts(this.productConverter.convertList(tagRepresentation.getProducts()))
                 .setName(tagRepresentation.getName())
                 .createTag();
 

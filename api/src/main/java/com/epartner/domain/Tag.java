@@ -1,6 +1,10 @@
 package com.epartner.domain;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +21,11 @@ public class Tag {
     private Boolean isCategory;
 
     @ManyToMany
-    @JoinTable(name="tag_products"
-            ,joinColumns={@JoinColumn(name="tag_id_id")}
-            ,inverseJoinColumns={@JoinColumn(name="product_id")})
+    @JoinTable(
+            name="tag_products",
+            joinColumns={@JoinColumn(name="tag_id_id")},
+            inverseJoinColumns={@JoinColumn(name="product_id")})
+    @Cascade(CascadeType.ALL)
     private List<Product> products;
 
     public Tag() {
@@ -54,7 +60,7 @@ public class Tag {
         return products;
     }
 
-    public void setProducts(List products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 

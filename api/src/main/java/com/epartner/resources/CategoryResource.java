@@ -1,5 +1,6 @@
 package com.epartner.resources;
 
+import com.epartner.exceptions.CategoryInUseException;
 import com.epartner.representations.CategoryRepresentation;
 import com.epartner.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,11 @@ public class CategoryResource {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public void handle(EntityNotFoundException ex){
         //handle not found
+    }
+
+    @ExceptionHandler(CategoryInUseException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void handle(CategoryInUseException ex) {
+        //handle used category
     }
 }
