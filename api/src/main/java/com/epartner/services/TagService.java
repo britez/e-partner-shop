@@ -6,6 +6,7 @@ import com.epartner.domain.Product;
 import com.epartner.domain.Tag;
 import com.epartner.repositories.ProductRepository;
 import com.epartner.repositories.TagRepository;
+import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.TagRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -58,16 +60,18 @@ public class TagService {
         return this.converter.convert(tag);
     }
 
-    public TagRepresentation createTagProduct(
-            Long  tagId,
-            Long  productId) {
+    public TagRepresentation update(TagRepresentation tagRepresentation, Long tagId) {
+        Tag stored = Optional.ofNullable(this.repository.findOne(tagId)).orElseThrow(EntityNotFoundException::new);
 
-        Product product = this.productRepository.findOne(productId);
+        stored.getProducts().clear();
 
-        Tag tag = this.repository.findOne(tagId);
-        tag.addProduct(product);
+        tagRepresentation.getProducts().forEach(it -> {
+            stored.addProduct(this.productRepository.getOne(it.getId()));
+        });
 
-        return this.converter.convert(this.repository.save(tag));
+        this.repository.save(stored);
+
+        return this.converter.convert(stored);
     }
 
     public Page<TagRepresentation> list(Optional<Integer> max, Optional<Integer> page) {
@@ -81,7 +85,7 @@ public class TagService {
     //TODO: No creo que necesitemos este servicio
     @Deprecated
     public Page<TagRepresentation> findAllTagByProduct(Long productId) {
-        Product product = null;//this.productService.show(productId);
+        Product product = null;
         return new PageImpl<>(
                 product
                     .getTags()
@@ -97,5 +101,11 @@ public class TagService {
                     .collect(Collectors.toList())
             );
 
+    }
+
+    public TagRepresentation getByName(String name) {
+        return this.repository.findOneByName(name)
+                .map(it -> this.converter.convert(it))
+                .orElse(null);
     }
 }

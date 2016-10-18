@@ -10,6 +10,7 @@ public class CategoryRepresentation {
     private String description;
     private Boolean highlight;
     private Long totalProducts;
+    private TagRepresentation tag;
 
     public Long getId() {
         return id;
@@ -49,5 +50,13 @@ public class CategoryRepresentation {
 
     public Long getTotalProducts() {
         return totalProducts;
+    }
+
+    public TagRepresentation getTag() {
+        return tag;
+    }
+
+    public void setTag(TagRepresentation tag) {
+        this.tag = tag;
     }
 }

@@ -73,11 +73,15 @@
             </div>
             <div class="col-md-12" ng-if="!ctrl.isNew() && ctrl.entity.highlight">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label>Seleccione los productos a destacar.</label>
                     </div>
+                    <div class="col-md-6 pull-right">
+                        <label ng-if="ctrl.getSelectedProducts().length < 4">Has seleccionado {{ctrl.getSelectedProducts().length}} productos</label>
+                        <label ng-if="ctrl.getSelectedProducts().length >= 4" class="error">Solo puedes seleccionar hasta 4 productos</label>
+                    </div>
                     <div class="col-md-2 product-list" ng-repeat="product in ctrl.categoryProducts">
-                        <div class="category-item" ng-class="{'toggled': product.highlight}" ng-click="product.highlight = !product.highlight">
+                        <div class="category-item" ng-class="{'toggled': product.highlight}" ng-click="ctrl.toggleProduct(product)">
                             <img ng-src="{{product.principalImage.url}}"/>
                             <span>{{product.name}}</span>
                         </div>

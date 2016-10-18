@@ -5,6 +5,7 @@ import com.epartner.domain.Category;
 import com.epartner.exceptions.CategoryInUseException;
 import com.epartner.repositories.CategoryRepository;
 import com.epartner.repositories.ProductRepository;
+import com.epartner.repositories.TagRepository;
 import com.epartner.representations.CategoryRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,15 +30,18 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryConverter converter;
     private final ProductRepository productRepository;
+    private final TagService tagService;
 
     @Autowired
     public CategoryService(
             CategoryRepository categoryRepository,
             CategoryConverter converter,
-            ProductRepository productRepository) {
+            ProductRepository productRepository,
+            TagService tagService) {
         this.categoryRepository = categoryRepository;
         this.converter = converter;
         this.productRepository = productRepository;
+        this.tagService = tagService;
     }
 
     public Page<CategoryRepresentation> getAllCategories(final Optional<Integer> max, final Optional<Integer> page){
@@ -73,7 +77,7 @@ public class CategoryService {
         category.setDescription(representation.getDescription());
         category.setName(representation.getName());
         category.setHighlight(representation.getHighlight());
-        return converter.convert(categoryRepository.save(category));
+        return this.fetchTag(converter.convert(categoryRepository.save(category)));
     }
 
     public void delete(Long id) {
@@ -87,10 +91,16 @@ public class CategoryService {
     }
 
     public CategoryRepresentation show(Long id){
-        return this.converter.convert(this.get(id));
+        Category category = this.get(id);
+        return this.fetchTag(this.converter.convert(category));
     }
 
     private Category get(Long id) {
         return Optional.ofNullable(categoryRepository.findOne(id)).orElseThrow(EntityNotFoundException::new);
+    }
+
+    private CategoryRepresentation fetchTag(CategoryRepresentation category) {
+        category.setTag(tagService.getByName(category.getName()));
+        return category;
     }
 }

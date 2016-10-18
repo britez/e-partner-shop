@@ -40,12 +40,9 @@ public class TagResource {
         return tagService.create(tagRepresentation);
     }
 
-    //TODO: Sacar deberíamos hacerlo todo junto
-    @RequestMapping(value = PRODUCT_TAG,method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void createTagProduct(@PathVariable("id") Long tagId, @PathVariable("productId") Long productId){
-        tagService.createTagProduct(tagId, productId );
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}")
+    public TagRepresentation update(@RequestBody TagRepresentation tagRepresentation, @PathVariable("id") Long tagId) {
+        return this.tagService.update(tagRepresentation, tagId);
     }
 
-    //TODO: Falta el put
 }
