@@ -18,7 +18,6 @@ import java.util.List;
 @RequestMapping(value = ImageResource.IMAGES)
 public class ImageResource {
 
-    private static final Logger logger = LoggerFactory.getLogger(ImageResource.class);
 
     public final static String IMAGES = ProductResource.PRODUCTS + "/{productId}";
     private ProductService productService;
@@ -40,9 +39,5 @@ public class ImageResource {
         return ResponseEntity.ok().build();
     }
 
-    @ExceptionHandler(StorageException.class)
-    public ResponseEntity handleStorageException(StorageException se) {
-        logger.error("Error guardando imagen ", se);
-        return ResponseEntity.notFound().build();
-    }
+
 }

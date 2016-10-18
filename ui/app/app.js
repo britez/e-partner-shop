@@ -2,6 +2,7 @@
 'use strict';
 
 import angular from 'angular';
+import 'angular-loading-bar';
 import 'giu-module-security/app/scripts/sec.module.js';
 import 'angular-resource';
 import 'angular-ui-router';
@@ -33,7 +34,8 @@ import './templates';
 const app = angular.module('giu-ui.app',
   [
     'ui.router',
-    'security.module',
+      'angular-loading-bar',    
+      'security.module',
     'crud.module',
     'ui.bootstrap',
     'ngAnimate',

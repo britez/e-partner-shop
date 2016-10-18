@@ -20,6 +20,7 @@ System.config({
     "angular-animate": "github:angular/bower-angular-animate@1.5.8",
     "angular-bootstrap": "bower:angular-bootstrap@1.3.3",
     "angular-encode-uri": "bower:angular-encode-uri@1.0.0",
+    "angular-loading-bar": "npm:angular-loading-bar@0.9.0",
     "angular-messages": "npm:angular-messages@1.5.8",
     "angular-resource": "github:angular/bower-angular-resource@1.4.5",
     "angular-translate": "github:angular-translate/bower-angular-translate@2.11.1",

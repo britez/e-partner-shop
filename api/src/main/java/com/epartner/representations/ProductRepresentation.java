@@ -2,6 +2,9 @@ package com.epartner.representations;
 
 import com.epartner.domain.ProductImage;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,7 @@ import java.util.List;
  */
 public class ProductRepresentation {
 
+    @Id
     private Long id;
     private String name;
     private String description;

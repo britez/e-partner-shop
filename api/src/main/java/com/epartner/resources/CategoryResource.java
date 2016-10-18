@@ -65,15 +65,6 @@ public class CategoryResource {
         this.service.delete(id);
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void handle(EntityNotFoundException ex){
-        //handle not found
-    }
 
-    @ExceptionHandler(CategoryInUseException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public void handle(CategoryInUseException ex) {
-        //handle used category
-    }
+
 }
