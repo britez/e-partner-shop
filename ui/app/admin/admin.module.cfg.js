@@ -34,7 +34,7 @@ const admin = angular
                 component: 'categoryDetailComponent'
             })
             .state('products', {
-                url: '/admin/products?created',
+                url: '/admin/products?created&imported',
                 component: 'productsComponent'
             })
             .state('products-detail', {

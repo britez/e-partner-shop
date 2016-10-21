@@ -92,6 +92,7 @@ public class ProductRepresentationBuilder {
                 tags == null ? new ArrayList<>() : tags);
 
         result.setPublished(this.isPublished);
+        result.setImported(this.isImported);
         return result;
     }
 

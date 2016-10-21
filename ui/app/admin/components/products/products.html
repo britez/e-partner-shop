@@ -18,6 +18,11 @@
                 No existen productos creados, por favor cree uno <a ui-sref="products-detail({id: null})">aqu&iacute;</a>.
             </div>
         </div>
+        <div class="col-md-12" ng-if="ctrl.params.imported">
+            <div class="alert alert-success" role="alert">
+                Productos importados correctamente.
+            </div>
+        </div>
         <div class="col-md-12" ng-if="ctrl.params.created">
             <div class="alert alert-success" role="alert">
                 Producto creado correctamente.

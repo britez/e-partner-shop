@@ -72,6 +72,7 @@ public class ProductBuilder {
         result.setPublished(isPublished);
         result.setStock(stock);
         result.setCategory(category);
+        result.setImported(isImported);
         result.setTags(tags == null ? new ArrayList<>() : tags);
 
         return result;

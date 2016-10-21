@@ -3,8 +3,9 @@
 export default class ProductsController {
 
     /*ngInject*/
-    constructor(api, $q){
+    constructor(api, $q, $state){
         this.api = api;
+        this.state = $state;
         this.q = $q;
         this.offset = 0;
         this.limit = 50;
@@ -44,9 +45,17 @@ export default class ProductsController {
             .filter(prod => prod.highlight)
             .map(prod => this.fetch(prod));
 
+        let promises = [];
+
         products.forEach(prod => {
-            this.api.products.save({},prod)
-        })
+            promises.push(this.api.products.save({},prod).$promise)
+        });
+
+        this.q
+            .all(promises)
+            .then(() => {
+                this.state.go('products', {imported: true})
+            })
 
     }
 
@@ -59,6 +68,7 @@ export default class ProductsController {
             category: {id: 1},
             importId: prod.id,
             published: false,
+            imported: true,
             principalImage: {
               url: prod.thumbnail
             },
