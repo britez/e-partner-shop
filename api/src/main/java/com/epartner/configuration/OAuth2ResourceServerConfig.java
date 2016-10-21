@@ -4,6 +4,7 @@ import com.epartner.renderer.CustomDefaultOAuth2ExceptionRenderer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -65,6 +66,10 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
             .csrf()
             .disable();
         http.authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/**/tags")
+                .permitAll()
+            .and()
+                .authorizeRequests()
                 .anyRequest()
                     .authenticated();
     }

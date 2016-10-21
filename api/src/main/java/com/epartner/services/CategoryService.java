@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.Optional.of;
+
 /**
  * Created by mbritez on 28/08/16.
  */
@@ -64,7 +66,7 @@ public class CategoryService {
 
     private CategoryRepresentation checkProducts(Category category) {
         CategoryRepresentation result = this.converter.convert(category);
-        result.setTotalProducts(this.productRepository.countByCategory(category));
+        result.setTotalProducts(this.productRepository.countByCategoryAndIsPublished(category, true));
         return result;
     }
 

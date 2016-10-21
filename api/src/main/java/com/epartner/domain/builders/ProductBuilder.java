@@ -17,6 +17,8 @@ public class ProductBuilder {
     private List<TechnicalSpecification> technicalSpeficication;
     private Category category;
     private List<Tag> tags;
+    private Boolean isImported;
+    private Boolean isPublished;
 
    public ProductBuilder setTechnicalSpecification(List<TechnicalSpecification> technicalSpecification){
        this.technicalSpeficication = technicalSpecification;
@@ -67,10 +69,21 @@ public class ProductBuilder {
         result.setDescription(description);
         result.addTechnicalSpecifications(technicalSpeficication);
         result.setPrice(price);
+        result.setPublished(isPublished);
         result.setStock(stock);
         result.setCategory(category);
         result.setTags(tags == null ? new ArrayList<>() : tags);
 
         return result;
+    }
+
+    public ProductBuilder setImported(Boolean imported) {
+        isImported = imported;
+        return this;
+    }
+
+    public ProductBuilder setPublished(Boolean published) {
+        isPublished = published;
+        return this;
     }
 }

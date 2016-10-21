@@ -5,7 +5,6 @@ import com.epartner.converters.TechnicalSpecificationConverter;
 import com.epartner.domain.Category;
 import com.epartner.domain.Product;
 import com.epartner.domain.ProductImage;
-import com.epartner.domain.TechnicalSpecification;
 import com.epartner.repositories.CategoryRepository;
 import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.ProductRepresentation;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Created by maty on 1/9/16.
@@ -66,6 +64,7 @@ public class ProductService {
         product.setDescription(productRepresentation.getDescription());
         product.setPrice(productRepresentation.getPrice());
         product.setStock(productRepresentation.getStock());
+        product.setPublished(productRepresentation.getPublished());
         product.setCategory(this.categoryRepository.findOne(productRepresentation.getCategory().getId()));
         product.addTechnicalSpecifications(this.technicalSpecificationConverter.convertList(productRepresentation.getTechnicalSpecifications()));
         this.repository.save(product);
@@ -77,17 +76,27 @@ public class ProductService {
     }
 
     private Product get(Long id) {
-        return Optional.ofNullable(this.repository.findOne(id)).orElseThrow(EntityNotFoundException::new);
+        return Optional.ofNullable(
+                this.repository.findOne(id))
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     public void delete(long id) {
         repository.delete(this.get(id));
     }
 
-    public Page<ProductRepresentation> list(Optional<Integer> max, Optional<Integer> page) {
-        Page<Product> stored = this.repository.findAll(
-                new PageRequest(page.orElse(PAGE), max.orElse(MAX))
-        );
+    public Page<ProductRepresentation> list(
+            Optional<Boolean> isPublished, Optional<Integer> max, Optional<Integer> page) {
+
+        Page<Product> stored;
+        PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
+
+        if(isPublished.isPresent()) {
+            stored = this.repository.findAllByIsPublished(isPublished.orElse(true),pageRequest);
+        } else {
+            stored = this.repository.findAll(pageRequest);
+        }
+
         return this.converter.convert(stored);
     }
 
@@ -109,11 +118,15 @@ public class ProductService {
     }
 
     public Page<ProductRepresentation> listByCategoryId(
-            Long id, Optional<Integer> max, Optional<Integer> page) {
+            Long id, Optional<Boolean> isPublished,
+            Optional<Integer> max, Optional<Integer> page) {
         Category param = new Category();
         param.setId(id);
         return this.converter.convert(
-                this.repository.findAllByCategory(param, new PageRequest(page.orElse(PAGE), max.orElse(MAX))));
+                this.repository.findAllByCategoryAndIsPublished(
+                        param,
+                        isPublished.orElse(true),
+                        new PageRequest(page.orElse(PAGE), max.orElse(MAX))));
     }
 
     private void saveProduct(Product product) {

@@ -12,6 +12,7 @@ public class ProductImage {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     private String fileName;
+    private String url;
 
     public ProductImage(){}
 
@@ -33,5 +34,13 @@ public class ProductImage {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

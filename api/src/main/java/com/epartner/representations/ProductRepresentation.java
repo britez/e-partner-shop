@@ -1,9 +1,5 @@
 package com.epartner.representations;
 
-import com.epartner.domain.ProductImage;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +20,8 @@ public class ProductRepresentation {
     private Double price;
     private List<TechnicalSpecificationRepresentation> technicalSpecifications;
     private List<TagRepresentation> tags;
+    private Boolean isImported;
+    private Boolean isPublished;
 
     public ProductRepresentation(){
         this.images = new ArrayList<>();
@@ -139,5 +137,21 @@ public class ProductRepresentation {
 
     public void setPrincipalImage(ProductImageRepresentation principalImage) {
         this.principalImage = principalImage;
+    }
+
+    public Boolean getImported() {
+        return isImported;
+    }
+
+    public void setImported(Boolean imported) {
+        isImported = imported;
+    }
+
+    public Boolean getPublished() {
+        return isPublished;
+    }
+
+    public void setPublished(Boolean published) {
+        isPublished = published;
     }
 }

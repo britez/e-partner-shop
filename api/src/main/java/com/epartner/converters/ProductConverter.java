@@ -1,6 +1,7 @@
 package com.epartner.converters;
 
 import com.epartner.domain.Product;
+import com.epartner.domain.ProductImage;
 import com.epartner.domain.builders.ProductBuilder;
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.builders.ProductRepresentationBuilder;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -39,18 +41,32 @@ public class ProductConverter {
     }
 
     public Product convert(ProductRepresentation productRepresentation) {
-        return new ProductBuilder()
+        Product product = new ProductBuilder()
                 .setId(productRepresentation.getId())
                 .setDescription(productRepresentation.getDescription())
                 .setStock(productRepresentation.getStock())
                 .setName(productRepresentation.getName())
                 .setPrice(productRepresentation.getPrice())
+                .setImported(Optional.ofNullable(productRepresentation.getImported()).orElse(false))
+                .setPublished(Optional.ofNullable(productRepresentation.getPublished()).orElse(true))
                 .setCategory(
                         this.categoryConverter.convert(productRepresentation.getCategory()))
                 .setTechnicalSpecification(
                         this.technicalSpecificationConverter.convertList(
                                 productRepresentation.getTechnicalSpecifications()))
                 .createProduct();
+
+        bindImage(productRepresentation, product);
+
+        return product;
+    }
+
+    private void bindImage(ProductRepresentation productRepresentation, Product product) {
+        if(Optional.ofNullable(productRepresentation.getPrincipalImage()).isPresent()) {
+            ProductImage image = new ProductImage();
+            image.setUrl(productRepresentation.getPrincipalImage().getUrl());
+            product.setPrincipalImage(image);
+        }
     }
 
     public ProductRepresentation convert(Product product){
@@ -60,8 +76,10 @@ public class ProductConverter {
                 .setPrincipalImage(product.getPrincipalImage())
                 .setImages(product.getImages())
                 .setName(product.getName())
+                .setImported(Optional.ofNullable(product.getImported()).orElse(false))
                 .setPrice(product.getPrice())
                 .setStock(product.getStock())
+                .setPublished(Optional.ofNullable(product.getPublished()).orElse(true))
                 .setCategory(
                         this.categoryConverter
                                 .convert(

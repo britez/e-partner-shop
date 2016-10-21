@@ -1,0 +1,27 @@
+<div class="container" id="products-import">
+
+    <div class="col-md-12" style="padding: 30px 15px 0 15px;">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Seleccione los productos a destacar.</h3>
+            </div>
+            <div class="col-md-6">
+                <a
+                    class="btn-lg btn-primary pull-right"
+                    ng-click="ctrl.loadProducts()">Importar productos</a>
+            </div>
+
+            <div class="col-md-12 product-list">
+                <div class="category-item" ng-repeat="product in ctrl.products" ng-class="{'toggled': product.highlight}" ng-click="ctrl.toggleProduct(product)">
+                    <img ng-src="{{product.thumbnail}}">
+                    <span>{{product.title}}</span>
+                </div>
+            </div>
+
+            <div class="col-md-12 more-button">
+                <a class="btn-lg btn-primary" ng-click="ctrl.getAllProducts()">Mostrar más</a>
+            </div>
+        </div>
+    </div>
+
+</div>

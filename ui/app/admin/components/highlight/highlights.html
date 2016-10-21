@@ -6,11 +6,11 @@
         <div class="col-md-6">
             <a
                 class="btn-lg btn-primary pull-right"
-                ui-sref="products-detail({id: null})">Nuevo destacado</a>
+                ui-sref="highlights-detail({id: null})">Nuevo destacado</a>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12" ng-if="ctrl.products.length === 0">
+        <div class="col-md-12" ng-if="ctrl.highlights.length === 0">
             <div class="alert alert-info" role="alert">
                 No existen destacados creados, por favor cree uno <a ui-sref="highlights-detail({id: null})">aqu&iacute;</a>.
             </div>
@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-md-6">
                         <ul>
-                            <li ui-sref="highlight-detail({id: highlight.id})">
+                            <li ui-sref="highlights-detail({id: highlight.id})">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                             </li>
                             <li>

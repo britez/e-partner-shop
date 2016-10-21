@@ -31,8 +31,8 @@ export default class ProductController {
                 .$promise
                 .then(response => {
                     this.entity = response;
-                    this.currentPrincipalPic = this.entity
-                        .principalImage;
+                    this.currentPrincipalPic = this.entity.principalImage;
+                    this.principalPic = this.entity.principalImage.url;
                     this.currentPics = this.entity
                         .images
                         .filter(img => !img.principal);
@@ -40,6 +40,7 @@ export default class ProductController {
                     this.error = 'El producto seleccionado no existe';
                 })
         } else {
+            this.entity.isImported = false;
             this.entity.technicalSpecifications = [{}];
         }
     }

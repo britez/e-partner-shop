@@ -26,6 +26,10 @@ gulp.task('serve', ['compile'], function (done) {
 
   proxies.push(proxyOptions2);
 
+  var proxyOptions3 = url.parse('https://api.mercadolibre.com/sites');
+  proxyOptions3.route = '/sites';
+  proxies.push(proxyOptions3);
+
   var dependencies = packageJson.jspm.dependencies;
 
   for( var key in dependencies) {
@@ -41,7 +45,7 @@ gulp.task('serve', ['compile'], function (done) {
 
   var imagesRoute = '/images/';
 
-  routes[imagesRoute] = '/tmp/images/'
+  routes[imagesRoute] = '/tmp/images/';
 
   console.log('routes\n', routes);
 
@@ -52,7 +56,7 @@ gulp.task('serve', ['compile'], function (done) {
     server: {
       baseDir: ['.'],
       routes: routes,
-      middleware: [proxy(proxyOptions),proxy(proxyOptions2)]
+      middleware: [proxy(proxyOptions),proxy(proxyOptions2), proxy(proxyOptions3)]
     }
   }, done);
 });

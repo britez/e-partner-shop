@@ -1,6 +1,5 @@
 package com.epartner.domain;
 
-import groovyjarjarcommonscli.Option;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -23,6 +22,9 @@ public class Product {
     private String description;
     private Integer stock;
     private Double price;
+    private Boolean isImported;
+    private String importedId;
+    private Boolean isPublished;
 
     @OneToMany(mappedBy = "product")
     @Cascade(CascadeType.ALL)
@@ -46,9 +48,11 @@ public class Product {
     public Product(){
         this.technicalSpecifications = new ArrayList<>();
         this.tags = new ArrayList<>();
+        this.isImported = false;
     }
 
     public Product(Long id, String name, String description, Integer stock) {
+        this();
         this.id = id;
         this.name = name;
         this.description = description;
@@ -56,12 +60,6 @@ public class Product {
     }
 
     public void addTag(Tag tag){
-
-        if(tags == null){
-
-            this.tags = new ArrayList<>();
-        }
-
         this.tags.add(tag);
     }
 
@@ -181,12 +179,6 @@ public class Product {
     }
 
     public List<Tag> getTags() {
-
-        if(tags == null){
-
-            tags = new ArrayList<>();
-        }
-
         return tags;
     }
 
@@ -200,5 +192,29 @@ public class Product {
 
     public void setPrincipalImage(ProductImage principalImage) {
         this.principalImage = principalImage;
+    }
+
+    public Boolean getImported() {
+        return isImported;
+    }
+
+    public void setImported(Boolean imported) {
+        isImported = imported;
+    }
+
+    public String getImportedId() {
+        return importedId;
+    }
+
+    public void setImportedId(String importedId) {
+        this.importedId = importedId;
+    }
+
+    public Boolean getPublished() {
+        return isPublished;
+    }
+
+    public void setPublished(Boolean published) {
+        isPublished = published;
     }
 }

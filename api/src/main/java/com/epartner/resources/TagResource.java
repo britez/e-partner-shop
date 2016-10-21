@@ -17,7 +17,6 @@ import java.util.Optional;
 public class TagResource {
 
     public static final String TAGS = "api/tags";
-    public static final String PRODUCT_TAG = "/{id}/product/{productId}";
     private final TagService tagService;
 
     //TODO: extraer a una clase o config
@@ -29,10 +28,17 @@ public class TagResource {
         this.tagService = tagService;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    public TagRepresentation get(@PathVariable("id") Long id){
+        return this.tagService.get(id);
+    }
+
     @RequestMapping(method =  RequestMethod.GET)
-    public Page<TagRepresentation> list(@RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
-                          @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
-        return this.tagService.list(Optional.ofNullable(max), Optional.ofNullable(page));
+    public Page<TagRepresentation> list(
+                @RequestParam(required = false) Boolean isCategory,
+                @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
+                @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
+        return this.tagService.list(Optional.ofNullable(max), Optional.ofNullable(page), Optional.ofNullable(isCategory));
     }
 
     @RequestMapping(method = RequestMethod.POST)

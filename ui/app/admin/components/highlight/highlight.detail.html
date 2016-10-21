@@ -1,0 +1,68 @@
+<div class="container" id="category-detail">
+    <div class="header row">
+        <div class="col-md-6">
+            <h3 ng-if="ctrl.isNew()">Crear destacado</h3>
+            <h3 ng-if="!ctrl.isNew()">Editar destacado</h3>
+        </div>
+    </div>
+    <div class="row" ng-if="ctrl.updated">
+        <div class="col-md-12">
+            <div class="alert alert-success" role="alert">
+                Destacado actualizado correctamente.
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="ctrl.error">
+        <div class="col-md-12">
+            <div class="alert alert-danger" role="alert">
+                {{ctrl.error}}.
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="!ctrl.error">
+        <form
+                name="highlightForm"
+                ng-submit="ctrl.save(highlightForm)"
+                novalidate autocomplete="off">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input ng-class="{'invalid': (highlightForm.name.$invalid && highlightForm.name.$touched) || (highlightForm.$submitted && highlightForm.name.$invalid)}"
+                           type="text"
+                           class="form-control"
+                           required=""
+                           id="name"
+                           placeholder="L&iacute;nea blanca"
+                           name="name"
+                           ng-model="ctrl.entity.name">
+                    <div ng-messages="highlightForm.name.$error" ng-if="highlightForm.$submitted || highlightForm.name.$touched">
+                        <span class="error" ng-message="required">El nombre es requerido.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Seleccione los productos a destacar.</label>
+                    </div>
+                    <div class="col-md-6 pull-right">
+                        <label ng-if="ctrl.getSelectedProducts().length < 4">Has seleccionado {{ctrl.getSelectedProducts().length}} productos</label>
+                        <label ng-if="ctrl.getSelectedProducts().length >= 4" class="error">Solo puedes seleccionar hasta 4 productos</label>
+                    </div>
+                    <div class="col-md-2 product-list" ng-repeat="product in ctrl.products">
+                        <div class="category-item" ng-class="{'toggled': product.highlight}" ng-click="ctrl.toggleProduct(product)">
+                            <img ng-src="{{product.principalImage.url}}"/>
+                            <span>{{product.name}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group clearfix">
+                    <button type="submit" class="btn btn-primary pull-right">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

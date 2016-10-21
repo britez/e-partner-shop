@@ -24,18 +24,14 @@ public class ProductResource {
     public static final String PRODUCTS = "api/products";
     public static final String ID = "/{id}";
 
-    public static final String TAGS =  ID + "/tags";
     private static final String DEFAULT_PAGE = "0";
     private static final String DEFAULT_MAX = "10";
 
     private final ProductService productService;
-    private final TagService tagService;
 
     @Autowired
-    public ProductResource(ProductService productService,
-                           TagService tagService) {
+    public ProductResource(ProductService productService) {
         this.productService = productService;
-        this.tagService = tagService;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -63,16 +59,9 @@ public class ProductResource {
     @RequestMapping(method = GET)
     public Page<ProductRepresentation> list(
         @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
-        @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
-        return this.productService.list(Optional.ofNullable(max), Optional.ofNullable(page));
-    }
-
-
-
-    //TODO Sacar nadie usa este recurso
-    @Deprecated
-    @RequestMapping(method = GET, value = TAGS)
-    public Page<TagRepresentation> findProductTags(@PathVariable("id") Long id){
-        return this.tagService.findAllTagByProduct(id);
+        @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page,
+        @RequestParam(required = false) Boolean isPublished){
+        return this.productService.list(
+                Optional.ofNullable(isPublished), Optional.ofNullable(max), Optional.ofNullable(page));
     }
 }

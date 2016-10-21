@@ -20,6 +20,8 @@ public class ProductRepresentationBuilder {
     private List<ProductImage> images;
     private List<TechnicalSpecificationRepresentation> technicalSpecifications;
     private List<TagRepresentation> tags;
+    private Boolean isImported;
+    private Boolean isPublished;
 
     public ProductRepresentationBuilder setTechnicalSpecifications(List<TechnicalSpecificationRepresentation> technicalSpecificationRepresentations){
         this.technicalSpecifications = technicalSpecificationRepresentations;
@@ -78,7 +80,7 @@ public class ProductRepresentationBuilder {
                 .map(it -> buildImageRepresentation(it, baseImageUrl))
                 .orElse(null);
 
-        return new ProductRepresentation(id,
+        ProductRepresentation result = new ProductRepresentation(id,
                 name,
                 description,
                 stock,
@@ -88,17 +90,30 @@ public class ProductRepresentationBuilder {
                 price,
                 technicalSpecifications,
                 tags == null ? new ArrayList<>() : tags);
+
+        result.setPublished(this.isPublished);
+        return result;
     }
 
     private ProductImageRepresentation buildImageRepresentation(ProductImage image, String baseImageUrl){
         ProductImageRepresentation result = new ProductImageRepresentation();
         result.setId(image.getId());
-        result.setUrl(baseImageUrl + image.getFileName());
+        result.setUrl(Optional.ofNullable(image.getUrl()).orElse(baseImageUrl + image.getFileName()));
         return result;
     }
 
     public ProductRepresentationBuilder setPrincipalImage(ProductImage principalImage) {
         this.principalImage = principalImage;
+        return this;
+    }
+
+    public ProductRepresentationBuilder setImported(Boolean imported) {
+        isImported = imported;
+        return this;
+    }
+
+    public ProductRepresentationBuilder setPublished(Boolean published) {
+        isPublished = published;
         return this;
     }
 }

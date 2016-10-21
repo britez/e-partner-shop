@@ -146,6 +146,21 @@
             </div>
             <div class="col-md-12">
                 <div class="form-group">
+                    <label for="description">Publicar producto?</label>
+                    <div class="checkbox-group">
+                        <div
+                            class="checkbox"
+                            style="width: 25px; height: 25px; border: 1px #CECECE solid; border-radius: 2px; text-align: center; display: inline-block; margin: 0 10px 0 0; cursor: pointer;"
+                            ng-click="ctrl.entity.published = !ctrl.entity.published">
+                            <span class="fa fa-check" style="padding: 4px 0 0 0;" ng-class="{'fa-check':ctrl.entity.published, 'fa-times':!ctrl.entity.published}"></span>
+                        </div>
+                        <span ng-if="ctrl.entity.published">SI</span>
+                        <span ng-if="!ctrl.entity.published">NO</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
                     <label for="description">Descripci&oacute;n</label>
                     <textarea ng-class = "{'invalid': (productForm.description.$invalid && productForm.description.$touched) || (productForm.$submitted && productForm.description.$invalid)}"
                         class="form-control"

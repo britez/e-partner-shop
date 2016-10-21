@@ -19,8 +19,8 @@ let dashboardApiCfg = () => {
     apiProvider.endpoint('tags')
       .route('/api/tags/:id');
 
-    apiProvider.endpoint('tagsProducts')
-      .route('/api/tags/:id/product/:productId')
+    apiProvider.endpoint('meli')
+      .route('/sites/MLA/search')
   }];
 
   return apiConfig;

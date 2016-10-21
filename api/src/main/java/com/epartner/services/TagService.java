@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,13 +75,26 @@ public class TagService {
         return this.converter.convert(stored);
     }
 
-    public Page<TagRepresentation> list(Optional<Integer> max, Optional<Integer> page) {
-        Page<Tag> stored = this.repository.findAll(
-                new PageRequest(page.orElse(PAGE), max.orElse(MAX))
-        );
+    public Page<TagRepresentation> list(
+            Optional<Integer> max,
+            Optional<Integer> page,
+            Optional<Boolean> isCategory) {
+
+        Page<Tag> stored;
+
+        if(!isCategory.isPresent()) {
+            stored = this.repository.findAll(this.buildPageRequest(max, page));
+        } else {
+            stored = this.repository.findAllByIsCategory(isCategory.get(), this.buildPageRequest(max, page));
+        }
 
         return this.converter.convert(stored);
     }
+
+    private PageRequest buildPageRequest(Optional<Integer> max, Optional<Integer> page){
+        return new PageRequest(page.orElse(PAGE), max.orElse(MAX));
+    }
+
 
     //TODO: No creo que necesitemos este servicio
     @Deprecated
@@ -107,5 +121,9 @@ public class TagService {
         return this.repository.findOneByName(name)
                 .map(it -> this.converter.convert(it))
                 .orElse(null);
+    }
+
+    public TagRepresentation get(Long id) {
+        return this.converter.convert(Optional.ofNullable(this.repository.findOne(id)).orElseThrow(EntityExistsException::new));
     }
 }

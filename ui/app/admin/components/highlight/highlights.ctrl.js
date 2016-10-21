@@ -10,6 +10,13 @@ export default class HighlightsController {
     }
 
     init() {
+        this.api
+            .tags
+            .get({isCategory:false})
+            .$promise
+            .then(response => {
+                this.highlights = response.content;
+            })
     }
 
 }
