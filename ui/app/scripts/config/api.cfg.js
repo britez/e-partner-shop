@@ -20,7 +20,10 @@ let dashboardApiCfg = () => {
       .route('/api/tags/:id');
 
     apiProvider.endpoint('meli')
-      .route('/sites/MLA/search')
+      .route('/sites/MLA/search');
+
+    apiProvider.endpoint('carousels')
+      .route('/api/carousels/:id')
   }];
 
   return apiConfig;

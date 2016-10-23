@@ -1,6 +1,5 @@
 package com.epartner.resources;
 
-import com.epartner.exceptions.CategoryInUseException;
 import com.epartner.representations.CategoryRepresentation;
 import com.epartner.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 /**

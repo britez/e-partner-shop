@@ -12,6 +12,13 @@
             </div>
         </div>
     </div>
+    <div class="row" ng-if="ctrl.entity.imported">
+        <div class="col-md-12">
+            <div class="alert alert-info" role="alert">
+                El producto fue importado y algunas características no pueden ser editadas.
+            </div>
+        </div>
+    </div>
     <div class="row" ng-if="ctrl.error">
         <div class="col-md-12">
             <div class="alert alert-danger" role="alert">
@@ -27,6 +34,7 @@
                     <label for="name">Nombre</label>
                     <input ng-class = "{'invalid': (productForm.name.$invalid && productForm.name.$touched) || (productForm.$submitted && productForm.name.$invalid)}"
                         type="text"
+                        ng-disabled="ctrl.entity.imported"
                         class="form-control"
                         id="name"
                         name="name"
@@ -62,6 +70,7 @@
                     <input ng-class = "{'invalid': (productForm.stock.$invalid && productForm.stock.$touched) || (productForm.$submitted && productForm.stock.$invalid)}"
                         type="number"
                         class="form-control"
+                        ng-disabled="ctrl.entity.imported"
                         id="stock"
                         name="stock"
                         required=""
@@ -81,6 +90,7 @@
                             type="number"
                             class="form-control"
                             id="price"
+                            ng-disabled="ctrl.entity.imported"
                             name="price"
                             placeholder="Precio"
                             required=""
@@ -103,6 +113,7 @@
                                 id="technicalDescription_{{$index}}"
                                 name="technicalDescription_{{$index}}"
                                 placeholder="T&iacute;tulo"
+                                ng-disabled="ctrl.entity.imported"
                                 required=""
                                 ng-model="technicalSpecification.key">
                             <div ng-messages="productForm['technicalDescription_' + $index].$error" ng-if="productForm.$submitted || productForm['technicalDescription_' + $index].$touched">
@@ -122,6 +133,7 @@
                                     id="technicalDescriptionValue_{{$index}}"
                                     name="technicalDescriptionValue_{{$index}}"
                                     placeholder="Valor"
+                                    ng-disabled="ctrl.entity.imported"
                                     required=""
                                     ng-model="technicalSpecification.value">
                                 <span class="input-group-btn">
@@ -166,6 +178,7 @@
                         class="form-control"
                         id="description"
                         name="description"
+                        ng-disabled="ctrl.entity.imported"
                         required=""
                         style="resize: none;"
                         placeholder="Descripci&oacute;n"
@@ -183,18 +196,20 @@
                         ng-class = "{'invalid': productForm.$submitted && !ctrl.principalPic}"
                         ngf-select
                         ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic"
-                    ng-model="ctrl.principalPic"></div>
+                        ng-model="ctrl.principalPic"></div>
                     <img
                         class="picture-select"
                         ngf-select
                         ng-if="ctrl.principalPic"
                         ng-model="ctrl.principalPic"
                         ng-src="{{ctrl.principalPic}}"
+                        ng-disabled="ctrl.entity.imported"
                         ngf-src="ctrl.principalPic"/>
                     <img
                         class="picture-select"
                         ng-if="ctrl.currentPrincipalPic.url && !ctrl.principalPic"
                         ngf-select
+                        ng-disabled="ctrl.entity.imported"
                         ng-model="ctrl.principalPic"
                         ng-src="{{ctrl.currentPrincipalPic.url}}"/>
                     <div ng-if="productForm.$submitted && !ctrl.principalPic">

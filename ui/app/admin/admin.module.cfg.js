@@ -8,6 +8,8 @@ import { ProductComponent } from '../admin/components/products/product.cmp';
 import { ProductsImportComponent } from '../admin/components/products/products.import.cmp';
 import { HighlightComponent } from '../admin/components/highlight/highlight.cmp';
 import { HighLightDetailComponent} from '../admin/components/highlight/highlight.detail.cmp';
+import { CarouselsComponent } from '../admin/components/carousel/carousels.cmp';
+import { CarouselComponent } from '../admin/components/carousel/carousel.cmp';
 
 const admin = angular
     .module('admin.module', [])
@@ -19,6 +21,8 @@ const admin = angular
     .component('productsImportComponent', ProductsImportComponent)
     .component('highlightComponent', HighlightComponent)
     .component('highLightDetailComponent', HighLightDetailComponent)
+    .component('carouselsComponent', CarouselsComponent)
+    .component('carouselComponent', CarouselComponent)
     .config(($stateProvider) => {
         $stateProvider
             .state('admin', {
@@ -52,6 +56,14 @@ const admin = angular
             .state('highlights-detail', {
                 url: '/admin/highlight/:id',
                 component: 'highLightDetailComponent'
+            })
+            .state('carousels', {
+                url: '/admin/carousel',
+                component: 'carouselsComponent'
+            })
+            .state('carousels-detail', {
+                url: '/admin/carousel/:id',
+                component: 'carouselComponent'
             })
     })
     .name;

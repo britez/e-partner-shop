@@ -1,0 +1,154 @@
+<div class="container" id="product-detail">
+    <div class="header row">
+        <div class="col-md-6">
+            <h3 ng-if="ctrl.isNew()">Crear carrusel</h3>
+            <h3 ng-if="!ctrl.isNew()">Editar carrusel</h3>
+        </div>
+    </div>
+    <div class="row" ng-if="ctrl.updated">
+        <div class="col-md-12">
+            <div class="alert alert-success" role="alert">
+                Carrusel actualizado correctamente.
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="ctrl.error">
+        <div class="col-md-12">
+            <div class="alert alert-danger" role="alert">
+                {{ctrl.error}}.
+            </div>
+        </div>
+    </div>
+
+    <form name="carouselForm" ng-submit="ctrl.save(carouselForm)" novalidate autocomplete="off">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="title">Título</label>
+                    <input ng-class = "{'invalid': (carouselForm.title.$invalid && carouselForm.title.$touched) || (carouselForm.$submitted && carouselForm.title.$invalid)}"
+                        type="text"
+                        class="form-control"
+                        id="title"
+                        name="title"
+                        placeholder="Título"
+                        required=""
+                        ng-model="ctrl.entity.title">
+                    <div ng-messages="carouselForm.title.$error" ng-show="carouselForm.title.$touched || carouselForm.$submitted">
+                        <span class="error" ng-message="required">El título es requerido.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="titleUrl">Url del título</label>
+                    <input ng-class = "{'invalid': (carouselForm.titleUrl.$invalid && carouselForm.title.$touched) || (carouselForm.$submitted && carouselForm.titleUrl.$invalid)}"
+                           type="text"
+                           class="form-control"
+                           id="titleUrl"
+                           name="titleUrl"
+                           placeholder="http://epartner..."
+                           required=""
+                           ng-model="ctrl.entity.titleUrl">
+                    <div ng-messages="carouselForm.titleUrl.$error" ng-show="carouselForm.titleUrl.$touched || carouselForm.$submitted">
+                        <span class="error" ng-message="required">La url del título es requerida.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="subtitle">Subtítulo</label>
+                    <input ng-class = "{'invalid': (carouselForm.subtitle.$invalid && carouselForm.subtitle.$touched) || (carouselForm.$submitted && carouselForm.subtitle.$invalid)}"
+                           type="text"
+                           class="form-control"
+                           id="subtitle"
+                           name="subtitle"
+                           placeholder="Subtítulo"
+                           required=""
+                           ng-model="ctrl.entity.subtitle">
+                    <div ng-messages="carouselForm.subtitle.$error" ng-show="carouselForm.subtitle.$touched || carouselForm.$submitted">
+                        <span class="error" ng-message="required">El subtítulo es requerido.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="subtitleUrl">Url del subtítulo</label>
+                    <input ng-class = "{'invalid': (carouselForm.subtitleUrl.$invalid && carouselForm.subtitle.$touched) || (carouselForm.$submitted && carouselForm.subtitleUrl.$invalid)}"
+                           type="text"
+                           class="form-control"
+                           id="subtitleUrl"
+                           name="subtitleUrl"
+                           placeholder="http://epartner..."
+                           required=""
+                           ng-model="ctrl.entity.subtitleUrl">
+                    <div ng-messages="carouselForm.subtitleUrl.$error" ng-show="carouselForm.subtitleUrl.$touched || carouselForm.$submitted">
+                        <span class="error" ng-message="required">La url del subtítulo es requerida.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="subtitleUrl">Imágen de fondo</label>
+                    <div
+                        class="picture-select"
+                        ng-class = "{'invalid': carouselForm.$submitted && !ctrl.principalPic}"
+                        ngf-select
+                        ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic"
+                        ng-model="ctrl.principalPic"></div>
+                    <img
+                        class="picture-select"
+                        ngf-select
+                        ng-if="ctrl.principalPic"
+                        ng-model="ctrl.principalPic"
+                        ng-src="{{ctrl.principalPic}}"
+                        ng-disabled="ctrl.entity.imported"
+                        ngf-src="ctrl.principalPic"/>
+                    <img
+                        class="picture-select"
+                        ng-if="ctrl.currentPrincipalPic.url && !ctrl.principalPic"
+                        ngf-select
+                        ng-disabled="ctrl.entity.imported"
+                        ng-model="ctrl.principalPic"
+                        ng-src="{{ctrl.currentPrincipalPic.url}}"/>
+                    <div ng-if="carouselForm.$submitted && !ctrl.principalPic">
+                        <span class="error">La imágen es requerida.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Imágen principal</label>
+                    <div
+                            class="picture-select"
+                            ng-class = "{'invalid': carouselForm.$submitted && !ctrl.principalPic}"
+                            ngf-select
+                            ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic"
+                            ng-model="ctrl.principalPic"></div>
+                    <img
+                            class="picture-select"
+                            ngf-select
+                            ng-if="ctrl.principalPic"
+                            ng-model="ctrl.principalPic"
+                            ng-src="{{ctrl.principalPic}}"
+                            ng-disabled="ctrl.entity.imported"
+                            ngf-src="ctrl.principalPic"/>
+                    <img
+                            class="picture-select"
+                            ng-if="ctrl.currentPrincipalPic.url && !ctrl.principalPic"
+                            ngf-select
+                            ng-disabled="ctrl.entity.imported"
+                            ng-model="ctrl.principalPic"
+                            ng-src="{{ctrl.currentPrincipalPic.url}}"/>
+                    <div ng-if="carouselForm.$submitted && !ctrl.principalPic">
+                        <span class="error">La imágen es requerida.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary pull-right">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

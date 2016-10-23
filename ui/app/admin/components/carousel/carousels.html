@@ -1,0 +1,54 @@
+<div class="container" id="products">
+    <div class="row" style="padding: 20px 0;">
+        <div class="col-md-6">
+            <h3>Carruseles</h3>
+        </div>
+        <div class="col-md-6">
+            <a
+                class="btn-lg btn-primary pull-right"
+                ui-sref="carousels-detail({id: null})">Nuevo Carrusel</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" ng-if="ctrl.carousels.length === 0">
+            <div class="alert alert-info" role="alert">
+                No existen carruseles creados, por favor cree uno <a ui-sref="carousels-detail({id: null})">aqu&iacute;</a>.
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="ctrl.params.created">
+            <div class="alert alert-success" role="alert">
+                Carrusel creado correctamente.
+            </div>
+        </div>
+        <div class="col-md-12" ng-repeat="carousel in ctrl.carousels">
+            <div class="category-item">
+                <div class="row">
+                    <div class="col-md-6">
+                        <span class="title">{{carousel.name}}</span>
+                    </div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li ui-sref="carousels-detail({id: carousel.id})">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </li>
+                            <li ng-click="carousel.show = true">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row delete-form" uib-collapse="!carousel.show">
+                    <div class="col-md-6">
+                        <label class="title">Estás seguro de borrar este carrusel?</label>
+                    </div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li ng-click="carousel.show = false">NO</li>
+                            <li class="primary" ng-click="ctrl.deleteCarousel(carousel)">SI</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
