@@ -40,7 +40,8 @@ header-component {
     position: absolute;
     top: 0;
     left: 100%;
-    margin-left: -385px;
+    margin-left: -330px;
+
 
     input {
       padding: 10px;
@@ -53,8 +54,11 @@ header-component {
       width: 80px;
       padding: 20px 15px;
       font-size: 2rem;
-      color: $mate-white;
+      color: $black;
       cursor: pointer;
+      position: relative;
+      left: -45px;
+      top: 2px;
     }
   }
 
