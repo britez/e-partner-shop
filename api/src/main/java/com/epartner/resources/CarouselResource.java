@@ -1,9 +1,11 @@
 package com.epartner.resources;
 
 import com.epartner.representations.CarouselRepresentation;
+import com.epartner.representations.CategoryRepresentation;
 import com.epartner.services.CarouselService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -39,6 +41,27 @@ public class CarouselResource {
     @RequestMapping(value = ID, method = RequestMethod.GET)
     public CarouselRepresentation get(@PathVariable Long id){
         return this.service.show(id);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public CarouselRepresentation create(
+            @RequestBody CarouselRepresentation representation){
+        return this.service.create(representation);
+    }
+
+    @RequestMapping(value = ID, method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public CarouselRepresentation update(
+            @RequestBody CarouselRepresentation representation ,
+            @PathVariable Long id){
+        return this.service.update(representation, id);
+    }
+
+    @RequestMapping(value = ID, method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        this.service.delete(id);
     }
 
 }

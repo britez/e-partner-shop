@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -30,6 +31,22 @@ public class CarouselConverter {
     public CarouselRepresentation convert(Carousel carousel) {
         CarouselRepresentation result = new CarouselRepresentation();
         result.setId(carousel.getId());
+        result.setTitle(carousel.getTitle());
+        result.setTitleUrl(carousel.getTitleUrl());
+        result.setSubtitle(carousel.getSubtitle());
+        result.setSubtitleUrl(carousel.getSubtitleUrl());
+        return result;
+    }
+
+    public Carousel convert(CarouselRepresentation representation) {
+        Carousel result = new Carousel();
+        if(Optional.ofNullable(representation.getId()).isPresent()){
+            result.setId(representation.getId());
+        }
+        result.setTitle(representation.getTitle());
+        result.setTitleUrl(representation.getTitleUrl());
+        result.setSubtitle(representation.getSubtitle());
+        result.setSubtitleUrl(representation.getSubtitleUrl());
         return result;
     }
 }

@@ -48,4 +48,23 @@ public class CarouselService {
     private Carousel get(Long id) {
         return Optional.ofNullable(this.carouselRepository.findOne(id)).orElseThrow(EntityExistsException::new);
     }
+
+    public CarouselRepresentation create(CarouselRepresentation representation) {
+        return this.converter.convert(this.carouselRepository.save(this.converter.convert(representation)));
+    }
+
+    public CarouselRepresentation update(CarouselRepresentation representation, Long id) {
+        Carousel stored = this.get(id);
+        stored.setTitle(representation.getTitle());
+        stored.setTitleUrl(representation.getTitleUrl());
+        stored.setSubtitle(representation.getSubtitle());
+        stored.setSubtitleUrl(representation.getSubtitleUrl());
+        //TODO Update images
+        this.carouselRepository.save(stored);
+        return this.converter.convert(stored);
+    }
+
+    public void delete(Long id) {
+        this.carouselRepository.delete(this.get(id));
+    }
 }

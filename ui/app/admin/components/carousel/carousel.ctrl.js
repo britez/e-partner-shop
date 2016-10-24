@@ -58,11 +58,11 @@ export default class CarouselController {
                     var promises = [];
                     //promises.push(this.uploadPrincipalPicture(productId));
                     //promises.push(this.uploadPictures(productId));
-                    this.$q
-                        .all(promises)
-                        .then(() => {
+                    //this.$q
+                    //    .all(promises)
+                    //    .then(() => {
                            this.$state.go('carousels', {created: true});
-                        });
+                    //    });
                 });
         }
 
