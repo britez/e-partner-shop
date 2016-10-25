@@ -8,8 +8,8 @@ import com.epartner.domain.ProductImage;
 public class CarouselRepresentation {
 
     private Long id;
-    private ProductImage backgroundImage;
-    private ProductImage principalImage;
+    private ProductImageRepresentation backgroundImage;
+    private ProductImageRepresentation principalImage;
     private String title;
     private String titleUrl;
     private String subtitle;
@@ -23,19 +23,19 @@ public class CarouselRepresentation {
         this.id = id;
     }
 
-    public ProductImage getBackgroundImage() {
+    public ProductImageRepresentation getBackgroundImage() {
         return backgroundImage;
     }
 
-    public void setBackgroundImage(ProductImage backgroundImage) {
+    public void setBackgroundImage(ProductImageRepresentation backgroundImage) {
         this.backgroundImage = backgroundImage;
     }
 
-    public ProductImage getPrincipalImage() {
+    public ProductImageRepresentation getPrincipalImage() {
         return principalImage;
     }
 
-    public void setPrincipalImage(ProductImage principalImage) {
+    public void setPrincipalImage(ProductImageRepresentation principalImage) {
         this.principalImage = principalImage;
     }
 

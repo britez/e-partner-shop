@@ -2,12 +2,14 @@ package com.epartner.services;
 
 import com.epartner.converters.CarouselConverter;
 import com.epartner.domain.Carousel;
+import com.epartner.domain.ProductImage;
 import com.epartner.repositories.CarouselRepository;
 import com.epartner.representations.CarouselRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityExistsException;
 import java.util.Optional;
@@ -23,13 +25,16 @@ public class CarouselService {
 
     private final CarouselRepository carouselRepository;
     private final CarouselConverter converter;
+    private final StorageService storageService;
 
     @Autowired
     public CarouselService(
             CarouselRepository carouselRepository,
-            CarouselConverter converter) {
+            CarouselConverter converter,
+            StorageService storageService) {
         this.carouselRepository = carouselRepository;
         this.converter = converter;
+        this.storageService = storageService;
     }
 
     public Page<CarouselRepresentation> getAll(Optional<Integer> max, Optional<Integer> page) {
@@ -67,4 +72,22 @@ public class CarouselService {
     public void delete(Long id) {
         this.carouselRepository.delete(this.get(id));
     }
+
+    public void addImage(Long id, MultipartFile file, Boolean isPrincipal) {
+        Carousel stored = this.get(id);
+        ProductImage image = new ProductImage(this.storageService.store(file));
+
+        if(isPrincipal) {
+            stored.setPrincipalImage(image);
+        } else {
+            stored.setBackgroundImage(image);
+        }
+
+        try {
+            this.carouselRepository.save(stored);
+        } catch (Exception e) {
+            this.storageService.delete(image.getFileName());
+        }
+    }
+
 }

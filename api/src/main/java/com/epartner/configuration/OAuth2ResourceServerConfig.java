@@ -66,7 +66,7 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
             .csrf()
             .disable();
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/**/tags")
+                .antMatchers(HttpMethod.GET, "/**/tags", "/**/carousels")
                 .permitAll()
             .and()
                 .authorizeRequests()

@@ -1,8 +1,12 @@
 package com.epartner.converters;
 
 import com.epartner.domain.Carousel;
+import com.epartner.domain.ProductImage;
 import com.epartner.representations.CarouselRepresentation;
 import com.epartner.representations.CategoryRepresentation;
+import com.epartner.representations.ProductImageRepresentation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
@@ -16,6 +20,14 @@ import java.util.stream.Collectors;
  */
 @Component
 public class CarouselConverter {
+
+    private final String baseImageUrl;
+
+    @Autowired
+    public CarouselConverter(
+            @Value("${epartner.images.url}") String baseImageUrl) {
+        this.baseImageUrl = baseImageUrl;
+    }
 
     public Page<CarouselRepresentation> convert(Page<Carousel> stored) {
         PageImpl<CarouselRepresentation> result;
@@ -35,7 +47,21 @@ public class CarouselConverter {
         result.setTitleUrl(carousel.getTitleUrl());
         result.setSubtitle(carousel.getSubtitle());
         result.setSubtitleUrl(carousel.getSubtitleUrl());
+
+        result.setBackgroundImage(convertImage(carousel.getBackgroundImage()).orElse(null));
+        result.setPrincipalImage(convertImage(carousel.getPrincipalImage()).orElse(null));
+
         return result;
+    }
+
+    private Optional<ProductImageRepresentation> convertImage(ProductImage carousel) {
+        ProductImageRepresentation result = null;
+        if(Optional.ofNullable(carousel).isPresent()) {
+            result = new ProductImageRepresentation();
+            result.setId(carousel.getId());
+            result.setUrl(this.baseImageUrl.concat(carousel.getFileName()));
+        }
+        return Optional.ofNullable(result);
     }
 
     public Carousel convert(CarouselRepresentation representation) {

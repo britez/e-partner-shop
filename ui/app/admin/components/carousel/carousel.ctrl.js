@@ -21,8 +21,10 @@ export default class CarouselController {
                 .$promise
                 .then(response => {
                     this.entity = response;
-                    //this.currentPrincipalPic = this.entity.principalImage;
-                    //this.principalPic = this.entity.principalImage.url;
+                    this.backgroundPic = this.entity.backgroundImage.url;
+                    this.currentBackgroundPic = this.entity.backgroundImage.url;
+                    this.principalPic = this.entity.principalImage.url;
+                    this.currentPrincipalPic = this.entity.principalImage.url;
                 }, error => {
                     this.error = 'El carrusel seleccionado no existe';
                 })
@@ -34,7 +36,7 @@ export default class CarouselController {
     }
 
     save(form) {
-        if(!form.$valid){ // || !this.principalPic){
+        if(!form.$valid || !this.principalPic || !this.backgroundPic){
             return;
         }
         let params = {};
@@ -55,41 +57,30 @@ export default class CarouselController {
                 .$promise
                 .then(response => {
                     let carouselId = response.id;
-                    var promises = [];
-                    //promises.push(this.uploadPrincipalPicture(productId));
-                    //promises.push(this.uploadPictures(productId));
-                    //this.$q
-                    //    .all(promises)
-                    //    .then(() => {
+                    this.uploadPrincipalPicture(carouselId)
+                        .then(() => {
+                        this.uploadBackgroundPicture(carouselId)
+                            .then(() => {
                            this.$state.go('carousels', {created: true});
-                    //    });
+                        });
+                    });
                 });
         }
 
     }
 
-    uploadProductAndPrincipalPicture(productId) {
+    uploadPrincipalPicture(carouselId) {
         return this.uploader.upload({
-            url: 'api/products/' + productId + '/product-images',
-            data: {file: this.pictures},
-            arrayKey: '',
-            headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
-        });
-    }
-
-    uploadPrincipalPicture(productId) {
-        return this.uploader.upload({
-            url: 'api/products/' + productId + '/principal-images',
+            url: 'api/carousels/' + carouselId + '/principal-images',
             data: {file: this.principalPic},
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
     }
 
-    uploadPictures(productId) {
+    uploadBackgroundPicture(carouselId) {
         return this.uploader.upload({
-            url: 'api/products/' + productId + '/images',
-            data: {files: this.pictures},
-            arrayKey: '',
+            url: 'api/carousels/' + carouselId + '/background-images',
+            data: {file: this.backgroundPic},
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
     }

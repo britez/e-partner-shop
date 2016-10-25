@@ -43,10 +43,6 @@ gulp.task('serve', ['compile'], function (done) {
     }
   }
 
-  var imagesRoute = '/images/';
-
-  routes[imagesRoute] = '/tmp/images/';
-
   console.log('routes\n', routes);
 
   return browserSync({

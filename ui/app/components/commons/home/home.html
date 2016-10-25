@@ -1,14 +1,9 @@
 <div id="home">
     <div uib-carousel active="home.active" interval="home.myInterval">
-        <div uib-slide index="0" style="background-image: url('black-bg.jpg');">
-            <img src="e-partner-white-orange.png" class="animated fadeInLeftBig"/>
-            <span class="header animated fadeInUp">Bienvenido!</span>
-            <span class="sub-header animated fadeInRight">Reg&iacute;strate!</span>
-            <span class="description animated fadeInRight">para disfrutar de importantes descuentos!</span>
-        </div>
-        <div uib-slide index="1" style="background-image: url('white-bg.jpg');">
-            <img src="iphone-7.png" class="product-new">
-            <span class="header coming-soon animated fadeInUp" style="">Pr&oacute;ximamente</span>
+        <div uib-slide ng-repeat="carousel in home.carousels track by $index" index="$index" style="{{home.getUrl(carousel)}}">
+            <img ng-src="{{carousel.principalImage.url}}" class="animated fadeInLeftBig"/>
+            <a href="{{carousel.titleUrl}}" class="header animated fadeInUp">{{carousel.title}}</a>
+            <a href="{{carousel.subtitleUrl}}" class="sub-header animated fadeInRight">{{carousel.subtitle}}</a>
         </div>
     </div>
     <div class="container">

@@ -1,12 +1,13 @@
 package com.epartner.resources;
 
 import com.epartner.representations.CarouselRepresentation;
-import com.epartner.representations.CategoryRepresentation;
 import com.epartner.services.CarouselService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -64,4 +65,19 @@ public class CarouselResource {
         this.service.delete(id);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = ID + "/background-images")
+    public ResponseEntity createBackgroundImage(
+            @PathVariable("id") Long id,
+            @RequestParam("file") MultipartFile file){
+        service.addImage(id, file, false);
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = ID + "/principal-images")
+    public ResponseEntity createPrincipalImage(
+            @PathVariable("id") Long id,
+            @RequestParam("file") MultipartFile file){
+        service.addImage(id, file, true);
+        return ResponseEntity.ok().build();
+    }
 }

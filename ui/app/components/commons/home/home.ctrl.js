@@ -21,6 +21,21 @@ export default class HomeCtrl{
         this.state = $state;
         this.api = api;
         this.getTags();
+        this.getCarousels();
+    }
+
+    getCarousels() {
+        this.api
+            .carousels
+            .get()
+            .$promise
+            .then(response => {
+                this.carousels = response.content;
+            })
+    }
+
+    getUrl(carousel) {
+        return "background-image: url('" + carousel.backgroundImage.url + "')";
     }
 
     getTags(){

@@ -91,27 +91,24 @@
                     <label for="subtitleUrl">Imágen de fondo</label>
                     <div
                         class="picture-select"
-                        ng-class = "{'invalid': carouselForm.$submitted && !ctrl.principalPic}"
+                        ng-class = "{'invalid': carouselForm.$submitted && !ctrl.backgroundPic}"
                         ngf-select
-                        ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic"
-                        ng-model="ctrl.principalPic"></div>
+                        ng-if="!ctrl.backgroundPic && !ctrl.currentBackgroundPic"
+                        ng-model="ctrl.backgroundPic"></div>
                     <img
                         class="picture-select"
                         ngf-select
-                        ng-if="ctrl.principalPic"
-                        ng-model="ctrl.principalPic"
-                        ng-src="{{ctrl.principalPic}}"
-                        ng-disabled="ctrl.entity.imported"
-                        ngf-src="ctrl.principalPic"/>
+                        ng-if="ctrl.backgroundPic"
+                        ng-model="ctrl.backgroundPic"
+                        ng-src="{{ctrl.backgroundPic}}"
+                        ngf-src="ctrl.backgroundPic"/>
                     <img
                         class="picture-select"
-                        ng-if="ctrl.currentPrincipalPic.url && !ctrl.principalPic"
+                        ng-if="ctrl.currentPrincipalPic.url && !ctrl.backgroundPic"
                         ngf-select
-                        ng-disabled="ctrl.entity.imported"
-                        ng-model="ctrl.principalPic"
-                        ng-src="{{ctrl.currentPrincipalPic.url}}"/>
-                    <div ng-if="carouselForm.$submitted && !ctrl.principalPic">
-                        <span class="error">La imágen es requerida.</span>
+                        ng-model="ctrl.backgroundPic"/>
+                    <div ng-if="carouselForm.$submitted && !ctrl.backgroundPic">
+                        <span class="error">La imágen de fondo es requerida.</span>
                     </div>
                 </div>
             </div>
@@ -130,15 +127,12 @@
                             ng-if="ctrl.principalPic"
                             ng-model="ctrl.principalPic"
                             ng-src="{{ctrl.principalPic}}"
-                            ng-disabled="ctrl.entity.imported"
                             ngf-src="ctrl.principalPic"/>
                     <img
                             class="picture-select"
                             ng-if="ctrl.currentPrincipalPic.url && !ctrl.principalPic"
                             ngf-select
-                            ng-disabled="ctrl.entity.imported"
-                            ng-model="ctrl.principalPic"
-                            ng-src="{{ctrl.currentPrincipalPic.url}}"/>
+                            ng-model="ctrl.principalPic"/>
                     <div ng-if="carouselForm.$submitted && !ctrl.principalPic">
                         <span class="error">La imágen es requerida.</span>
                     </div>
