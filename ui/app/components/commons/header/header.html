@@ -20,10 +20,21 @@
     <div class="container">
         <ul class="pull-left">
             <li ui-sref="home()" ui-sref-active="active"><a>Inicio</a></li>
-            <li ui-sref="categories()" ui-sref-active="active"><a>Categor&iacute;as</a></li>
-            <li ui-sref="products()" ui-sref-active="active"><a>Productos</a></li>
-            <li ui-sref="highlights()" ui-sref-active="active"><a>Destacados</a></li>
-            <li ui-sref="carousels()" ui-sref-active="active"><a>Carrusel</a></li>
+            <li><a>Compras</a></li>
+            <li><a>Contacto</a></li>
+            <li><a>nosotros</a></li>
+            <li ng-mouseenter="header.admin = true;" ng-mouseleave="header.admin = false">
+                <a>administrar</a>
+                <div ng-class="{'out':!header.admin, 'hide': !header.admin}" class="sub-menu">
+                    <div class="container sub-menu-container">
+                        <span>Mantenimiento del sitio</span>
+                        <p ui-sref="categories()" ui-sref-active="active"><a>Categor&iacute;as</a></p>
+                        <p ui-sref="products()" ui-sref-active="active"><a>Productos</a></p>
+                        <p ui-sref="highlights()" ui-sref-active="active"><a>Destacados</a></p>
+                        <p ui-sref="carousels()" ui-sref-active="active"><a>Carrusel</a></p>
+                    </div>
+                </div>
+            </li>
         </ul>
 
         <ul class="pull-right log-in">

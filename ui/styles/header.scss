@@ -126,5 +126,38 @@ header-component {
       }
     }
   }
+
+  .sub-menu {
+
+    position: absolute;
+    width: 100%;
+    background: rgba(0,0,0,.5);
+    top: 126px;
+    left: 0;
+    z-index: 999999;
+    transition: opacity .5s ease;
+    opacity: 1;
+
+    .sub-menu-container {
+      text-align: left;
+      padding: 10px 0;
+
+      span {
+        display: block;
+        color: $white;
+        font-size: 1.5rem;
+        padding: 0 0 10px 0;
+      }
+
+      p.active a {
+        color: $orange;
+      }
+    }
+
+  }
+
+  .sub-menu.out {
+    opacity: 0;
+  }
 }
 
