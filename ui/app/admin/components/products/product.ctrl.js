@@ -77,8 +77,8 @@ export default class ProductController {
                 .then(response => {
                     let productId = response.id;
                     var promises = [];
-                    promises.push(this.uploadPrincipalPicture(productId));
                     promises.push(this.uploadPictures(productId));
+                    promises.push(this.uploadPrincipalPicture(productId));
                     this.$q
                         .all(promises)
                         .then(() => {
@@ -91,8 +91,8 @@ export default class ProductController {
 
     uploadProductAndPrincipalPicture(productId) {
         return this.uploader.upload({
-            url: 'api/products/' + productId + '/product-images',
-            data: {file: this.pictures},
+            url: 'api/products/' + productId + '/images',
+            data: {file: this.principalPic},
             arrayKey: '',
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
