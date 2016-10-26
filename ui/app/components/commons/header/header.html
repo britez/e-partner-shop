@@ -9,7 +9,7 @@
             </a></li>
         </ul>
         <div class="search-form pull-right animated" ng-class="{'fadeInDown': header.search, 'fadeOutUp': !header.search}">
-            <input type="text" placeholder="B&uacute;sca productos">
+            <input type="text" placeholder="B&uacute;sca productos" ng-model="header.filter" ng-keypress="header.onEnter($event)">
             <span ng-click="header.search = !header.search;">
                 <i class="fa fa-times" aria-hidden="true"></i>
             </span>

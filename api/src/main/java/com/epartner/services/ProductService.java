@@ -10,13 +10,16 @@ import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.ProductRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.spi.ProviderUtil;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by maty on 1/9/16.
@@ -85,19 +88,45 @@ public class ProductService {
         repository.delete(this.get(id));
     }
 
-    public Page<ProductRepresentation> list(
+    public Page<ProductRepresentation> list(Optional<String> filter,
             Optional<Boolean> isPublished, Optional<Integer> max, Optional<Integer> page) {
 
         Page<Product> stored;
         PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
 
-        if(isPublished.isPresent()) {
-            stored = this.repository.findAllByIsPublished(isPublished.orElse(true),pageRequest);
-        } else {
-            stored = this.repository.findAll(pageRequest);
+        if(filter.isPresent()){
+
+            stored = findAllBy(filter.get());
+        }else{
+
+            if(isPublished.isPresent()) {
+                stored = this.repository.findAllByIsPublished(isPublished.orElse(true),pageRequest);
+            } else {
+                stored = this.repository.findAll(pageRequest);
+            }
         }
 
+
         return this.converter.convert(stored);
+    }
+
+
+    private Page<Product> findAllBy(String filter){
+
+        List<Product> filterProducts = this.repository
+                .findAll()
+                .stream()
+                .filter(p -> shouldFilter(p, filter))
+                .collect(Collectors.toList());
+
+        return new PageImpl<Product>(filterProducts);
+    }
+
+    private Boolean shouldFilter(Product product, String filter){
+
+        return product.getName().contains(filter)
+                || product.getDescription().contains(filter)
+                || product.getCategory().getName().contains(filter);
     }
 
     public void addImage(Long id, List<MultipartFile> files) {
