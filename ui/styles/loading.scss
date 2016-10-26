@@ -6,6 +6,9 @@
  */
 
 /* Make clicks pass-through */
+
+@import "variables";
+
 #loading-bar {
   pointer-events: none;
   -webkit-pointer-events: none;
@@ -17,15 +20,15 @@
 
 #loading-bar.ng-enter,
 #loading-bar.ng-leave.ng-leave-active,
-#loading-bar-spinner.ng-enter,
-#loading-bar-spinner.ng-leave.ng-leave-active {
+.loading-container.ng-enter,
+.loading-container.ng-leave.ng-leave-active {
   opacity: .1;
 }
 
 #loading-bar.ng-enter.ng-enter-active,
 #loading-bar.ng-leave,
-#loading-bar-spinner.ng-enter.ng-enter-active,
-#loading-bar-spinner.ng-leave {
+.loading-container.ng-enter.ng-enter-active,
+.loading-container.ng-leave {
   opacity: .9;
 }
 
@@ -35,13 +38,13 @@
   -o-transition: width 350ms;
   transition: width 350ms;
 
-  background: #29d;
+  background: $black;
   position: fixed;
   z-index: 10002;
   top: 0;
   left: 0;
   width: 100%;
-  height: 2px;
+  height: 5px;
   border-bottom-right-radius: 1px;
   border-top-right-radius: 1px;
 }
@@ -54,15 +57,45 @@
   top: 0;
   height: 2px;
   opacity: .45;
-  -moz-box-shadow: #29d 1px 0 6px 1px;
-  -ms-box-shadow: #29d 1px 0 6px 1px;
-  -webkit-box-shadow: #29d 1px 0 6px 1px;
-  box-shadow: #29d 1px 0 6px 1px;
+  -moz-box-shadow: $light-black 1px 0 6px 1px;
+  -ms-box-shadow: $light-black 1px 0 6px 1px;
+  -webkit-box-shadow: $light-black 1px 0 6px 1px;
+  box-shadow: $light-black 1px 0 6px 1px;
   -moz-border-radius: 100%;
   -webkit-border-radius: 100%;
   border-radius: 100%;
 }
 
+.loading-container {
+  display: block;
+  position: fixed;
+  z-index: 10002;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 20, 0.3);
+  top: 0;
+  left: 0;
+
+  pointer-events: none;
+  -webkit-pointer-events: none;
+  -webkit-transition: 350ms ease all;
+  -moz-transition: 350ms ease all;
+  -o-transition: 350ms ease all;
+  transition: 350ms ease all;
+
+  img {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -72px;
+    margin-left: -64px;
+
+    animation-delay: 1s;
+    animation-iteration-count: infinite;
+  }
+}
+
+/*
 #loading-bar-spinner {
   display: block;
   position: fixed;
@@ -112,3 +145,4 @@
   0%   { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+*/

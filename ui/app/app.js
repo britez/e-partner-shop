@@ -70,6 +70,14 @@ app
     .config(OAuthCfg())
     .factory('forbiddenInterceptor', ForbiddenInterceptor)
     .config(ForbiddenConfig)
+    .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+        cfpLoadingBarProvider.spinnerTemplate =
+            '<div class="loading-container">' +
+                '<div class="animated fadeInLeft" style="width: 100%; height: 100%;">'+
+                    '<img class="animated wobble" src="/cdn/cdn-epartner-shop-ui/images/icon2.png"/>' +
+                '</div>' +
+            '</div>';
+    }])
     .component('epartnerApp', AppComponent)
     .service('authService', AuthService);
 
