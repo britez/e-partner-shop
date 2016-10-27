@@ -41,8 +41,14 @@
             <li ng-if="!header.authService.isAuthenticated()">
                 <a ng-click="header.authService.login()">Ingresar</a>
             </li>
-            <li ng-if="header.authService.isAuthenticated()">
+            <li ng-if="header.authService.isAuthenticated()" ng-mouseenter="header.user = true;" ng-mouseleave="header.user = false">
                 <a ui-sref="admin()">Hola admin!</a>
+                <div ng-class="{'out':!header.user, 'hide': !header.user}" class="sub-menu">
+                    <div class="container sub-menu-container">
+                        <span>Maximiliano Britez</span>
+                        <p ng-click="header.logout()"><a>Salir</a></p>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>

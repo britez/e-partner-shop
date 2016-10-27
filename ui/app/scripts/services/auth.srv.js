@@ -19,4 +19,8 @@ export default class AuthService {
         let token = this.oauthToken.getToken();
         return typeof token !== 'undefined';
     }
+
+    logout() {
+        this.oauth.logout();
+    }
 }

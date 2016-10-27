@@ -6,5 +6,9 @@ export default class HeaderController {
         this.authService = authService;
     }
 
+    logout() {
+        this.authService.logout();
+    }
+
 
 }
