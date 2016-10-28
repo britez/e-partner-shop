@@ -36,7 +36,8 @@ export default class ItemCtrl{
                 .then(response => {
                     this.entity = response;
                     this.entity.principalImage = this.entity.principalImage.url;
-                    this.entity.images = this.entity.images.map(img => img.url)
+                    this.entity.images = this.entity.images.map(img => img.url);
+                    this.entity.images.push(this.entity.principalImage);
                 });
         }
     }
