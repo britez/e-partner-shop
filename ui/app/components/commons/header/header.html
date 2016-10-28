@@ -23,7 +23,7 @@
             <li><a>Compras</a></li>
             <li><a>Contacto</a></li>
             <li><a>nosotros</a></li>
-            <li ng-mouseenter="header.admin = true;" ng-mouseleave="header.admin = false">
+            <li ng-mouseenter="header.admin = true;" ng-mouseleave="header.admin = false" ng-click="header.admin = true">
                 <a>administrar</a>
                 <div ng-class="{'out':!header.admin, 'hide': !header.admin}" class="sub-menu">
                     <div class="container sub-menu-container">
