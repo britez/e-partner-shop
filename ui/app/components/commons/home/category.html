@@ -1,16 +1,17 @@
 <div id="home"  style="padding-top: 20px">
     <div class="container">
 <div class="col-md-12 products">
-        <div class="row">
+        <div class="row"  >
             <div class="float-label">
-                <span>Destacados</span>
+                <span>{{home.entity.name}}</span>
             </div>
-            <div class="product col-md-3"  ng-repeat="item in home.entity.destacados">
-                <img ng-src="{{item.image}}">
-                <span >{{item.title}}</span>
+            <div class="product col-md-3" ng-repeat="item in home.entity.products">
+                <img
+                     ng-src="{{item.principalImage.url}}">
+                <span >{{item.name}}</span>
                 <p>${{item.price}}</p>
                 <div class="overlay">
-                    <a>Ver mas</a>
+                    <a ui-sref="item({id: item.id})" >Ver mas</a>
                 </div>
             </div>
         </div>
