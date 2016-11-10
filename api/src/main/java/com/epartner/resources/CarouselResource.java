@@ -15,10 +15,11 @@ import java.util.Optional;
  * Created by mapsi on 10/22/16.
  */
 @RestController
-@RequestMapping(value = CarouselResource.RESOURCE)
+@RequestMapping(value = {CarouselResource.RESOURCE, CarouselResource.PUBLIC_RESOURCE})
 public class CarouselResource {
 
-    public static final String RESOURCE = "api/carousels";
+    public static final String RESOURCE = "api/admin/me/carousels";
+    public static final String PUBLIC_RESOURCE = "api/admin/me/carousels";
     public static final String DEFAULT_PAGE = "0";
     public static final String DEFAULT_MAX = "10";
     public static final String ID = "/{id}";

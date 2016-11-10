@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequestMapping(value = CategoryResource.RESOURCE)
 public class CategoryResource {
 
-    public static final String RESOURCE = "api/categories";
+    public static final String RESOURCE = "api/admin/me/categories";
     public static final String DEFAULT_PAGE = "0";
     public static final String DEFAULT_MAX = "10";
     public static final String ID = "/{id}";

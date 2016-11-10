@@ -12,7 +12,7 @@ export default class HomeCtrl{
 
     getCarousels() {
         this.api
-            .carousels
+            .publicCarousels
             .get()
             .$promise
             .then(response => {

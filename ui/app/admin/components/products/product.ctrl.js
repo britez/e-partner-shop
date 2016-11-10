@@ -91,7 +91,7 @@ export default class ProductController {
 
     uploadProductAndPrincipalPicture(productId) {
         return this.uploader.upload({
-            url: 'api/products/' + productId + '/images',
+            url: 'api/admin/me/products/' + productId + '/images',
             data: {file: this.principalPic},
             arrayKey: '',
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
@@ -100,7 +100,7 @@ export default class ProductController {
 
     uploadPrincipalPicture(productId) {
         return this.uploader.upload({
-            url: 'api/products/' + productId + '/principal-images',
+            url: 'api/admin/me/products/' + productId + '/principal-images',
             data: {file: this.principalPic},
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
@@ -108,7 +108,7 @@ export default class ProductController {
 
     uploadPictures(productId) {
         return this.uploader.upload({
-            url: 'api/products/' + productId + '/images',
+            url: 'api/admin/me/products/' + productId + '/images',
             data: {files: this.pictures},
             arrayKey: '',
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}

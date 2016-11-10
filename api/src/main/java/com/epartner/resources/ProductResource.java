@@ -21,7 +21,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 public class ProductResource {
 
-    public static final String PRODUCTS = "api/products";
+    public static final String PRODUCTS = "api/admin/me/products";
     public static final String ID = "/{id}";
 
     private static final String DEFAULT_PAGE = "0";
