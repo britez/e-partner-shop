@@ -161,3 +161,32 @@ body {
 .alert {
   border-radius: 1px;
 }
+
+.more-button {
+  padding-bottom: 50px;
+  text-align: center;
+}
+
+.search-form {
+  position: relative;
+
+  input {
+    padding: 12px;
+    border: 1px $gray solid;
+    width: 280px;
+    border-radius: 3px;
+  }
+
+  input:focus {
+    border: 1px $gray solid;
+  }
+
+  span {
+    font-size: 2rem;
+    color: $black;
+    cursor: pointer;
+    position: relative;
+    left: -40px;
+    top: 2px;
+  }
+}

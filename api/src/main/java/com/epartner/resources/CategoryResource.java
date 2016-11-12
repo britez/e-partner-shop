@@ -31,10 +31,12 @@ public class CategoryResource {
     @RequestMapping(method = RequestMethod.GET)
     public Page<CategoryRepresentation> list(
             @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
-            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
+            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page,
+            @RequestParam(required = false) String query){
         return this.service.getAllCategories(
                 Optional.ofNullable(max),
-                Optional.ofNullable(page));
+                Optional.ofNullable(page),
+                Optional.ofNullable(query));
     }
 
     @RequestMapping(value = ID, method = RequestMethod.GET)

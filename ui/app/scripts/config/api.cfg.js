@@ -17,13 +17,13 @@ let dashboardApiCfg = () => {
       .route('/api/admin/me/carousels/:id');
 
     apiProvider.endpoint('publicCarousels')
-      .route('api/carousels/:id');
+      .route('api/admin/me/carousels/:id');
 
     apiProvider.endpoint('categoryProducts')
-      .route('/api/categories/:id/products');
+      .route('/api/admin/me/categories/:id/products');
 
     apiProvider.endpoint('tags')
-      .route('/api/tags/:id');
+      .route('/api/admin/me/tags/:id');
 
     apiProvider.endpoint('meli')
       .route('/sites/MLA/search');

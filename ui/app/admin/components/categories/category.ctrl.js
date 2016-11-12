@@ -10,16 +10,43 @@ export default class CategoryController {
     }
 
     init() {
+        this.max = 5;
+        this.number = 0;
+        this.last = false;
+        this.categories = [];
+
         this.getAllCategories();
     }
 
     getAllCategories(){
+
+        let params = {
+            page: this.number,
+            max: this.max
+        };
+
+        if(this.query) {
+            params.query = this.query
+        }
+
         this.api.categories
-            .get()
+            .get(params)
             .$promise
-            .then((response) => {
-                this.categories = response.content;
-            })
+            .then(response => {
+                this.number = response.number;
+                this.last = response.last;
+                this.categories = this.categories.concat(response.content);
+            });
+    }
+
+    loadMoreCategories() {
+        if(this.last) {
+            return;
+        }
+
+        this.number = this.number + 1;
+
+        this.getAllCategories();
     }
 
     isDisabled(category) {
@@ -27,7 +54,7 @@ export default class CategoryController {
     }
 
     expand(category) {
-        if(CategoryController.isDisabled(category)){
+        if(this.isDisabled(category)){
             return;
         }
         category.show = true;
@@ -38,7 +65,7 @@ export default class CategoryController {
             .remove({id: category.id})
             .$promise
             .then(() => {
-                this.getAllCategories();
+                this.init();
             })
     }
 
