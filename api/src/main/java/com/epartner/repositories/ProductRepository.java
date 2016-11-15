@@ -18,4 +18,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     long countByCategory(Category id);
 
     Page<Product> findAllByIsPublished(Boolean aBoolean, Pageable pageRequest);
+
+    Page<Product> findAllByNameContainingOrDescriptionContaining(String name, String description, Pageable pageRequest);
 }

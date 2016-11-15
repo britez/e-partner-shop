@@ -26,6 +26,10 @@ export default class ProductsController {
             page: this.number
         };
 
+        if(this.query) {
+            params.query = this.query;
+        }
+
         this.api.products
             .get(params)
             .$promise
@@ -50,7 +54,7 @@ export default class ProductsController {
             .remove({id: product.id})
             .$promise
             .then(() => {
-                this.getAllProducts();
+                this.init();
             })
     }
 

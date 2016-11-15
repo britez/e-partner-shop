@@ -60,8 +60,10 @@ public class ProductResource {
     public Page<ProductRepresentation> list(
         @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
         @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page,
-        @RequestParam(required = false) Boolean isPublished){
+        @RequestParam(required = false) String query){
         return this.productService.list(
-                Optional.ofNullable(isPublished), Optional.ofNullable(max), Optional.ofNullable(page));
+                Optional.ofNullable(query),
+                Optional.ofNullable(max),
+                Optional.ofNullable(page));
     }
 }

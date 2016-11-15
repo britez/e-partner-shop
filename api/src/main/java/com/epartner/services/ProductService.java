@@ -86,14 +86,21 @@ public class ProductService {
         repository.delete(this.get(id));
     }
 
+    //TODO: Usar en el resource publico de productos.
+    public Page<ProductRepresentation> listByPublished(Optional<Boolean> isPublished, Optional<Integer> max, Optional<Integer> page){
+        PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
+        Page<Product> stored = this.repository.findAllByIsPublished(isPublished.orElse(true),pageRequest);
+        return this.converter.convert(stored, pageRequest);
+    }
+
     public Page<ProductRepresentation> list(
-            Optional<Boolean> isPublished, Optional<Integer> max, Optional<Integer> page) {
+            Optional<String> query, Optional<Integer> max, Optional<Integer> page) {
 
         Page<Product> stored;
         PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
 
-        if(isPublished.isPresent()) {
-            stored = this.repository.findAllByIsPublished(isPublished.orElse(true),pageRequest);
+        if(query.isPresent()) {
+            stored = this.repository.findAllByNameContainingOrDescriptionContaining(query.get(), query.get(), pageRequest);
         } else {
             stored = this.repository.findAll(pageRequest);
         }
