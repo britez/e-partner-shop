@@ -8,6 +8,7 @@ header-component {
       height: 55px;
       padding: 15px 0 0 0;
     }
+
   }
 
   ul {
@@ -152,6 +153,15 @@ header-component {
       p.active a {
         color: $orange;
       }
+    }
+
+    .sub-menu-container.admin {
+      margin: 0 0 0 468px;
+    }
+
+    .sub-menu-container.session {
+      text-align: right;
+      padding: 10px 15px;
     }
 
   }

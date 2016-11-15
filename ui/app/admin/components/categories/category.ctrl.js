@@ -26,7 +26,7 @@ export default class CategoryController {
         };
 
         if(this.query) {
-            params.query = this.query
+            params.query = this.query;
         }
 
         this.api.categories
@@ -66,7 +66,7 @@ export default class CategoryController {
             .$promise
             .then(() => {
                 this.init();
-            })
+            });
     }
 
 }

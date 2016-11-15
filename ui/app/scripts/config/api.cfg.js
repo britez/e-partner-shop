@@ -17,7 +17,7 @@ let dashboardApiCfg = () => {
       .route('/api/admin/me/carousels/:id');
 
     apiProvider.endpoint('publicCarousels')
-      .route('api/admin/me/carousels/:id');
+      .route('api/carousels/:id');
 
     apiProvider.endpoint('categoryProducts')
       .route('/api/admin/me/categories/:id/products');

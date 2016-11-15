@@ -11,6 +11,7 @@ import com.epartner.representations.ProductRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -97,7 +98,7 @@ public class ProductService {
             stored = this.repository.findAll(pageRequest);
         }
 
-        return this.converter.convert(stored);
+        return this.converter.convert(stored, pageRequest);
     }
 
     public void addImage(Long id, List<MultipartFile> files) {
@@ -122,11 +123,13 @@ public class ProductService {
             Optional<Integer> max, Optional<Integer> page) {
         Category param = new Category();
         param.setId(id);
+        Pageable pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
         return this.converter.convert(
                 this.repository.findAllByCategoryAndIsPublished(
                         param,
                         isPublished.orElse(true),
-                        new PageRequest(page.orElse(PAGE), max.orElse(MAX))));
+                        pageRequest),
+                pageRequest);
     }
 
     private void saveProduct(Product product) {

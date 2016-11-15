@@ -48,6 +48,7 @@ public class CategoryService {
             final Optional<Integer> page,
             final Optional<String> query){
         PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
+
         Page<Category> stored;
         if(query.isPresent()) {
             stored = categoryRepository.findAllByNameContainingOrDescriptionContaining(query.get(), query.get(), pageRequest);
