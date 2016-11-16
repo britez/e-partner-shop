@@ -8,6 +8,7 @@ import com.epartner.representations.CarouselRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,11 +38,22 @@ public class CarouselService {
         this.storageService = storageService;
     }
 
-    public Page<CarouselRepresentation> getAll(Optional<Integer> max, Optional<Integer> page) {
-        Page<Carousel> stored = carouselRepository.findAll(
-                new PageRequest(page.orElse(PAGE), max.orElse(MAX))
-        );
-        return this.converter.convert(stored);
+    public Page<CarouselRepresentation> getAll(
+            Optional<String> query,
+            Optional<Integer> max,
+            Optional<Integer> page) {
+        Pageable pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
+        Page<Carousel> stored;
+        if(query.isPresent()){
+            stored = carouselRepository.findAllByTitleContainingOrSubtitleContaining(
+                    query.get(),
+                    query.get(),
+                    pageRequest);
+        } else {
+            stored = carouselRepository.findAll(pageRequest);
+        }
+
+        return this.converter.convert(stored, pageRequest);
 
     }
 

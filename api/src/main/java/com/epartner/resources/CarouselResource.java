@@ -34,8 +34,10 @@ public class CarouselResource {
     @RequestMapping(method = RequestMethod.GET)
     public Page<CarouselRepresentation> list(
             @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
-            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
+            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page,
+            @RequestParam(required = false) String query){
         return this.service.getAll(
+                Optional.ofNullable(query),
                 Optional.ofNullable(max),
                 Optional.ofNullable(page));
     }
