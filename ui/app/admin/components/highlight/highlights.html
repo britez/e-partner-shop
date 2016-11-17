@@ -7,6 +7,15 @@
             <a
                 class="btn-lg btn-primary pull-right"
                 ui-sref="highlights-detail({id: null})">Nuevo destacado</a>
+
+            <div class="search-form pull-right">
+                <form ng-submit="ctrl.init()">
+                    <input type="text" placeholder="B&uacute;sca destacados" ng-model="ctrl.query">
+                    <span>
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </span>
+                </form>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -38,6 +47,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-12 more-button" ng-if="!ctrl.last">
+            <a class="btn-lg btn-primary" ng-click="ctrl.loadMoreTags()">Mostrar más</a>
         </div>
     </div>
 </div>

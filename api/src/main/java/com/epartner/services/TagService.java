@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityExistsException;
@@ -78,43 +79,23 @@ public class TagService {
     public Page<TagRepresentation> list(
             Optional<Integer> max,
             Optional<Integer> page,
-            Optional<Boolean> isCategory) {
+            Optional<Boolean> isCategory,
+            Optional<String> query) {
 
         Page<Tag> stored;
+        Pageable pageRequest = this.buildPageRequest(max, page);
 
         if(!isCategory.isPresent()) {
-            stored = this.repository.findAll(this.buildPageRequest(max, page));
+            stored = this.repository.findAllByNameContaining(query.orElse(""), pageRequest);
         } else {
-            stored = this.repository.findAllByIsCategory(isCategory.get(), this.buildPageRequest(max, page));
+            stored = this.repository.findAllByIsCategoryAndNameContaining(isCategory.get(), query.orElse(""), pageRequest);
         }
 
-        return this.converter.convert(stored);
+        return this.converter.convert(stored, pageRequest);
     }
 
     private PageRequest buildPageRequest(Optional<Integer> max, Optional<Integer> page){
         return new PageRequest(page.orElse(PAGE), max.orElse(MAX));
-    }
-
-
-    //TODO: No creo que necesitemos este servicio
-    @Deprecated
-    public Page<TagRepresentation> findAllTagByProduct(Long productId) {
-        Product product = null;
-        return new PageImpl<>(
-                product
-                    .getTags()
-                    .stream()
-                    .map(t -> {
-
-                        TagRepresentation t2 = this.converter.convert(t);
-                        t2.setProducts(new ArrayList<>());
-
-                        return t2;
-                    })
-                    .filter(t1 -> !t1.getIsCategory())
-                    .collect(Collectors.toList())
-            );
-
     }
 
     public TagRepresentation getByName(String name) {
