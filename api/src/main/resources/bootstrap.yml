@@ -4,4 +4,4 @@ spring:
   cloud:
     config:
       env: develop
-      uri: http://localhost:18090/config
+      uri: http://e-partner-cloud-config:18090/config

@@ -61,10 +61,12 @@ class ProductResourceTests extends Specification {
         setup:
         def mockedProduct = Mock(ProductRepresentation)
         def mockedResult = new PageImpl([mockedProduct])
+        def query = ""
+
         when:
-        def result = resource.list(10, 0)
+        def result = resource.list(10, 0, query)
         then:
-        1 * mockedService.list(Optional.of(10), Optional.of(0)) >> mockedResult
+        1 * mockedService.list(Optional.of(""), Optional.of(10), Optional.of(0)) >> mockedResult
         result
         def product = result.getContent().get(0)
         product

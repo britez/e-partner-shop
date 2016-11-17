@@ -34,8 +34,8 @@ import './templates';
 const app = angular.module('giu-ui.app',
   [
     'ui.router',
-      'angular-loading-bar',    
-      'security.module',
+    'angular-loading-bar',
+    'security.module',
     'crud.module',
     'ui.bootstrap',
     'ngAnimate',

@@ -14,6 +14,7 @@ gulp.task('serve', ['compile'], function (done) {
 
   routes['/styles'] = 'dist/styles';
   routes['/cdn/cdn-epartner-shop-ui/images/'] = 'dist/cdn/cdn-epartner-shop-ui/images/';
+  routes['/cdn/cdn-epartner-shop-ui/fonts/'] = 'dist/cdn/cdn-epartner-shop-ui/fonts/';
   routes['/cdn/cdn-'+packageJson.name+'/'] = packageJson.moduleConfig.output + 'cdn-'+packageJson.name;
 
   var proxyOptions = url.parse('http://localhost:18100/api');
