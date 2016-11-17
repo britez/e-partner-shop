@@ -71,7 +71,7 @@ export default class CarouselController {
 
     uploadPrincipalPicture(carouselId) {
         return this.uploader.upload({
-            url: 'api/carousels/' + carouselId + '/principal-images',
+            url: 'api/admin/me/carousels/' + carouselId + '/principal-images',
             data: {file: this.principalPic},
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
@@ -79,7 +79,7 @@ export default class CarouselController {
 
     uploadBackgroundPicture(carouselId) {
         return this.uploader.upload({
-            url: 'api/carousels/' + carouselId + '/background-images',
+            url: 'api/admin/me/carousels/' + carouselId + '/background-images',
             data: {file: this.backgroundPic},
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });

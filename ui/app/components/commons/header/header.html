@@ -2,7 +2,7 @@
     <div class="container">
         <a ui-sref="home()"><img class="pull-left" src="e-partner-white.png" /></a>
         <ul class="pull-right">
-            <li><a><i class="fa fa-phone" uib-tooltip="Tel: 4957 - 0409" tooltip-placement="bottom" aria-hidden="true"></i></a></li>
+            <li><a><i class="animated fa fa-phone" ng-class="{'shake': header.intervalCount}" uib-tooltip="Tel: 4957 - 0409" tooltip-placement="bottom" aria-hidden="true"></i></a></li>
             <li><a><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
             <li><a class="search">
                 <i class="fa fa-search" aria-hidden="true" ng-click="header.search = !header.search;"></i>
@@ -20,18 +20,35 @@
     <div class="container">
         <ul class="pull-left">
             <li ui-sref="home()" ui-sref-active="active"><a>Inicio</a></li>
-            <li ui-sref="categories()" ui-sref-active="active"><a>Categor&iacute;as</a></li>
-            <li ui-sref="products()" ui-sref-active="active"><a>Productos</a></li>
-            <li ui-sref="highlights()" ui-sref-active="active"><a>Destacados</a></li>
-            <li ui-sref="carousels()" ui-sref-active="active"><a>Carrusel</a></li>
+            <li><a>Compras</a></li>
+            <li><a>Contacto</a></li>
+            <li><a>nosotros</a></li>
+            <li ng-mouseenter="header.admin = true;" ng-mouseleave="header.admin = false" ng-click="header.admin = true">
+                <a>administrar</a>
+                <div ng-class="{'out':!header.admin, 'hide': !header.admin}" class="sub-menu">
+                    <div class="container sub-menu-container admin">
+                        <span>Mantenimiento del sitio</span>
+                        <p ui-sref="categories()" ui-sref-active="active"><a>Categor&iacute;as</a></p>
+                        <p ui-sref="products()" ui-sref-active="active"><a>Productos</a></p>
+                        <p ui-sref="highlights()" ui-sref-active="active"><a>Destacados</a></p>
+                        <p ui-sref="carousels()" ui-sref-active="active"><a>Carrusel</a></p>
+                    </div>
+                </div>
+            </li>
         </ul>
 
         <ul class="pull-right log-in">
             <li ng-if="!header.authService.isAuthenticated()">
                 <a ng-click="header.authService.login()">Ingresar</a>
             </li>
-            <li ng-if="header.authService.isAuthenticated()">
+            <li ng-if="header.authService.isAuthenticated()" ng-mouseenter="header.user = true;" ng-mouseleave="header.user = false">
                 <a ui-sref="admin()">Hola admin!</a>
+                <div ng-class="{'out':!header.user, 'hide': !header.user}" class="sub-menu">
+                    <div class="container sub-menu-container session">
+                        <span>Maximiliano Britez</span>
+                        <p ng-click="header.logout()"><a>Salir</a></p>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>

@@ -4,7 +4,6 @@ import com.epartner.representations.TagRepresentation;
 import com.epartner.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -12,11 +11,13 @@ import java.util.Optional;
 /**
  * Created by martin on 24/09/16.
  */
-@RequestMapping(value = TagResource.TAGS)
+@RequestMapping(value = {TagResource.TAGS, TagResource.PUBLIC_TAGS})
 @RestController
 public class TagResource {
 
-    public static final String TAGS = "api/tags";
+    public static final String TAGS = "api/admin/me/tags";
+    public static final String PUBLIC_TAGS = "api/tags";
+
     private final TagService tagService;
 
     //TODO: extraer a una clase o config

@@ -127,7 +127,7 @@
         <div class="col-md-12 products" ng-repeat="tag in home.tags">
             <div class="row">
                 <div class="float-label">
-                    <span>{{tag.name}}</span>
+                    <span ui-sref="home-categories({id: tag.id})">{{tag.name}}</span>
                 </div>
                 <div class="product col-md-3" ng-repeat="product in tag.products">
                     <img ng-src="{{product.principalImage.url}}">

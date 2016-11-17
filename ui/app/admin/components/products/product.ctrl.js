@@ -77,8 +77,8 @@ export default class ProductController {
                 .then(response => {
                     let productId = response.id;
                     var promises = [];
-                    promises.push(this.uploadPrincipalPicture(productId));
                     promises.push(this.uploadPictures(productId));
+                    promises.push(this.uploadPrincipalPicture(productId));
                     this.$q
                         .all(promises)
                         .then(() => {
@@ -91,8 +91,8 @@ export default class ProductController {
 
     uploadProductAndPrincipalPicture(productId) {
         return this.uploader.upload({
-            url: 'api/products/' + productId + '/product-images',
-            data: {file: this.pictures},
+            url: 'api/admin/me/products/' + productId + '/images',
+            data: {file: this.principalPic},
             arrayKey: '',
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
@@ -100,7 +100,7 @@ export default class ProductController {
 
     uploadPrincipalPicture(productId) {
         return this.uploader.upload({
-            url: 'api/products/' + productId + '/principal-images',
+            url: 'api/admin/me/products/' + productId + '/principal-images',
             data: {file: this.principalPic},
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
@@ -108,7 +108,7 @@ export default class ProductController {
 
     uploadPictures(productId) {
         return this.uploader.upload({
-            url: 'api/products/' + productId + '/images',
+            url: 'api/admin/me/products/' + productId + '/images',
             data: {files: this.pictures},
             arrayKey: '',
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}

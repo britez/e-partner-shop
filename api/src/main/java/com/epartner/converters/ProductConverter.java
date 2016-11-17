@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -92,13 +94,15 @@ public class ProductConverter {
 
     }
 
-    public Page<ProductRepresentation> convert(Page<Product> page) {
+    public Page<ProductRepresentation> convert(Page<Product> page, Pageable pageRequest) {
         return new PageImpl<>(
                 page
                     .getContent()
                     .stream()
                     .map(this::convert)
-                    .collect(Collectors.toList())
+                    .collect(Collectors.toList()),
+                pageRequest,
+                page.getTotalElements()
         );
     }
 }

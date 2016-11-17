@@ -5,7 +5,6 @@ import com.epartner.domain.Category;
 import com.epartner.exceptions.CategoryInUseException;
 import com.epartner.repositories.CategoryRepository;
 import com.epartner.repositories.ProductRepository;
-import com.epartner.repositories.TagRepository;
 import com.epartner.representations.CategoryRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,8 +16,6 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static java.util.Optional.of;
 
 /**
  * Created by mbritez on 28/08/16.
@@ -46,22 +43,27 @@ public class CategoryService {
         this.tagService = tagService;
     }
 
-    public Page<CategoryRepresentation> getAllCategories(final Optional<Integer> max, final Optional<Integer> page){
-        Page<Category> stored = categoryRepository.findAll(
-                new PageRequest(page.orElse(PAGE), max.orElse(MAX))
-        );
-        return this.customConverter(stored);
+    public Page<CategoryRepresentation> getAllCategories(
+            final Optional<Integer> max,
+            final Optional<Integer> page,
+            final Optional<String> query){
+        PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
+
+        Page<Category> stored;
+        if(query.isPresent()) {
+            stored = categoryRepository.findAllByNameContainingOrDescriptionContaining(query.get(), query.get(), pageRequest);
+        } else {
+            stored = categoryRepository.findAll(pageRequest);
+        }
+        return new PageImpl<>(this.customConverter(stored), pageRequest, stored.getTotalElements());
     }
 
-    private Page<CategoryRepresentation> customConverter(Page<Category> categories) {
-        PageImpl<CategoryRepresentation> result;
-        List<CategoryRepresentation> content = categories
+    private List<CategoryRepresentation> customConverter(Page<Category> categories) {
+        return categories
                 .getContent()
                 .stream()
                 .map(this::checkProducts)
                 .collect(Collectors.toList());
-        result = new PageImpl<>(content);
-        return result;
     }
 
     private CategoryRepresentation checkProducts(Category category) {

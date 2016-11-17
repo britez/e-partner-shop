@@ -6,7 +6,7 @@
                      data-ng-magnify
                      data-glass-width="200"
                      data-glass-height="200"
-                     data-image-src="{{item.entity.currentImage}}">
+                     data-image-src="{{item.entity.principalImage}}">
                 </div>
             </div>
             <div class="col-md-12" style="padding-top: 25px;">
@@ -14,7 +14,7 @@
                      alt=""
                      ng-repeat="img in item.entity.images"
                      ng-src="{{img}}"
-                     ng-click="item.entity.currentImage = img"
+                     ng-click="item.entity.principalImage = img"
                      style="border:1px #ccc solid; cursor: pointer; max-width: 120px; height: 120px; object-fit: cover; margin-right: 25px; margin-bottom: 25px;">
             </div>
         </div>

@@ -62,7 +62,7 @@ export default class ProductsController {
     fetch(prod) {
         return {
             name: prod.title,
-            description: prod.subtitle,
+            description: prod.subtitle || 'No Subtitle',
             price: prod.installments.amount,
             stock: prod.installments.quantity,
             category: {id: 1},

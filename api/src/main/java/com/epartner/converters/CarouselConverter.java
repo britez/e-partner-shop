@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -29,15 +30,13 @@ public class CarouselConverter {
         this.baseImageUrl = baseImageUrl;
     }
 
-    public Page<CarouselRepresentation> convert(Page<Carousel> stored) {
-        PageImpl<CarouselRepresentation> result;
+    public Page<CarouselRepresentation> convert(Page<Carousel> stored, Pageable pageRequest) {
         List<CarouselRepresentation> content = stored
                 .getContent()
                 .stream()
                 .map(this::convert)
                 .collect(Collectors.toList());
-        result = new PageImpl<>(content);
-        return result;
+        return new PageImpl<>(content, pageRequest, stored.getTotalElements());
     }
 
     public CarouselRepresentation convert(Carousel carousel) {

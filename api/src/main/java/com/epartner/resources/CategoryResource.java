@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequestMapping(value = CategoryResource.RESOURCE)
 public class CategoryResource {
 
-    public static final String RESOURCE = "api/categories";
+    public static final String RESOURCE = "api/admin/me/categories";
     public static final String DEFAULT_PAGE = "0";
     public static final String DEFAULT_MAX = "10";
     public static final String ID = "/{id}";
@@ -31,10 +31,12 @@ public class CategoryResource {
     @RequestMapping(method = RequestMethod.GET)
     public Page<CategoryRepresentation> list(
             @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
-            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
+            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page,
+            @RequestParam(required = false) String query){
         return this.service.getAllCategories(
                 Optional.ofNullable(max),
-                Optional.ofNullable(page));
+                Optional.ofNullable(page),
+                Optional.ofNullable(query));
     }
 
     @RequestMapping(value = ID, method = RequestMethod.GET)

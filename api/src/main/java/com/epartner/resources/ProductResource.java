@@ -21,7 +21,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RestController
 public class ProductResource {
 
-    public static final String PRODUCTS = "api/products";
+    public static final String PRODUCTS = "api/admin/me/products";
     public static final String ID = "/{id}";
 
     private static final String DEFAULT_PAGE = "0";
@@ -61,8 +61,10 @@ public class ProductResource {
         @RequestParam(required = false) String filter,
         @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
         @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page,
-        @RequestParam(required = false) Boolean isPublished){
-        return this.productService.list(Optional.ofNullable(filter),
-                Optional.ofNullable(isPublished), Optional.ofNullable(max), Optional.ofNullable(page));
+        @RequestParam(required = false) String query){
+        return this.productService.list(
+                Optional.ofNullable(query),
+                Optional.ofNullable(max),
+                Optional.ofNullable(page));
     }
 }

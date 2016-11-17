@@ -7,12 +7,26 @@
             <a
                 class="btn-lg btn-primary pull-right"
                 ui-sref="carousels-detail({id: null})">Nuevo Carrusel</a>
+
+            <div class="search-form pull-right">
+                <form ng-submit="ctrl.init()">
+                    <input type="text" placeholder="B&uacute;sca carruseles" ng-model="ctrl.query">
+                    <span>
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </span>
+                </form>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12" ng-if="ctrl.carousels.length === 0">
+        <div class="col-md-12" ng-if="ctrl.carousels.length === 0 && !ctrl.query">
             <div class="alert alert-info" role="alert">
                 No existen carruseles creados, por favor cree uno <a ui-sref="carousels-detail({id: null})">aqu&iacute;</a>.
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="ctrl.carousels.length === 0 && ctrl.query">
+            <div class="alert alert-info" role="alert">
+                No existen carruseles que coincidan con tu búsqueda.
             </div>
         </div>
         <div class="col-md-12" ng-if="ctrl.params.created">
@@ -50,6 +64,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-12 more-button" ng-if="!ctrl.last">
+            <a class="btn-lg btn-primary" ng-click="ctrl.loadMoreCarousels()">Mostrar más</a>
         </div>
     </div>
 </div>

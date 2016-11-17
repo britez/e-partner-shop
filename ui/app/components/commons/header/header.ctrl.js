@@ -2,27 +2,17 @@
 export default class HeaderController {
 
     /*@ngInject*/
-    constructor(authService, api) {
+    constructor(authService, $interval) {
         this.authService = authService;
-        this.api = api;
+        this.intervalCount = true;
+        $interval(() => {
+            this.intervalCount = !this.intervalCount;
+        }, 3000)
     }
 
-
-    search(){
-
-
-        this
-            .api
-            .products
-            .get({
-                filter:this.filter
-            });
+    logout() {
+        this.authService.logout();
     }
 
-    onEnter(keyEvent) {
-
-        if (keyEvent.which === 13)
-            this.search();
-    }
 
 }

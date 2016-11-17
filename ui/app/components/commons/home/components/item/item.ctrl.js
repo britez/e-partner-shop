@@ -35,8 +35,9 @@ export default class ItemCtrl{
                 .$promise
                 .then(response => {
                     this.entity = response;
-                    this.entity.currentImage = this.entity.images.find(img => img.principal).url;
-                    this.entity.images = this.entity.images.map(img => img.url)
+                    this.entity.principalImage = this.entity.principalImage.url;
+                    this.entity.images = this.entity.images.map(img => img.url);
+                    this.entity.images.push(this.entity.principalImage);
                 });
         }
     }

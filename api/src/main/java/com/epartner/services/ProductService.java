@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -88,26 +89,26 @@ public class ProductService {
         repository.delete(this.get(id));
     }
 
-    public Page<ProductRepresentation> list(Optional<String> filter,
-            Optional<Boolean> isPublished, Optional<Integer> max, Optional<Integer> page) {
+    //TODO: Usar en el resource publico de productos.
+    public Page<ProductRepresentation> listByPublished(Optional<Boolean> isPublished, Optional<Integer> max, Optional<Integer> page){
+        PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
+        Page<Product> stored = this.repository.findAllByIsPublished(isPublished.orElse(true),pageRequest);
+        return this.converter.convert(stored, pageRequest);
+    }
+
+    public Page<ProductRepresentation> list(
+            Optional<String> query, Optional<Integer> max, Optional<Integer> page) {
 
         Page<Product> stored;
         PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
 
-        if(filter.isPresent()){
-
-            stored = findAllBy(filter.get());
-        }else{
-
-            if(isPublished.isPresent()) {
-                stored = this.repository.findAllByIsPublished(isPublished.orElse(true),pageRequest);
-            } else {
-                stored = this.repository.findAll(pageRequest);
-            }
+        if(query.isPresent()) {
+            stored = this.repository.findAllByNameContainingOrDescriptionContaining(query.get(), query.get(), pageRequest);
+        } else {
+            stored = this.repository.findAll(pageRequest);
         }
 
-
-        return this.converter.convert(stored);
+        return this.converter.convert(stored, pageRequest);
     }
 
 
@@ -151,11 +152,13 @@ public class ProductService {
             Optional<Integer> max, Optional<Integer> page) {
         Category param = new Category();
         param.setId(id);
+        Pageable pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
         return this.converter.convert(
                 this.repository.findAllByCategoryAndIsPublished(
                         param,
                         isPublished.orElse(true),
-                        new PageRequest(page.orElse(PAGE), max.orElse(MAX))));
+                        pageRequest),
+                pageRequest);
     }
 
     private void saveProduct(Product product) {

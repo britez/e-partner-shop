@@ -80,7 +80,7 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
                     .csrf().disable()
 
                     .requestMatchers()
-                    .antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access", "/logout")
+                    .antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access", "/oauth/logout")
                     .and()
 
                     .authorizeRequests()
@@ -91,6 +91,7 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
                     .loginPage("/login").failureUrl("/login?error=true").permitAll()
                     .and()
                     .logout()
+                    .logoutUrl("/oauth/logout")
                     .invalidateHttpSession(true)
                     .logoutSuccessHandler(new CustomLogoutSuccessHandler()).permitAll()
                     .and()

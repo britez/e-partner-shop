@@ -15,10 +15,11 @@ import java.util.Optional;
  * Created by mapsi on 10/22/16.
  */
 @RestController
-@RequestMapping(value = CarouselResource.RESOURCE)
+@RequestMapping(value = {CarouselResource.RESOURCE, CarouselResource.PUBLIC_RESOURCE})
 public class CarouselResource {
 
-    public static final String RESOURCE = "api/carousels";
+    public static final String RESOURCE = "api/admin/me/carousels";
+    public static final String PUBLIC_RESOURCE = "api/carousels";
     public static final String DEFAULT_PAGE = "0";
     public static final String DEFAULT_MAX = "10";
     public static final String ID = "/{id}";
@@ -33,8 +34,10 @@ public class CarouselResource {
     @RequestMapping(method = RequestMethod.GET)
     public Page<CarouselRepresentation> list(
             @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
-            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
+            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page,
+            @RequestParam(required = false) String query){
         return this.service.getAll(
+                Optional.ofNullable(query),
                 Optional.ofNullable(max),
                 Optional.ofNullable(page));
     }
