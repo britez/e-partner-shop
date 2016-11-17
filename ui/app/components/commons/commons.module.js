@@ -10,6 +10,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { ItemComponent } from '../commons/home/components/item/item.component';
 import { HomeCategoryComponent } from './home/home.category.component';
+import { SearchComponent } from './search/search.component';
 
 const common = angular
     .module('commons.module', [])
@@ -18,6 +19,7 @@ const common = angular
     .component('homeComponent', HomeComponent)
     .component('homeCategoryComponent', HomeCategoryComponent)
     .component('itemComponent', ItemComponent)
+    .component('searchComponent', SearchComponent)
     .config(($stateProvider, $urlRouterProvider) => {
         $stateProvider
             .state('home', {
@@ -27,11 +29,14 @@ const common = angular
             .state('home-categories', {
                 url: '/categories/:id',
                 component: 'homeCategoryComponent'
-            });
-        $stateProvider
+            })
             .state('item', {
                 url: '/item/:id',
                 component: 'itemComponent'
+            })
+            .state('search', {
+                url: '/search/:query',
+                component: 'searchComponent'
             });
         $urlRouterProvider.otherwise('/');
     })

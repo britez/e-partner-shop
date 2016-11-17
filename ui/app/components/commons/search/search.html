@@ -1,0 +1,26 @@
+<div id="home">
+    <div uib-carousel active="home.active" interval="home.myInterval">
+        <div uib-slide ng-repeat="carousel in home.carousels track by $index" index="$index" style="{{home.getUrl(carousel)}}">
+            <img ng-src="{{carousel.principalImage.url}}" class="animated fadeInLeftBig"/>
+            <a href="{{carousel.titleUrl}}" class="header animated fadeInUp">{{carousel.title}}</a>
+            <a href="{{carousel.subtitleUrl}}" class="sub-header animated fadeInRight">{{carousel.subtitle}}</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-md-12 products">
+            <div class="row">
+
+                <div class="product col-md-3" ng-repeat="item in search.products.content">
+                    <img ng-src="{{item.principalImage.url}}">
+                    <span>{{item.name}}</span>
+                    <p>${{item.price}}</p>
+                    <div class="overlay">
+                        <a ui-sref="item({id: item.id})">Ver mas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

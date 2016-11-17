@@ -10,6 +10,9 @@ let dashboardApiCfg = () => {
     apiProvider.endpoint('products')
       .route('/api/admin/me/products/:id');
 
+    apiProvider.endpoint('publicProducts')
+        .route('/api/products/:id');
+
     apiProvider.endpoint('productImages')
       .route('/api/admin/me/products/:id/images');
 
