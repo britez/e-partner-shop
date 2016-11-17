@@ -112,24 +112,6 @@ public class ProductService {
     }
 
 
-    private Page<Product> findAllBy(String filter){
-
-        List<Product> filterProducts = this.repository
-                .findAll()
-                .stream()
-                .filter(p -> shouldFilter(p, filter))
-                .collect(Collectors.toList());
-
-        return new PageImpl<Product>(filterProducts);
-    }
-
-    private Boolean shouldFilter(Product product, String filter){
-
-        return product.getName().contains(filter)
-                || product.getDescription().contains(filter)
-                || product.getCategory().getName().contains(filter);
-    }
-
     public void addImage(Long id, List<MultipartFile> files) {
         Product product = this.get(id);
 
@@ -157,6 +139,22 @@ public class ProductService {
                 this.repository.findAllByCategoryAndIsPublished(
                         param,
                         isPublished.orElse(true),
+                        pageRequest),
+                pageRequest);
+    }
+
+    public Page<ProductRepresentation> listPublished(
+            Optional<String> query,
+            Optional<Integer> max, Optional<Integer> page) {
+
+
+        Pageable pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
+
+        return this.converter.convert(
+                this.repository.findAllByIsPublishedAndNameContainingOrDescriptionContaining(
+                        true,
+                        query.get(),
+                        query.get(),
                         pageRequest),
                 pageRequest);
     }

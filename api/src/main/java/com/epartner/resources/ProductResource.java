@@ -58,7 +58,6 @@ public class ProductResource {
 
     @RequestMapping(method = GET)
     public Page<ProductRepresentation> list(
-        @RequestParam(required = false) String filter,
         @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
         @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page,
         @RequestParam(required = false) String query){
