@@ -101,10 +101,10 @@ task buildDocker(type: Docker, dependsOn: build) {
         }
     }
 
-    volume("/tmp", "/newrelic", "/log")
+    volume("/tmp", "/log")
     addFile("${jar.baseName}-${project.version}.jar", "app.jar")
     runCommand("bash -c 'touch /app.jar'")
-    entryPoint(["java","-Djava.security.egd=file:/dev/./urandom", "-javaagent:/newrelic/newrelic.jar","-jar","/app.jar"])
+    entryPoint(["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"])
 }
 
 

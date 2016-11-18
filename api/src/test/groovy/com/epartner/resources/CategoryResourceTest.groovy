@@ -26,12 +26,13 @@ class CategoryResourceTest extends Specification {
         def mockedResult = new PageImpl([])
         def max = 10
         def page = 0
+        def query = ""
 
         when:
-        def result = resource.list(max, page)
+        def result = resource.list(max, page, query)
 
         then:
-        1 * mockedService.getAllCategories(_ as Optional, _ as Optional) >> mockedResult
+        1 * mockedService.getAllCategories(_ as Optional, _ as Optional, _ as Optional) >> mockedResult
         result
         result == mockedResult
     }
@@ -69,17 +70,6 @@ class CategoryResourceTest extends Specification {
 
         then:
         1 * mockedService.delete(1L)
-    }
-
-    def "handle error"() {
-        setup:
-        def mockedEx = Mock(EntityNotFoundException)
-
-        when:
-        resource.handle(mockedEx)
-
-        then:
-        true
     }
 
 }

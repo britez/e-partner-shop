@@ -15,5 +15,7 @@ public interface TagRepository  extends JpaRepository<Tag, Long> {
 
     Optional<Tag> findOneByName(String name);
 
-    Page<Tag> findAllByIsCategory(Boolean isCategory, Pageable pageRequest);
+    Page<Tag> findAllByNameContaining(String query, Pageable pageRequest);
+
+    Page<Tag> findAllByIsCategoryAndNameContaining(Boolean isCategory, String query, Pageable pageRequest);
 }

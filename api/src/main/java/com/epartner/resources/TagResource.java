@@ -38,8 +38,11 @@ public class TagResource {
     public Page<TagRepresentation> list(
                 @RequestParam(required = false) Boolean isCategory,
                 @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
-                @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
-        return this.tagService.list(Optional.ofNullable(max), Optional.ofNullable(page), Optional.ofNullable(isCategory));
+                @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page,
+                @RequestParam(required = false) String query){
+        return this.tagService.list(
+                Optional.ofNullable(max), Optional.ofNullable(page),
+                Optional.ofNullable(isCategory), Optional.ofNullable(query));
     }
 
     @RequestMapping(method = RequestMethod.POST)

@@ -7,6 +7,7 @@ import com.epartner.representations.builders.TagRepresentationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -50,13 +51,15 @@ public class TagConverter {
 
     }
 
-    public Page<TagRepresentation> convert(Page<Tag> page) {
+    public Page<TagRepresentation> convert(Page<Tag> page, Pageable pageable) {
         return new PageImpl<>(
                 page
                 .getContent()
                 .stream()
                 .map(this::convert)
-                .collect(Collectors.toList())
+                .collect(Collectors.toList()),
+                pageable,
+                page.getTotalElements()
         );
     }
 }
