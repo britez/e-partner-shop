@@ -22,6 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findAllByNameContainingOrDescriptionContaining(String name, String description, Pageable pageRequest);
 
-    @Query("select p from Product p where (p.name like ?2 and p.description like ?3) or p.isPublished = ?1")
-    Page<Product> findAllByIsPublishedAndNameContainingOrDescriptionContaining(Boolean published, String name, String description, Pageable pageRequest);
+    @Query("select p from Product p where (p.name like ?2 or p.description like ?3) and p.isPublished = ?1")
+    Page<Product> findAllByIsPublishedAndNameOrDescription(Boolean published, String name, String description, Pageable pageRequest);
 }
