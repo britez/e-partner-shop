@@ -150,11 +150,13 @@ public class ProductService {
 
         Pageable pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
 
+        String queryFilter = query.map(q -> "%"+q+"%").orElse("%");
+
         return this.converter.convert(
-                this.repository.findAllByIsPublishedAndNameContainingOrDescriptionContaining(
+                this.repository.findAllByIsPublishedAndNameOrDescription(
                         true,
-                        query.get(),
-                        query.get(),
+                        queryFilter,
+                        queryFilter,
                         pageRequest),
                 pageRequest);
     }
