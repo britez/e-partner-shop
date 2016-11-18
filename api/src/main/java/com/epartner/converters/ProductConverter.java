@@ -50,6 +50,7 @@ public class ProductConverter {
                 .setName(productRepresentation.getName())
                 .setPrice(productRepresentation.getPrice())
                 .setImported(Optional.ofNullable(productRepresentation.getImported()).orElse(false))
+                .setImportedId(Optional.ofNullable(productRepresentation.getMeliId()).orElse(null))
                 .setPublished(Optional.ofNullable(productRepresentation.getPublished()).orElse(true))
                 .setCategory(
                         this.categoryConverter.convert(productRepresentation.getCategory()))

@@ -28,6 +28,9 @@ let dashboardApiCfg = () => {
     apiProvider.endpoint('tags')
       .route('/api/admin/me/tags/:id');
 
+    apiProvider.endpoint('productImports')
+      .route('api/admin/me/product-imports');
+
     apiProvider.endpoint('meli')
       .route('/sites/MLA/search');
   }];

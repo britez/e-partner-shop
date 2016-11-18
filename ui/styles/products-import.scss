@@ -4,15 +4,12 @@
 
   .product-list {
     padding: 20px 15px;
-    text-align: center;
 
     .category-item {
       cursor: pointer;
       box-shadow: rgba(34, 25, 25, 0.4) 0 2px 3px;
       background: $mate-white;
       display: inline-block;
-      margin: 0 10px 10px 0;
-      width: 114px;
       border: 2px $gray solid;
       transition: all 0.5s ease;
 
@@ -20,6 +17,7 @@
         width: 100%;
         object-fit: cover;
         padding: 0 0 10px 0;
+        max-height: 225px;
       }
 
       span {

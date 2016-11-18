@@ -22,6 +22,7 @@ public class ProductRepresentation {
     private List<TagRepresentation> tags;
     private Boolean isImported;
     private Boolean isPublished;
+    private String meliId;
 
     public ProductRepresentation(){
         this.images = new ArrayList<>();
@@ -154,4 +155,13 @@ public class ProductRepresentation {
     public void setPublished(Boolean published) {
         isPublished = published;
     }
+
+    public String getMeliId() {
+        return meliId;
+    }
+
+    public void setMeliId(String meliId) {
+        this.meliId = meliId;
+    }
+
 }

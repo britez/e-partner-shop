@@ -9,17 +9,47 @@
                 <a
                     class="btn-lg btn-primary pull-right"
                     ng-click="ctrl.loadProducts()">Importar productos</a>
-            </div>
-
-            <div class="col-md-12 product-list">
-                <div class="category-item" ng-repeat="product in ctrl.products" ng-class="{'toggled': product.highlight}" ng-click="ctrl.toggleProduct(product)">
-                    <img ng-src="{{product.thumbnail}}">
-                    <span>{{product.title}}</span>
+                <div class="search-form pull-right">
+                    <form ng-submit="ctrl.init()">
+                        <input type="text" placeholder="B&uacute;sca productos" ng-model="ctrl.query">
+                        <span>
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </span>
+                    </form>
                 </div>
             </div>
-
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="category">Categoria</label>
+                    <input ng-class = "{'invalid': (productForm.category.$invalid && productForm.category.$touched) || (productForm.$submitted && productForm.category.$invalid)}"
+                           id="category"
+                           type="text"
+                           name="category"
+                           required=""
+                           placeholder="Elija la categoría"
+                           ng-model="ctrl.category"
+                           uib-typeahead="category as category.name for category in ctrl.categories  | filter:$viewValue | limitTo:8"
+                           typeahead-editable="false"
+                           class="form-control">
+                    <div ng-messages="productForm.category.$error" ng-show="productForm.category.$touched || productForm.$submitted">
+                        <span class="error" ng-message="required">La categor&iacute;a es requerida.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 product-list" ng-repeat="product in ctrl.products" ng-click="ctrl.toggleProduct(product)">
+                <div class="category-item" ng-class="{'toggled': product.highlight}">
+                    <img ng-src="{{product.principalImage.url}}">
+                    <span>{{product.name}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-if="!ctrl.last">
             <div class="col-md-12 more-button">
-                <a class="btn-lg btn-primary" ng-click="ctrl.getAllProducts()">Mostrar más</a>
+                <a class="btn-lg btn-primary" ng-click="ctrl.loadMoreProducts()">Mostrar más</a>
             </div>
         </div>
     </div>

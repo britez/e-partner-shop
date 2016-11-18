@@ -7,33 +7,52 @@ export default class ProductsController {
         this.api = api;
         this.state = $state;
         this.q = $q;
-        this.offset = 0;
-        this.limit = 50;
+
+        this.init();
+    }
+
+    init() {
+        this.max = 5;
+        this.page = 0;
         this.products = [];
+
         this.getAllProducts();
+        this.api.categories
+            .get()
+            .$promise
+            .then(response => {
+                this.categories = response.content;
+            });
+
     }
 
     getAllProducts(){
 
         let params = {
-            seller_id: 165975732,
-            offset: this.offset,
-            limit: this.limit
+            max: this.max,
+            page: this.page
         };
 
-        if(this.offset > this.total) {
-            return;
+        if(this.query) {
+            params.query = this.query;
         }
 
-        this.api.meli
+        this.api.productImports
             .get(params)
             .$promise
-            .then((response) => {
-                this.total = response.paging.total;
-                this.limit = response.paging.limit;
-                this.offset = this.offset + this.limit;
-                this.products = this.products.concat(response.results);
+            .then(response => {
+                this.last = response.last;
+                this.products = this.products.concat(response.content);
             })
+    }
+
+    loadMoreProducts() {
+        if(this.last)
+            return;
+
+        this.page = this.page + 1;
+
+        this.getAllProducts();
     }
 
     toggleProduct(product){
@@ -42,38 +61,14 @@ export default class ProductsController {
 
     loadProducts(){
         let products = this.products
-            .filter(prod => prod.highlight)
-            .map(prod => this.fetch(prod));
+            .filter(prod => prod.highlight);
 
-        let promises = [];
-
-        products.forEach(prod => {
-            promises.push(this.api.products.save({},prod).$promise)
-        });
-
-        this.q
-            .all(promises)
+        this.api
+            .productImports
+            .save({categoryId: this.category.id}, this.products)
             .then(() => {
                 this.state.go('products', {imported: true})
-            })
-
-    }
-
-    fetch(prod) {
-        return {
-            name: prod.title,
-            description: prod.subtitle || 'No Subtitle',
-            price: prod.installments.amount,
-            stock: prod.installments.quantity,
-            category: {id: 1},
-            importId: prod.id,
-            published: false,
-            imported: true,
-            principalImage: {
-              url: prod.thumbnail
-            },
-            technicalSpecifications: []
-        }
+            });
 
     }
 
