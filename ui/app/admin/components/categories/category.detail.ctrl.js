@@ -95,10 +95,6 @@ export default class CategoryDetailController {
             page: this.page
         };
 
-        if(this.query) {
-            params.query = this.query;
-        }
-
         this.api
             .categoryProducts
             .get(params)
@@ -142,15 +138,6 @@ export default class CategoryDetailController {
                         this.init()
                     })
             }
-        }
-    }
-
-    submitSearch($event){
-        if($event.key === 'Enter') {
-            this.init();
-            $event.preventDefault();
-            $event.stopPropagation();
-            $event.stopImmediatePropagation();
         }
     }
 
