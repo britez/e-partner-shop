@@ -78,6 +78,7 @@ public class ProductConverter {
                 .setDescription(product.getDescription())
                 .setPrincipalImage(product.getPrincipalImage())
                 .setImages(product.getImages())
+                .setMeliId(product.getImportedId())
                 .setName(product.getName())
                 .setImported(Optional.ofNullable(product.getImported()).orElse(false))
                 .setPrice(product.getPrice())

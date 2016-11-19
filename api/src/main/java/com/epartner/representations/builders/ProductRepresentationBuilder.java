@@ -22,6 +22,7 @@ public class ProductRepresentationBuilder {
     private List<TagRepresentation> tags;
     private Boolean isImported;
     private Boolean isPublished;
+    private String meliId;
 
     public ProductRepresentationBuilder setTechnicalSpecifications(List<TechnicalSpecificationRepresentation> technicalSpecificationRepresentations){
         this.technicalSpecifications = technicalSpecificationRepresentations;
@@ -93,6 +94,7 @@ public class ProductRepresentationBuilder {
 
         result.setPublished(this.isPublished);
         result.setImported(this.isImported);
+        result.setMeliId(this.getMeliId());
         return result;
     }
 
@@ -116,5 +118,14 @@ public class ProductRepresentationBuilder {
     public ProductRepresentationBuilder setPublished(Boolean published) {
         isPublished = published;
         return this;
+    }
+
+    public ProductRepresentationBuilder setMeliId(String meliId) {
+        this.meliId = meliId;
+        return this;
+    }
+
+    public String getMeliId() {
+        return meliId;
     }
 }

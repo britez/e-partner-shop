@@ -27,11 +27,9 @@ public class CategoryProductResource {
     @RequestMapping(method = RequestMethod.GET)
     public Page<ProductRepresentation> list(
         @PathVariable Long id,
-        @RequestParam(required = false) Boolean isPublished,
         @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
         @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
         return this.productService.listByCategoryId(id,
-                Optional.ofNullable(isPublished),
                 Optional.ofNullable(max),
                 Optional.ofNullable(page));
     }

@@ -68,7 +68,7 @@ export default class ProductsController {
 
         this.api
             .productImports
-            .save({categoryId: this.category.id}, this.products)
+            .save({categoryId: this.category.id}, products)
             .$promise
             .then(() => {
                 this.state.go('products', {imported: true})

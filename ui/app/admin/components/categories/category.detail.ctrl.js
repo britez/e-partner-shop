@@ -11,16 +11,25 @@ export default class CategoryDetailController {
     }
 
     init(){
+        this.max = 5;
+        this.page = 0;
+        this.last = false;
+        this.categoryProducts = [];
+
         this.entity = {};
         if(!this.isNew()){
-            this.api.categories
-                .get({id: this.$state.params.id})
-                .$promise
-                .then(response => {
-                    this.entity = response;
-                    this.loadCategoryProducts();
-                }, error => { this.error = 'No existe la categoría seleccionada.'})
+            this.loadCategory();
         }
+    }
+
+    loadCategory() {
+        this.api.categories
+            .get({id: this.$state.params.id})
+            .$promise
+            .then(response => {
+                this.entity = response;
+                this.loadCategoryProducts();
+            }, error => { this.error = 'No existe la categoría seleccionada.'})
     }
 
     loadTag() {
@@ -80,14 +89,34 @@ export default class CategoryDetailController {
     }
 
     loadCategoryProducts() {
+        let params = {
+            id: this.$state.params.id,
+            max: this.max,
+            page: this.page
+        };
+
+        if(this.query) {
+            params.query = this.query;
+        }
+
         this.api
             .categoryProducts
-            .get({id: this.$state.params.id})
+            .get(params)
             .$promise
             .then(response => {
-                this.categoryProducts = response.content;
+                this.last = response.last;
+                this.categoryProducts = this.categoryProducts.concat(response.content);
                 this.loadTag();
             });
+    }
+
+    loadMoreProducts() {
+        if(this.last) {
+            return;
+        }
+
+        this.page = this.page + 1;
+        this.loadCategoryProducts();
     }
 
     saveOrUpdateTags() {
@@ -113,6 +142,15 @@ export default class CategoryDetailController {
                         this.init()
                     })
             }
+        }
+    }
+
+    submitSearch($event){
+        if($event.key === 'Enter') {
+            this.init();
+            $event.preventDefault();
+            $event.stopPropagation();
+            $event.stopImmediatePropagation();
         }
     }
 

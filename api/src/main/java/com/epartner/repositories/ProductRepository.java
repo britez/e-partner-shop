@@ -14,8 +14,6 @@ import java.util.Optional;
  */
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    Page<Product> findAllByCategoryAndIsPublished(Category id, Boolean isPublished, Pageable pageRequest);
-
     long countByCategoryAndIsPublished(Category id, Boolean isPublished);
 
     long countByCategory(Category id);
@@ -28,4 +26,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p where (p.name like ?2 or p.description like ?3) and p.isPublished = ?1")
     Page<Product> findAllByIsPublishedAndNameOrDescription(Boolean published, String name, String description, Pageable pageRequest);
+
+    Page<Product> findAllByCategory_id(Long id, Pageable pageRequest);
 }

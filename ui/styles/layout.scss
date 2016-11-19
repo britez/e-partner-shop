@@ -192,3 +192,14 @@ body {
     top: 2px;
   }
 }
+
+.checkbox {
+  width: 25px;
+  height: 25px;
+  border: 1px #CECECE solid;
+  border-radius: 2px;
+  text-align: center;
+  display: inline-block;
+  margin: 0 10px 0 0;
+  cursor: pointer;
+}

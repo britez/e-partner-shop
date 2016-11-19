@@ -11,17 +11,14 @@ import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.ProductRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.spi.ProviderUtil;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Created by maty on 1/9/16.
@@ -143,17 +140,10 @@ public class ProductService {
     }
 
     public Page<ProductRepresentation> listByCategoryId(
-            Long id, Optional<Boolean> isPublished,
-            Optional<Integer> max, Optional<Integer> page) {
-        Category param = new Category();
-        param.setId(id);
+            Long id, Optional<Integer> max, Optional<Integer> page) {
         Pageable pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
-        return this.converter.convert(
-                this.repository.findAllByCategoryAndIsPublished(
-                        param,
-                        isPublished.orElse(true),
-                        pageRequest),
-                pageRequest);
+        Page<Product> stored = this.repository.findAllByCategory_id(id, pageRequest);
+        return this.converter.convert(stored, pageRequest);
     }
 
     public Page<ProductRepresentation> listPublished(
