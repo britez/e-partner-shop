@@ -3,7 +3,7 @@
 #products-import {
 
   .product-list {
-    padding: 20px 15px;
+    margin: 0 0 30px 0;
 
     .category-item {
       cursor: pointer;
@@ -12,21 +12,34 @@
       display: inline-block;
       border: 2px $gray solid;
       transition: all 0.5s ease;
+      margin: 0;
 
       img {
         width: 100%;
         object-fit: cover;
         padding: 0 0 10px 0;
-        max-height: 225px;
+        max-height: 165px;
       }
 
       span {
         padding: 10px 0 0 0;
       }
+
+      .overlay {
+        background: rgba(0,0,0,.4);
+        position: relative;
+        top: 0;
+        left: 0;
+      }
     }
 
     .category-item.toggled {
       border: 2px $orange solid;
+    }
+
+    .category-item.disabled {
+      cursor: not-allowed;
+      background: $gray;
     }
 
   }

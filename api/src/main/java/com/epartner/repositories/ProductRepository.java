@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 /**
  * Created by maty on 1/9/16.
  */
@@ -19,6 +21,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     long countByCategory(Category id);
 
     Page<Product> findAllByIsPublished(Boolean aBoolean, Pageable pageRequest);
+
+    Optional<Product> findOneByImportedId(String importedId);
 
     Page<Product> findAllByNameContainingOrDescriptionContaining(String name, String description, Pageable pageRequest);
 

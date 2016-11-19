@@ -41,7 +41,7 @@
         </div>
         <div class="row">
             <div class="col-md-3 product-list" ng-repeat="product in ctrl.products" ng-click="ctrl.toggleProduct(product)">
-                <div class="category-item" ng-class="{'toggled': product.highlight}">
+                <div class="category-item" ng-class="{'toggled': product.highlight}" uib-tooltip="{{'Este producto ya fue importado'}}" tooltip-enable="product.imported">
                     <img ng-src="{{product.principalImage.url}}">
                     <span>{{product.name}}</span>
                 </div>

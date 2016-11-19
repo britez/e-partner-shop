@@ -56,6 +56,9 @@ export default class ProductsController {
     }
 
     toggleProduct(product){
+        if(product.imported) {
+            return;
+        }
         product.highlight = !product.highlight;
     }
 

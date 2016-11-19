@@ -98,7 +98,7 @@ public class ProductImportService {
 
         result.setPrincipalImage(principalImage);
         //TODO: Agregar las imagenes restantes
-        //TODO: Chequear que el producto no exista
+        result.setImported(this.productService.alreadyImported(meliItem.getId()));
 
         return result;
     }

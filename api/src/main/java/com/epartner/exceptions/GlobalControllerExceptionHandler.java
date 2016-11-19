@@ -19,9 +19,8 @@ public class GlobalControllerExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ImageResource.class);
 
-
     @ExceptionHandler(value = EntityNotFoundException.class )
-    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason ="No encontrado")
+    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "No encontrado")
     public void handle(){
         //Nothing to do
     }
@@ -36,5 +35,11 @@ public class GlobalControllerExceptionHandler {
     public ResponseEntity handleStorageException(StorageException se) {
         logger.error("Error guardando imagen ", se);
         return ResponseEntity.notFound().build();
+    }
+
+    @ExceptionHandler(AlreadyImportedException.class)
+    public ResponseEntity handleAlreadyImported(AlreadyImportedException ex) {
+        logger.error("Error importando el producto", ex);
+        return ResponseEntity.badRequest().build();
     }
 }

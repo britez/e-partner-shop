@@ -5,6 +5,7 @@ import com.epartner.converters.TechnicalSpecificationConverter;
 import com.epartner.domain.Category;
 import com.epartner.domain.Product;
 import com.epartner.domain.ProductImage;
+import com.epartner.exceptions.AlreadyImportedException;
 import com.epartner.repositories.CategoryRepository;
 import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.ProductRepresentation;
@@ -57,10 +58,22 @@ public class ProductService {
     public ProductRepresentation create(ProductRepresentation productRepresentation) {
         //Checks if category exists
         this.categoryService.show(productRepresentation.getCategory().getId());
+        //Checks if imported id exists
+        this.checkAlreadyImported(productRepresentation);
         return this.converter.convert(
                 this.repository.save(
                         this.converter.convert(productRepresentation)));
     }
+
+    private void checkAlreadyImported(ProductRepresentation productRepresentation) {
+        if(Optional.ofNullable(productRepresentation.getMeliId())
+                .map(this::alreadyImported)
+                .orElse(false)) {
+            throw new AlreadyImportedException();
+        }
+    }
+
+
 
     public ProductRepresentation update(ProductRepresentation productRepresentation, Long id) {
         Product product = this.get(id);
@@ -159,6 +172,10 @@ public class ProductService {
                         queryFilter,
                         pageRequest),
                 pageRequest);
+    }
+
+    public boolean alreadyImported(String importId) {
+        return this.repository.findOneByImportedId(importId).isPresent();
     }
 
     private void saveProduct(Product product) {
