@@ -1,8 +1,10 @@
 package com.epartner.converters;
 
+import com.epartner.domain.MeliItem;
 import com.epartner.domain.Product;
 import com.epartner.domain.ProductImage;
 import com.epartner.domain.builders.ProductBuilder;
+import com.epartner.representations.ProductImageRepresentation;
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.representations.builders.ProductRepresentationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -106,5 +109,23 @@ public class ProductConverter {
                 pageRequest,
                 page.getTotalElements()
         );
+    }
+
+    public ProductRepresentation convert(MeliItem meliItem, Boolean alreadyImported) {
+        ProductRepresentation result = new ProductRepresentation();
+        result.setMeliId(meliItem.getId());
+        result.setName(meliItem.getTitle());
+        result.setPrice(meliItem.getPrice());
+        result.setStock(meliItem.getAvailable_quantity());
+        result.setTechnicalSpecifications(new ArrayList<>());
+
+        ProductImageRepresentation principalImage = new ProductImageRepresentation();
+        principalImage.setUrl(meliItem.getPictures().get(0).getUrl());
+
+        result.setPrincipalImage(principalImage);
+        //TODO: Agregar las imagenes restantes
+        result.setImported(alreadyImported);
+
+        return result;
     }
 }

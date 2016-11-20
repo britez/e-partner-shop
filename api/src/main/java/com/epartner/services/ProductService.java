@@ -2,12 +2,12 @@ package com.epartner.services;
 
 import com.epartner.converters.ProductConverter;
 import com.epartner.converters.TechnicalSpecificationConverter;
-import com.epartner.domain.Category;
 import com.epartner.domain.Product;
 import com.epartner.domain.ProductImage;
 import com.epartner.exceptions.AlreadyImportedException;
 import com.epartner.repositories.CategoryRepository;
 import com.epartner.repositories.ProductRepository;
+import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +32,7 @@ public class ProductService {
     private final StorageService storageService;
     private final CategoryRepository categoryRepository;
     private final TechnicalSpecificationConverter technicalSpecificationConverter;
+    private final ProductImportService productImportService;
 
     private final Integer MAX = 10;
     private final Integer PAGE = 0;
@@ -42,7 +43,8 @@ public class ProductService {
                           TechnicalSpecificationConverter technicalSpecificationConverter,
                           CategoryService categoryService,
                           StorageService storageService,
-                          CategoryRepository categoryRepository) {
+                          CategoryRepository categoryRepository,
+                          ProductImportService productImportService) {
 
         this.repository = productRepository;
         this.converter = productConverter;
@@ -50,6 +52,7 @@ public class ProductService {
         this.categoryService = categoryService;
         this.storageService = storageService;
         this.categoryRepository = categoryRepository;
+        this.productImportService = productImportService;
     }
 
     public ProductRepresentation create(ProductRepresentation productRepresentation) {
@@ -64,7 +67,7 @@ public class ProductService {
 
     private void checkAlreadyImported(ProductRepresentation productRepresentation) {
         if(Optional.ofNullable(productRepresentation.getMeliId())
-                .map(this::alreadyImported)
+                .map(it -> this.repository.findOneByImportedId(it).isPresent())
                 .orElse(false)) {
             throw new AlreadyImportedException();
         }
@@ -86,24 +89,23 @@ public class ProductService {
     }
 
     public ProductRepresentation show(Long id) {
-        return this.converter.convert(this.get(id));
+
+        Product stored = this.get(id);
+
+        if(stored.getImported()){
+            return this.productImportService.fetch(stored);
+        }
+
+        return this.converter.convert(stored);
     }
 
     private Product get(Long id) {
-        return Optional.ofNullable(
-                this.repository.findOne(id))
+        return Optional.ofNullable(this.repository.findOne(id))
                 .orElseThrow(EntityNotFoundException::new);
     }
 
     public void delete(long id) {
         repository.delete(this.get(id));
-    }
-
-    //TODO: Usar en el resource publico de productos.
-    public Page<ProductRepresentation> listByPublished(Optional<Boolean> isPublished, Optional<Integer> max, Optional<Integer> page){
-        PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
-        Page<Product> stored = this.repository.findAllByIsPublished(isPublished.orElse(true),pageRequest);
-        return this.converter.convert(stored, pageRequest);
     }
 
     public Page<ProductRepresentation> list(
@@ -164,8 +166,14 @@ public class ProductService {
                 pageRequest);
     }
 
-    public boolean alreadyImported(String importId) {
-        return this.repository.findOneByImportedId(importId).isPresent();
+    public void create(Long categoryId, List<ProductRepresentation> products) {
+        products.forEach(it -> {
+            CategoryRepresentation cat = new CategoryRepresentation();
+            cat.setId(categoryId);
+            it.setCategory(cat);
+            it.setImported(true);
+            this.create(it);
+        });
     }
 
     private void saveProduct(Product product) {

@@ -1,46 +1,55 @@
-<div class="container" style="background: #fbfbfb; padding: 40px 0;">
+<div class="container" id="item">
     <div class="col-md-6">
-        <div class="row" style="padding: 0 60px;">
+        <div class="row principal-image">
             <div class="col-md-12 animated fadeInLeftBig">
-                <div style="width: 100%; height: 350px; object-fit: cover;"
+                <div class="image-container"
                      data-ng-magnify
                      data-glass-width="200"
                      data-glass-height="200"
                      data-image-src="{{item.entity.principalImage}}">
                 </div>
             </div>
-            <div class="col-md-12" style="padding-top: 25px;">
-                <img class=""
+            <div class="col-md-12">
+                <img class="thumbnail-image"
                      alt=""
                      ng-repeat="img in item.entity.images"
                      ng-src="{{img}}"
-                     ng-click="item.entity.principalImage = img"
-                     style="border:1px #ccc solid; cursor: pointer; max-width: 120px; height: 120px; object-fit: cover; margin-right: 25px; margin-bottom: 25px;">
+                     ng-click="item.entity.principalImage = img">
             </div>
         </div>
     </div>
     <div class="col-md-6">
         <div class="row">
-            <span style="text-transform: uppercase; font-size: 2.3rem; font-weight: 700; margin: 0 0 20px 0;" class="col-md-12 animated fadeInLeftBig">{{item.entity.name}}</span>
-            <div class="col-md-12" style="margin: 0 0 20px 0;">
-                <span style="background: #F38617; color: #fff; height: 30px; display: inline-block; padding: 5px 20px; margin: 0 15px 0 0;">Hay stock!</span>
-                <span style="font-size: 2rem" class="animated fadeInUp">${{item.entity.price}}</span>
+            <span class="col-md-12 animated fadeInLeftBig item-title">{{item.entity.name}}</span>
+            <div class="col-md-12">
+                <span class="stock-info">Hay stock!</span>
+                <span class="animated fadeInUp price">${{item.entity.price}}</span>
             </div>
             <div class="col-md-12">
-                <label style="color: #666666">Cantidad</label>
-            </div>
-            <div class="col-md-12" style="margin: 0 0 20px 0;">
-                <input class="form-control input-lg pull-left" style="max-width: 150px; border-radius: 2px;">
-                <a style="margin: 0 10px;" class="pull-left btn btn-lg btn-primary animated fadeInRight">Comprar <i class="fa fa-shopping-cart"></i></a>
-            </div>
-            <div class="col-md-12" style="margin: 0 0 20px 0;">
-                <div class="animated fadeInRightBig" style="color: #666666">{{item.entity.description}}</div>
+                <label>Cantidad</label>
             </div>
             <div class="col-md-12">
-                <label style="color: #666666">Características</label>
-                <ul style="padding: 10px 0 0 20px;">
-                    <li style="color: #666666; font-size: 1.2rem;"
-                        ng-repeat="technicalSpec in item.entity.technicalSpecifications">{{technicalSpec.key}}: {{technicalSpec.value}}</li>
+                <div class="quantity-selector pull-left">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary input-lg" ng-click="item.addItem()" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                        </span>
+                        <input class="form-control input-lg" ng-model="item.quantity">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary input-lg" ng-click="item.removeItem()" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+                        </span>
+                    </div>
+                </div>
+
+                <a class="pull-left btn btn-lg btn-primary animated fadeInRight">Comprar <i class="fa fa-shopping-cart"></i></a>
+            </div>
+            <div class="col-md-12" style="">
+                <div class="animated fadeInRightBig item-description">{{item.entity.description}}</div>
+            </div>
+            <div class="col-md-12 item-tech" ng-if="item.entity.technicalSpecification && item.entity.technicalSpecification.length !== 0">
+                <label>Características</label>
+                <ul>
+                    <li ng-repeat="technicalSpec in item.entity.technicalSpecifications">{{technicalSpec.key}}: {{technicalSpec.value}}</li>
                 </ul>
             </div>
         </div>

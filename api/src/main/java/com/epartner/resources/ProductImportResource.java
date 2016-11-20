@@ -2,6 +2,7 @@ package com.epartner.resources;
 
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.services.ProductImportService;
+import com.epartner.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -26,10 +27,13 @@ public class ProductImportResource {
     private static final String DEFAULT_MAX = "10";
 
     private final ProductImportService productImportService;
+    private final ProductService productService;
 
     @Autowired
-    public ProductImportResource(ProductImportService productImportService) {
+    public ProductImportResource(ProductImportService productImportService,
+                                 ProductService productService) {
         this.productImportService = productImportService;
+        this.productService = productService;
     }
 
     @RequestMapping(method = GET)
@@ -48,6 +52,6 @@ public class ProductImportResource {
     public void list(
             @RequestBody List<ProductRepresentation> products,
             @RequestParam Long categoryId){
-        this.productImportService.create(categoryId, products);
+        this.productService.create(categoryId, products);
     }
 }

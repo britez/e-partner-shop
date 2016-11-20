@@ -8,7 +8,22 @@ export default class ItemCtrl{
         this.http = $http;
         this.stateParams = $stateParams;
         this.api = api;
+        this.quantity = 0;
         this.init();
+    }
+
+    addItem() {
+        if(this.quantity === this.entity.stock) {
+            return;
+        }
+        this.quantity = this.quantity + 1;
+    }
+
+    removeItem() {
+        if(this.quantity === 0) {
+            return;
+        }
+        this.quantity = this.quantity - 1;
     }
 
     init() {

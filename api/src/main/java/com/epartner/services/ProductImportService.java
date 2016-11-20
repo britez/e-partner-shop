@@ -1,8 +1,10 @@
 package com.epartner.services;
 
-import com.epartner.domain.Category;
+import com.epartner.converters.ProductConverter;
 import com.epartner.domain.MeiSearchResponse;
 import com.epartner.domain.MeliItem;
+import com.epartner.domain.Product;
+import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductImageRepresentation;
 import com.epartner.representations.ProductRepresentation;
@@ -38,11 +40,13 @@ public class ProductImportService {
     private static final Integer PAGE = 0;
 
     private RestTemplate template;
-    private ProductService productService;
+    private ProductRepository productRepository;
+    private ProductConverter productConverter;
 
     @Autowired
-    public ProductImportService(ProductService productService) {
-        this.productService = productService;
+    public ProductImportService(ProductRepository productRepository, ProductConverter productConverter) {
+        this.productRepository = productRepository;
+        this.productConverter = productConverter;
         this.template = new RestTemplate();
     }
 
@@ -68,6 +72,16 @@ public class ProductImportService {
             .map(MeliItem::getId)
             .collect(Collectors.joining(","));
 
+        List<ProductRepresentation> result = this.listByIds(ids);
+
+        return new PageImpl<>(result, pageRequest, response.getBody().getPaging().getTotal());
+    }
+
+    public ProductRepresentation fetch(Product stored) {
+        return this.listByIds(stored.getImportedId()).get(0);
+    }
+
+    private List<ProductRepresentation> listByIds(String ids) {
         ResponseEntity<MeliItem[]> itemsResponse =
                 this.template.getForEntity(ITEM_URL + ids, MeliItem[].class);
 
@@ -77,38 +91,11 @@ public class ProductImportService {
 
         List<MeliItem> items = Arrays.asList(itemsResponse.getBody());
 
-        List<ProductRepresentation> result = items
-            .stream()
-            .map(this::convert)
-            .collect(Collectors.toList());
-
-        return new PageImpl<>(result, pageRequest, response.getBody().getPaging().getTotal());
-    }
-
-    private ProductRepresentation convert(MeliItem meliItem) {
-        ProductRepresentation result = new ProductRepresentation();
-        result.setMeliId(meliItem.getId());
-        result.setName(meliItem.getTitle());
-        result.setPrice(meliItem.getPrice());
-        result.setStock(meliItem.getAvailable_quantity());
-        result.setTechnicalSpecifications(new ArrayList<>());
-
-        ProductImageRepresentation principalImage = new ProductImageRepresentation();
-        principalImage.setUrl(meliItem.getPictures().get(0).getUrl());
-
-        result.setPrincipalImage(principalImage);
-        //TODO: Agregar las imagenes restantes
-        result.setImported(this.productService.alreadyImported(meliItem.getId()));
-
-        return result;
-    }
-
-    public void create(Long categoryId, List<ProductRepresentation> products) {
-        products.forEach(it -> {
-            CategoryRepresentation cat = new CategoryRepresentation();
-            cat.setId(categoryId);
-            it.setCategory(cat);
-            this.productService.create(it);
-        });
+        return items
+                .stream()
+                .map(it -> this.productConverter.convert(
+                        it,
+                        this.productRepository.findOneByImportedId(it.getId()).isPresent()))
+                .collect(Collectors.toList());
     }
 }

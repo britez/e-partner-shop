@@ -10,6 +10,10 @@ export default class HighLightDetailController {
     }
 
     init(){
+        this.max = 5;
+        this.page = 0;
+        this.last = false;
+        this.products = [];
         this.entity = {};
 
         if(!this.isNew()){
@@ -30,17 +34,33 @@ export default class HighLightDetailController {
     }
 
     loadProducts() {
+        let params = {
+            max: this.max,
+            page: this.page
+        };
+
         this.api.products
-            .get({isPublished: true})
+            .get(params)
             .$promise
             .then(response => {
-                this.products = response.content;
+                this.last = response.last;
+                this.products = this.products.concat(response.content);
                 if(this.entity.products) {
                     this.products.map(product => {
                         product.highlight = typeof this.entity.products.find(prod => prod.id === product.id) !== 'undefined'
                     })
                 }
             })
+    }
+
+    loadMoreProducts() {
+        if(this.last) {
+            return;
+        }
+
+
+        this.page = this.page + 1;
+        this.loadProducts();
     }
 
     toggleProduct(product){
