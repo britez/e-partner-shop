@@ -62,6 +62,11 @@
       text-align: center;
     }
 
+    .form-control:disabled {
+      background: $mate-white;
+      cursor: default;
+    }
+
     .input-group-btn:last-child > .btn {
       border-top-right-radius: 3px !important;
       border-bottom-right-radius: 3px !important;

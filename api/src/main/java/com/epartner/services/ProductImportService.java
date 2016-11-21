@@ -81,6 +81,10 @@ public class ProductImportService {
         return this.listByIds(stored.getImportedId()).get(0);
     }
 
+    public List<ProductRepresentation> fetch(List<Product> products) {
+        return this.listByIds(products.stream().map(Product::getImportedId).collect(Collectors.joining(",")));
+    }
+
     private List<ProductRepresentation> listByIds(String ids) {
         ResponseEntity<MeliItem[]> itemsResponse =
                 this.template.getForEntity(ITEM_URL + ids, MeliItem[].class);

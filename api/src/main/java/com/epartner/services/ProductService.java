@@ -11,12 +11,14 @@ import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -120,7 +122,25 @@ public class ProductService {
             stored = this.repository.findAll(pageRequest);
         }
 
-        return this.converter.convert(stored, pageRequest);
+        return this.fetch(stored, pageRequest);
+    }
+
+    private Page<ProductRepresentation> fetch(Page<Product> convert, Pageable pageRequest) {
+
+        List<ProductRepresentation> result = new ArrayList<>();
+        List<Product> toFetch = new ArrayList<>();
+
+        convert.getContent().forEach(it -> {
+            if(it.getImported()) {
+                toFetch.add(it);
+            } else {
+                result.add(this.converter.convert(it));
+            }
+        });
+
+        result.addAll(this.productImportService.fetch(toFetch));
+
+        return new PageImpl<>(result, pageRequest, convert.getTotalElements());
     }
 
 
