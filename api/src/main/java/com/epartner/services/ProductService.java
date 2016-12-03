@@ -138,7 +138,7 @@ public class ProductService {
             }
         });
 
-//        result.addAll(this.productImportService.fetch(toFetch));
+        result.addAll(this.productImportService.fetch(toFetch));
 
         return new PageImpl<>(result, pageRequest, convert.getTotalElements());
     }

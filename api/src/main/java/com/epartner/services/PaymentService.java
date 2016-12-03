@@ -25,7 +25,6 @@ import java.util.Optional;
 @Transactional
 public class PaymentService {
 
-    private ProductService productService;
     private ProductRepository productRepository;
     private PaymentRepository paymentRepository;
     private PaymentConverter paymentConverter;
@@ -35,12 +34,10 @@ public class PaymentService {
     private static final Integer MAX = 10;
 
     @Autowired
-    public PaymentService(ProductService productService,
-                          PaymentRepository paymentRepository,
+    public PaymentService(PaymentRepository paymentRepository,
                           PaymentConverter paymentConverter,
                           ProductRepository productRepository,
                           List<PaymentStrategy> paymentStrategyList) {
-        this.productService = productService;
         this.paymentRepository = paymentRepository;
         this.paymentConverter = paymentConverter;
         this.productRepository = productRepository;
@@ -59,7 +56,7 @@ public class PaymentService {
         //check if product exists
         Product storedProduct = productRepository.findOne(paymentRepresentation.getProductId());
         //check stock availability
-        if( noHayStockDisponible(paymentRepresentation, storedProduct) ) {
+        if( isStockAvailable(paymentRepresentation, storedProduct) ) {
             throw new NoAvailableStockException();
         }
 
@@ -71,7 +68,7 @@ public class PaymentService {
         );
     }
 
-    private boolean noHayStockDisponible(PaymentRepresentation paymentRepresentation, Product storedProduct) {
+    private boolean isStockAvailable(PaymentRepresentation paymentRepresentation, Product storedProduct) {
         return storedProduct.getStock() <= 0 ||
         storedProduct.getStock() < paymentRepresentation.getQuantity();
     }

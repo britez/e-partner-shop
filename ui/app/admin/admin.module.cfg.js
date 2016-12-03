@@ -10,6 +10,7 @@ import { HighlightComponent } from '../admin/components/highlight/highlight.cmp'
 import { HighLightDetailComponent} from '../admin/components/highlight/highlight.detail.cmp';
 import { CarouselsComponent } from '../admin/components/carousel/carousels.cmp';
 import { CarouselComponent } from '../admin/components/carousel/carousel.cmp';
+import { PaymentsComponent } from '../admin/components/payments/payments.cmp';
 
 const admin = angular
     .module('admin.module', [])
@@ -23,6 +24,7 @@ const admin = angular
     .component('highLightDetailComponent', HighLightDetailComponent)
     .component('carouselsComponent', CarouselsComponent)
     .component('carouselComponent', CarouselComponent)
+    .component('paymentsComponent', PaymentsComponent)
     .config(($stateProvider) => {
         $stateProvider
             .state('admin', {
@@ -64,6 +66,10 @@ const admin = angular
             .state('carousels-detail', {
                 url: '/admin/carousel/:id',
                 component: 'carouselComponent'
+            })
+            .state('payments', {
+                url: '/admin/payments',
+                component: 'paymentsComponent'
             })
     })
     .name;
