@@ -22,11 +22,16 @@
         <div class="row">
             <span class="col-md-12 animated fadeInLeftBig item-title">{{item.entity.name}}</span>
             <div class="col-md-12">
-                <span class="stock-info">Hay stock!</span>
                 <span class="animated fadeInUp price">${{item.entity.price}}</span>
             </div>
-            <div class="col-md-12">
-                <label>Cantidad</label>
+            <div class="col-md-12 payment-holder">
+                <div class="payment-option clearfix" ng-repeat="option in item.paymentOptions">
+                    <i class="{{option.icon}} pull-left"></i>
+                    <div class="payment-info pull-left">
+                        <p>{{option.title}}</p>
+                        <a ng-if="item.selectedPayment === option" ng-click="item.changePayment = true;">Cambiar</a>
+                    </div>
+                </div>
             </div>
             <div class="col-md-12">
                 <div class="quantity-selector pull-left">
@@ -41,7 +46,7 @@
                     </div>
                 </div>
 
-                <a class="pull-left btn btn-lg btn-primary animated fadeInRight">Comprar <i class="fa fa-shopping-cart"></i></a>
+                <a ui-sref="buy({id:item.entity.id, quantity:item.quantity})" class="pull-left btn btn-lg btn-primary animated fadeInRight">Comprar <i class="fa fa-shopping-cart"></i></a>
             </div>
             <div class="col-md-12" style="">
                 <div class="animated fadeInRightBig item-description">{{item.entity.description}}</div>

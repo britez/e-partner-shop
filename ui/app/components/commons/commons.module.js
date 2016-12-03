@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { ItemComponent } from '../commons/home/components/item/item.component';
 import { HomeCategoryComponent } from './home/home.category.component';
 import { SearchComponent } from './search/search.component';
+import { BoughtComponent } from './bought/bought.component';
 
 const common = angular
     .module('commons.module', [])
@@ -20,6 +21,7 @@ const common = angular
     .component('homeCategoryComponent', HomeCategoryComponent)
     .component('itemComponent', ItemComponent)
     .component('searchComponent', SearchComponent)
+    .component('buyComponent', BoughtComponent)
     .config(($stateProvider, $urlRouterProvider) => {
         $stateProvider
             .state('home', {
@@ -37,6 +39,10 @@ const common = angular
             .state('search', {
                 url: '/search/:query',
                 component: 'searchComponent'
+            })
+            .state('buy', {
+                url: '/buy/:id?quantity',
+                component: 'buyComponent'
             });
         $urlRouterProvider.otherwise('/');
     })

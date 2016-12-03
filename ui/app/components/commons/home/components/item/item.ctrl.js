@@ -27,6 +27,27 @@ export default class ItemCtrl{
     }
 
     init() {
+
+        this.paymentOptions = [
+            {
+                id: 1,
+                title: 'Pago en efectivo.',
+                icon: 'fa fa-credit-card'
+            },
+            {
+                id: 2,
+                title: 'Pago con tarjeta de crédito/débito.',
+                icon: 'fa fa-credit-card'
+            },
+            {
+                id: 3,
+                title: 'Pago con MercadoPago.',
+                icon: 'pf pf-mercado-pago-sign'
+            }
+        ];
+
+        this.selectedPayment = this.paymentOptions[0];
+
         if(!this.stateParams.id) {
             this.entity = {};
             this.entity.price = '4000';

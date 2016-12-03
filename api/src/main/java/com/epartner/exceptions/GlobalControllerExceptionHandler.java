@@ -1,6 +1,5 @@
 package com.epartner.exceptions;
 
-import com.epartner.resources.ImageResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ import javax.persistence.EntityNotFoundException;
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(ImageResource.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
     @ExceptionHandler(value = EntityNotFoundException.class )
     @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "No encontrado")
@@ -41,5 +40,18 @@ public class GlobalControllerExceptionHandler {
     public ResponseEntity handleAlreadyImported(AlreadyImportedException ex) {
         logger.error("Error importando el producto", ex);
         return ResponseEntity.badRequest().build();
+    }
+
+    @ExceptionHandler(NoAvailableStockException.class)
+    public ResponseEntity handleInvalidStock(NoAvailableStockException ex) {
+        logger.error("Error intentando realizar la compra", ex);
+        return ResponseEntity.badRequest().build();
+    }
+
+
+    @ExceptionHandler(InvalidPaymentTypeException.class)
+    public ResponseEntity handleInvalidStock(InvalidPaymentTypeException ex) {
+        logger.error("Error intentando realizar la compra", ex);
+        return ResponseEntity.unprocessableEntity().build();
     }
 }

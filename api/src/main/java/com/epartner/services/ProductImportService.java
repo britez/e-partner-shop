@@ -78,11 +78,27 @@ public class ProductImportService {
     }
 
     public ProductRepresentation fetch(Product stored) {
-        return this.listByIds(stored.getImportedId()).get(0);
+        ProductRepresentation result = this.listByIds(stored.getImportedId()).get(0);
+        result.setId(stored.getId());
+        return result;
     }
 
     public List<ProductRepresentation> fetch(List<Product> products) {
-        return this.listByIds(products.stream().map(Product::getImportedId).collect(Collectors.joining(",")));
+        List<ProductRepresentation> meliProducts = this.listByIds(
+                products
+                        .stream()
+                        .map(Product::getImportedId)
+                        .collect(Collectors.joining(",")));
+
+        meliProducts.forEach(it ->
+                it.setId(products
+                        .stream()
+                        .filter(prod -> prod.getImportedId().equals(it.getMeliId()))
+                        .findFirst()
+                        .get()
+                        .getId()));
+
+        return meliProducts;
     }
 
     private List<ProductRepresentation> listByIds(String ids) {

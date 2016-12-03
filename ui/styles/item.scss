@@ -32,21 +32,49 @@
     text-transform: uppercase;
     font-size: 2.3rem;
     font-weight: 700;
-    margin: 0 0 20px 0;
-  }
-
-  .stock-info {
-    background: $orange;
-    color: $mate-white;
-    height: 30px;
-    display: inline-block;
-    padding: 5px 20px;
-    margin: 0 15px 20px 0;
   }
 
   .price {
-    font-size: 2rem
+    font-size: 45px;
   }
+
+  .payment-holder{
+    margin: 10px 0 15px 0;
+
+    .payment-option {
+
+      margin: 0 0 10px 0;
+
+      i {
+        font-size: 20px;
+        color: $lighter-black;
+        padding: 0 10px 20px 0;
+        border-right: 1px $lighter-black solid;
+        border-color: rgba(102, 102, 102, .5);
+      }
+
+      i.pf {
+        margin-left: -9px;
+        margin-right: 6px;
+        padding: 0 0 20px;
+      }
+
+      .payment-info {
+
+        p {
+          margin: 0;
+        }
+
+        a {
+          text-decoration: underline;
+          font-size: 12px;
+        }
+
+      }
+
+    }
+  }
+
 
   .quantity-selector {
     max-width: 150px;
@@ -65,6 +93,7 @@
     .form-control:disabled {
       background: $mate-white;
       cursor: default;
+      font-size: 25px;
     }
 
     .input-group-btn:last-child > .btn {
