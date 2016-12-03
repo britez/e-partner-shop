@@ -12,7 +12,7 @@ public class UserConverter {
 
     public User convert(UserRepresentation userRepresentation){
         User result = new User();
-        result.setName(userRepresentation.getName());
+        result.setUsername(userRepresentation.getUsername());
         result.setEmail(userRepresentation.getEmail());
         result.setId(userRepresentation.getId());
         result.setAddress(userRepresentation.getAddress());
@@ -26,7 +26,7 @@ public class UserConverter {
 
     public UserRepresentation convert(User user){
         UserRepresentation result = new UserRepresentation();
-        result.setName(user.getName());
+        result.setUsername(user.getUsername());
         result.setEmail(user.getEmail());
         result.setId(user.getId());
         result.setPhone(user.getPhone());

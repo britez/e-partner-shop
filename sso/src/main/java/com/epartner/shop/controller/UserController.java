@@ -19,6 +19,14 @@ import java.security.Principal;
 @RestController
 public class UserController {
 
+    /*public static final String ID = "/confirm/{hash}" ;
+    private final UserService userService;*/
+
+  /*  @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }*/
+
 
     @RequestMapping(value = "/user")
     @ResponseBody
@@ -39,5 +47,49 @@ public class UserController {
         }
         return new ModelAndView("login", model.asMap());
     }
+
+    @RequestMapping(value = "/formUser")
+    public ModelAndView signUp(@RequestParam(value = "error", defaultValue = "false") Boolean error,
+                              Model model,
+                              HttpServletRequest request) {
+        Object isDisabled = request.getSession().getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        if(isDisabled != null && isDisabled instanceof DisabledException){
+            model.addAttribute("blocked", true);
+            request.getSession().removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        } else {
+            model.addAttribute("error", error);
+        }
+        return new ModelAndView("formUser", model.asMap());
+    }
+
+    @RequestMapping(value = "/confirmation")
+    public ModelAndView confirmation(@RequestParam(value = "error", defaultValue = "false") Boolean error,
+                               Model model,
+                               HttpServletRequest request) {
+        Object isDisabled = request.getSession().getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        if(isDisabled != null && isDisabled instanceof DisabledException){
+            model.addAttribute("blocked", true);
+            request.getSession().removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        } else {
+            model.addAttribute("error", error);
+        }
+        return new ModelAndView("formUser", model.asMap());
+    }
+
+
+
+
+    /*@RequestMapping(method = RequestMethod.POST,value = "/sing-up")
+    public void create(@RequestBody UserRepresentation userRepresentation){
+        userService.createUser(userRepresentation);
+    }
+
+    @RequestMapping(value = ID, method = RequestMethod.PUT )
+    public void accountConfirmation(@PathVariable String hash , @RequestBody UserRepresentation userRepresentation){
+        userService.accountConfirmation(hash,userRepresentation);
+    }*/
+
+
+
 
 }

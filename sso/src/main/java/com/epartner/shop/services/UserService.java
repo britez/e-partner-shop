@@ -44,10 +44,10 @@ public class UserService {
 
     public UserRepresentation createUser(UserRepresentation userRepresentation) {
         try {
-            this.getByName(userRepresentation.getName());
+            this.getByName(userRepresentation.getUsername());
             throw new EntityPersist();
         } catch (EntityNotFoundException e) {
-            userRepresentation.setPassword(passwordUtil.encodePassword(passwordUtil.generatorPassword()));
+            userRepresentation.setPassword(passwordUtil.encodePassword(userRepresentation.getPassword()));
             userRepresentation.setState(DISABLED);
             User saveUser = this.converter.convert(userRepresentation);
             this.repository.save(saveUser);
@@ -56,8 +56,8 @@ public class UserService {
         }
     }
 
-    public UserRepresentation getByName(String name) {
-        return this.repository.findOneByName(name)
+    public UserRepresentation getByName(String username) {
+        return this.repository.findOneByUsername(username)
                 .map(it -> this.converter.convert(it))
                 .orElseThrow(EntityNotFoundException::new);
     }
@@ -66,8 +66,8 @@ public class UserService {
         String userName = (String) redisService.getValue(hash);
         User user = this.converter.convert(this.getByName(userName));
         user.setState(AVAILABLE);
-        user.setPassword(passwordUtil.encodePassword(userRepresentation.getPassword()));
-        this.repository.save(user);
+       /* user.setPassword(passwordUtil.encodePassword(userRepresentation.getPassword()));
+        this.repository.save(user);*/
         this.redisService.deleteValue(hash);
     }
 }

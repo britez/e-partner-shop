@@ -16,7 +16,7 @@ import static com.epartner.shop.Resources.UserResource.USERS;
 public class UserResource {
 
     public static final String ID = "/confirm/{hash}" ;
-    public static final String USERS = "api/user";
+    public static final String USERS = "/user";
     private final UserService userService;
 
     @Autowired
