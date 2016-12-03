@@ -164,4 +164,14 @@ public class ProductRepresentation {
         this.meliId = meliId;
     }
 
+    public void addStock(Integer number){
+
+        this.stock += number;
+    }
+
+    public void removeStock(Integer number){
+
+        this.stock -= number;
+    }
+
 }

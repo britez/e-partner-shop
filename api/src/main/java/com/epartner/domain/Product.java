@@ -217,4 +217,17 @@ public class Product {
     public void setPublished(Boolean published) {
         isPublished = published;
     }
+
+
+    public void addStock(Integer number){
+
+        this.stock += number;
+    }
+
+    public void removeStock(Integer number){
+
+        this.stock -= number;
+    }
+
+
 }
