@@ -174,7 +174,7 @@ public class ProductService {
 
 
         Pageable pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
-
+        
         String queryFilter = query.map(q -> "%"+q+"%").orElse("%");
 
         return this.converter.convert(

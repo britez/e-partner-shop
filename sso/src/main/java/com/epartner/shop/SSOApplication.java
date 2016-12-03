@@ -46,6 +46,11 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 .and()
 
+                .authorizeRequests()
+                .antMatchers("/formUser", "/api/user","/confirmation/**","/api/user/confirm/{hash}")
+                .permitAll()
+                .and()
+
                 .csrf().disable()
 
                 .authorizeRequests().anyRequest().authenticated()
@@ -77,14 +82,15 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
             http
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and()
 
-                    .csrf().disable()
+                    .csrf()
+                    .disable()
 
                     .requestMatchers()
-                    .antMatchers("/login", "/oauth/authorize", "/oauth/confirm_access", "/oauth/logout")
-                    .and()
-
-                    .authorizeRequests()
-                    .antMatchers("/manage/**").permitAll()
+                    .antMatchers(
+                            "/login",
+                            "/oauth/authorize",
+                            "/oauth/confirm_access",
+                            "/oauth/logout")
                     .and()
 
                     .formLogin()

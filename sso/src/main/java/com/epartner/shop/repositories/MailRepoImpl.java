@@ -55,13 +55,12 @@ public class MailRepoImpl implements MailRepository {
             message.setSubject(SUBJECT);
             Map model = new HashMap();
             String hash = generateHash();
-            model.put("name",user.getName());
-            model.put("user", user);
+            model.put("name",user.getUsername());
             model.put("pass",user.getPassword());
             model.put("link", LINK + hash );
             String text = VelocityEngineUtils.mergeTemplateIntoString(
                     velocityEngine, "/templates/registerMail.vm",CHARSET_UTF8, model);
-            redisService.setValue(hash,user.getName());
+            redisService.setValue(hash,user.getUsername());
             message.setText(text, true);
         };
         this.mailSender.send(preparator);

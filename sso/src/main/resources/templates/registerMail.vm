@@ -6,8 +6,6 @@
     <p>${name}</p>
     <p>A continuacion Ingrese al Link para proceder a activar la cuenta.</p><br>
 
-    <p>Este es su Password provisoria</p>
-    <p>${pass}</p>
     <a href="${link}">Link</a>
 
 </div>
