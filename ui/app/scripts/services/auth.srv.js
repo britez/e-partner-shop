@@ -3,10 +3,8 @@
 export default class AuthService {
 
     /*ngInject*/
-    constructor(OAuth, OAuthToken, api) {
-        //TODO: obtener desde la api de sso
-        this.AUTH_URL = 'http://localhost:18080/oauth/authorize?client_id=CLIENT_ID&response_type=token&redirect_uri=REDIRECT_URI';
-        this.REDIRECT_URI = 'http://localhost:18110/';
+    constructor(OAuth, OAuthToken, api, $location) {
+        this.REDIRECT_URI = $location.absUrl();
 
         this.api = api;
         this.oauth = OAuth;
@@ -15,13 +13,23 @@ export default class AuthService {
     }
 
     init() {
+        if(this.isAuthenticated()){
+            this.api
+                .user
+                .get()
+                .$promise
+                .then(response => {
+                    this.user = response;
+                });
+        }
+
         this.api
-            .user
+            .settings
             .get()
             .$promise
             .then(response => {
-            this.user = response;
-        })
+                this.AUTH_URL = response.auth_url;
+            });
     }
 
     isAdmin() {

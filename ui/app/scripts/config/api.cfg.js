@@ -36,6 +36,9 @@ let dashboardApiCfg = () => {
 
     apiProvider.endpoint('user')
       .route('/oauth/user');
+
+    apiProvider.endpoint('settings')
+        .route('/oauth/settings');
   }];
 
   return apiConfig;

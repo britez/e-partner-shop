@@ -47,7 +47,12 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
-                .antMatchers("/formUser", "/api/user","/confirmation/**","/api/user/confirm/{hash}")
+                .antMatchers(
+                        "/formUser",
+                        "/api/user",
+                        "/confirmation/**",
+                        "/api/user/confirm/{hash}",
+                        "/oauth/settings")
                 .permitAll()
                 .and()
 
@@ -65,7 +70,7 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         OAuth2AuthenticationEntryPoint ep = new OAuth2AuthenticationEntryPoint();
-        //ep.setExceptionRenderer(new CustomDefaultOAuth2ExceptionRenderer(oauthHost));
+        ep.setExceptionRenderer(new CustomDefaultOAuth2ExceptionRenderer(oauthHost));
         resources.authenticationEntryPoint(ep);
     }
 
