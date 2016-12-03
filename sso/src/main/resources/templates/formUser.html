@@ -63,6 +63,8 @@
             </label>
         </div>
 
+        <div  id="msgResponse"></div>
+
         <div th:if="${error == true}" class="has-error">
             <label class="control-label">
                 Some of your info isn't correct. Please try again.
@@ -89,22 +91,21 @@
     <script src="js/waves.min.js"></script>
     <script src="js/functions.js"></script>
     <script style="type/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
             //Form validation
             $('.input-group input').bind('focusout', required);
             $('.input-group input').bind('input', required);
             $('#l-login').on('submit', submit);
         });
 
-        function required(event){
+        function required(event) {
             validate($(this));
         }
 
 
-
-        function validate(elem){
+        function validate(elem) {
             var div = elem.closest('.input-group');
-            if(elem.val() === ''){
+            if (elem.val() === '') {
                 div.addClass('has-error');
             } else {
                 div.removeClass('has-error');
@@ -121,19 +122,18 @@
             return elem.val();
         }
 
-        function submit(event){
-           var username = validate($('input[name=username]'));
-           var phone = validate($('input[name=phone]'));
-           var email = validate($('input[name=email]'));
-           var address =  validate($('input[name=address]'));
-           var password =  validate($('input[name=password]'));
-
+        function submit(event) {
+            var username = validate($('input[name=username]'));
+            var phone = validate($('input[name=phone]'));
+            var email = validate($('input[name=email]'));
+            var address = validate($('input[name=address]'));
+            var password = validate($('input[name=password]'));
 
 
             var errors = $('.input-group.has-error');
             if (errors.length > 0) {
                 event.preventDefault();
-            }else{
+            } else {
                 var data = {
                     'username': username,
                     'phone': phone,
@@ -143,20 +143,20 @@
                 };
 
                 $.ajax({
-                    url: 'http://localhost:18080/api/user',
+                    url: 'http://localhost:18080/user',
                     type: 'POST',
                     data: JSON.stringify(data),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-
+                        if (response !== "Entity not found") {
+                            $("#msgResponse").html('<p class="alert alert-success alert-dismissible fade in" role="alert" >En instantes recibira un E-mail en su bandeja de entrada para activar su cuenta.</p>')
+                        }
                     }
                 });
             }
+            return false;
         }
-
-
-
 
     </script>
 
