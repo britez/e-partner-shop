@@ -14,7 +14,7 @@ public class Payment {
 
     private String paymenType;
 
-    private Boolean isPaid = false;
+    private PaymentState state = PaymentState.NOT_PAID;
 
     @ManyToOne
     private Product product;
@@ -53,12 +53,13 @@ public class Payment {
         this.quantity = quantity;
     }
 
-
-    public Boolean getPago() {
-        return isPaid;
+    public PaymentState getState() {
+        return state;
     }
 
-    public void setPago(Boolean pago) {
-        isPaid = pago;
+    public void setState(PaymentState state) {
+        this.state = state;
     }
 }
+
+

@@ -1,9 +1,7 @@
 package com.epartner.services;
 
 import com.epartner.converters.PaymentConverter;
-import com.epartner.domain.Category;
-import com.epartner.domain.Payment;
-import com.epartner.domain.Product;
+import com.epartner.domain.*;
 import com.epartner.exceptions.InvalidPaymentTypeException;
 import com.epartner.exceptions.NoAvailableStockException;
 import com.epartner.payment.PaymentStrategy;
@@ -88,21 +86,51 @@ public class PaymentService {
 
     public Page<PaymentRepresentation> getAllPaidPayments(Optional<Integer> max, Optional<Integer> page) {
 
-        return getAllPayments(true, max, page);
+        return getAllPayments(PaymentState.PAID, max, page);
 
     }
 
     public Page<PaymentRepresentation> getAllUnpaidPayments(Optional<Integer> max, Optional<Integer> page) {
 
-        return getAllPayments(false, max, page);
+        return getAllPayments(PaymentState.NOT_PAID, max, page);
     }
 
-    public Page<PaymentRepresentation> getAllPayments(Boolean isPaid, Optional<Integer> max, Optional<Integer> page) {
+    public Page<PaymentRepresentation> getAllCanceledPayments(Optional<Integer> max, Optional<Integer> page) {
+
+        return getAllPayments(PaymentState.CANCELED, max, page);
+    }
+
+    public Page<PaymentRepresentation> getAllPayments(PaymentState state, Optional<Integer> max, Optional<Integer> page) {
 
         PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
-        Page<Payment> stored = paymentRepository.findAllByIsPaid(isPaid);
+        Page<Payment> stored = paymentRepository.findAllByState(state, pageRequest);
         return new PageImpl<>(this.paymentConverter.convert(stored), pageRequest, stored.getTotalElements());
 
+    }
+
+
+    public PaymentRepresentation update(PaymentRepresentation paymentRepresentation){
+
+        Payment payment = paymentRepository.getOne(paymentRepresentation.getId());
+        payment.setState(paymentRepresentation.getState());
+
+        isValidStateForPayment(paymentRepresentation, payment);
+
+        paymentRepository.save(payment);
+
+        return paymentConverter.convert(payment);
+    }
+
+    private void isValidStateForPayment(PaymentRepresentation paymentRepresentation, Payment payment) {
+
+
+        if(paymentRepresentation.getState().equals(PaymentState.NOT_PAID)){
+            // no se puede poner un pago como no pago??
+        }
+
+        if(paymentRepresentation.getState().equals(PaymentState.CANCELED) && payment.getState().equals(PaymentState.PAID)){
+            // no se puede poner un pago como no pago
+        }
     }
 
 }

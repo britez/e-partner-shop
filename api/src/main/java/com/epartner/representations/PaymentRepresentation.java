@@ -1,5 +1,7 @@
 package com.epartner.representations;
 
+import com.epartner.domain.PaymentState;
+
 /**
  * Created by mapsi on 11/26/16.
  */
@@ -8,7 +10,8 @@ public class PaymentRepresentation {
     private Long id;
     private String paymentType;
     private Long productId;
-    private Integer quantity;
+        private Integer quantity;
+    private PaymentState state;
 
     public String getPaymentType() {
         return paymentType;
@@ -40,5 +43,13 @@ public class PaymentRepresentation {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public PaymentState getState() {
+        return state;
+    }
+
+    public void setState(PaymentState state) {
+        this.state = state;
     }
 }

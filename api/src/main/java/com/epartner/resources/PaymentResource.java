@@ -44,4 +44,11 @@ public class PaymentResource {
     }
 
 
+    @RequestMapping(method = RequestMethod.PUT)
+    public PaymentRepresentation update(@RequestBody PaymentRepresentation paymentRepresentation){
+
+        return paymentService.update(paymentRepresentation);
+    }
+
+
 }
