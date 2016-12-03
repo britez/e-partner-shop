@@ -34,8 +34,8 @@ let dashboardApiCfg = () => {
     apiProvider.endpoint('payments')
         .route('api/admin/me/payments');
 
-    apiProvider.endpoint('meli')
-      .route('/sites/MLA/search');
+    apiProvider.endpoint('user')
+      .route('/oauth/user');
   }];
 
   return apiConfig;

@@ -28,7 +28,7 @@ public class UserController {
     }*/
 
 
-    @RequestMapping(value = "/user")
+    @RequestMapping(value = "/oauth/user")
     @ResponseBody
     public Principal user(Principal user) {
         return user;

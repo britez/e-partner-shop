@@ -23,7 +23,11 @@
             <li><a>Compras</a></li>
             <li><a>Contacto</a></li>
             <li><a>nosotros</a></li>
-            <li ng-mouseenter="header.admin = true;" ng-mouseleave="header.admin = false" ng-click="header.admin = true">
+            <li
+                ng-mouseenter="header.admin = true;"
+                ng-mouseleave="header.admin = false"
+                ng-click="header.admin = true"
+                ng-if="header.isAdminUser()">
                 <a>administrar</a>
                 <div ng-class="{'out':!header.admin, 'hide': !header.admin}" class="sub-menu">
                     <div class="container sub-menu-container admin">
@@ -43,7 +47,7 @@
                 <a ng-click="header.authService.login()">Ingresar</a>
             </li>
             <li ng-if="header.authService.isAuthenticated()" ng-mouseenter="header.user = true;" ng-mouseleave="header.user = false">
-                <a ui-sref="admin()">Hola admin!</a>
+                <a ui-sref="admin()">Hola {{header.getUser().name}} !</a>
                 <div ng-class="{'out':!header.user, 'hide': !header.user}" class="sub-menu">
                     <div class="container sub-menu-container session">
                         <span>Maximiliano Britez</span>
