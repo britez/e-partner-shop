@@ -14,7 +14,7 @@ public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    private String name;
+    private String username;
     private String lastName;
     private String address;
     private String phone;
@@ -71,12 +71,12 @@ public class User {
         this.address = address;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Long getId() {

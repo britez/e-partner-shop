@@ -138,7 +138,7 @@ public class ProductService {
             }
         });
 
-//        result.addAll(this.productImportService.fetch(toFetch));
+        result.addAll(this.productImportService.fetch(toFetch));
 
         return new PageImpl<>(result, pageRequest, convert.getTotalElements());
     }
@@ -174,7 +174,7 @@ public class ProductService {
 
 
         Pageable pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
-
+        
         String queryFilter = query.map(q -> "%"+q+"%").orElse("%");
 
         return this.converter.convert(

@@ -12,6 +12,14 @@ export default class HeaderController {
 
     }
 
+    isAdminUser() {
+        return this.authService.isAdmin();
+    }
+
+    getUser() {
+        return this.authService.user;
+    }
+
     logout() {
         this.authService.logout();
     }

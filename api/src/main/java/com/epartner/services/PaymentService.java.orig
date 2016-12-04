@@ -30,7 +30,7 @@ public class PaymentService {
     private PaymentRepository paymentRepository;
     private PaymentConverter paymentConverter;
     private List<PaymentChangedState> changedStates;
-    private ProductService productService;
+
 
     private static final Integer PAGE = 0;
     private static final Integer MAX = 10;
@@ -39,10 +39,12 @@ public class PaymentService {
     public PaymentService(PaymentRepository paymentRepository,
                           PaymentConverter paymentConverter,
                           ProductRepository productRepository,
-                          ProductService productService,
+<<<<<<< HEAD
                           List<PaymentChangedState> changedStates) {
-
         this.productService = productService;
+=======
+                          List<PaymentStrategy> paymentStrategyList) {
+>>>>>>> 5f852238bd10e556343499e066f18dc48d627234
         this.paymentRepository = paymentRepository;
         this.paymentConverter = paymentConverter;
         this.productRepository = productRepository;
@@ -57,7 +59,11 @@ public class PaymentService {
 
 
         //check stock availability
-        if( isStockAvailable(paymentRepresentation, productRepresentation) ) {
+<<<<<<< HEAD
+        if( noHayStockDisponible(paymentRepresentation, productRepresentation) ) {
+=======
+        if( isStockAvailable(paymentRepresentation, storedProduct) ) {
+>>>>>>> 5f852238bd10e556343499e066f18dc48d627234
             throw new NoAvailableStockException();
         }
 
@@ -77,9 +83,15 @@ public class PaymentService {
         );
     }
 
-    private boolean isStockAvailable(PaymentRepresentation paymentRepresentation, ProductRepresentation storedProduct) {
+<<<<<<< HEAD
+    private boolean noHayStockDisponible(PaymentRepresentation paymentRepresentation, ProductRepresentation productRepresentation) {
+        return productRepresentation.getStock() <= 0 ||
+                productRepresentation.getStock() < paymentRepresentation.getQuantity();
+=======
+    private boolean isStockAvailable(PaymentRepresentation paymentRepresentation, Product storedProduct) {
         return storedProduct.getStock() <= 0 ||
         storedProduct.getStock() < paymentRepresentation.getQuantity();
+>>>>>>> 5f852238bd10e556343499e066f18dc48d627234
     }
 
     public Page<PaymentRepresentation> getAllPayments(Optional<Integer> max, Optional<Integer> page) {
