@@ -4,10 +4,11 @@ import com.epartner.converters.PaymentConverter;
 import com.epartner.domain.*;
 import com.epartner.exceptions.InvalidPaymentTypeException;
 import com.epartner.exceptions.NoAvailableStockException;
-import com.epartner.payment.PaymentStrategy;
+import com.epartner.payment.PaymentChangedState;
 import com.epartner.repositories.PaymentRepository;
 import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.PaymentRepresentation;
+import com.epartner.representations.ProductRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,7 +30,8 @@ public class PaymentService {
     private ProductRepository productRepository;
     private PaymentRepository paymentRepository;
     private PaymentConverter paymentConverter;
-    List<PaymentStrategy> paymentStrategyList;
+    private List<PaymentChangedState> changedStates;
+
 
     private static final Integer PAGE = 0;
     private static final Integer MAX = 10;
@@ -39,41 +41,45 @@ public class PaymentService {
                           PaymentRepository paymentRepository,
                           PaymentConverter paymentConverter,
                           ProductRepository productRepository,
-                          List<PaymentStrategy> paymentStrategyList) {
+                          List<PaymentChangedState> changedStates) {
         this.productService = productService;
         this.paymentRepository = paymentRepository;
         this.paymentConverter = paymentConverter;
         this.productRepository = productRepository;
-        this.paymentStrategyList = paymentStrategyList;
+        this.changedStates = changedStates;
     }
 
     public PaymentRepresentation create(PaymentRepresentation paymentRepresentation) {
 
-
-        paymentStrategyList
-                .stream()
-                .filter(paymentStrategy -> paymentStrategy.apply(paymentRepresentation.getPaymentType()))
-                .findFirst()
-                .orElseThrow(InvalidPaymentTypeException::new);
-
         //check if product exists
-        Product storedProduct = productRepository.findOne(paymentRepresentation.getProductId());
+        ProductRepresentation productRepresentation = productService.show(paymentRepresentation.getProductId());
+
+
+
         //check stock availability
-        if( noHayStockDisponible(paymentRepresentation, storedProduct) ) {
+        if( noHayStockDisponible(paymentRepresentation, productRepresentation) ) {
             throw new NoAvailableStockException();
         }
 
+        productRepresentation.removeStock(paymentRepresentation.getQuantity());
+
+        productService.update(productRepresentation, paymentRepresentation.getProductId());
+
+
         Payment payment = this.paymentConverter.convert(paymentRepresentation);
-        payment.setProduct(storedProduct);
+
+        //hay que buscar el producto para ponerselo al payment :(
+        Product product = productRepository.findOne(productRepresentation.getId());
+        payment.setProduct(product);
 
         return this.paymentConverter.convert(
             this.paymentRepository.save(payment)
         );
     }
 
-    private boolean noHayStockDisponible(PaymentRepresentation paymentRepresentation, Product storedProduct) {
-        return storedProduct.getStock() <= 0 ||
-        storedProduct.getStock() < paymentRepresentation.getQuantity();
+    private boolean noHayStockDisponible(PaymentRepresentation paymentRepresentation, ProductRepresentation productRepresentation) {
+        return productRepresentation.getStock() <= 0 ||
+                productRepresentation.getStock() < paymentRepresentation.getQuantity();
     }
 
     public Page<PaymentRepresentation> getAllPayments(Optional<Integer> max, Optional<Integer> page) {
@@ -112,13 +118,26 @@ public class PaymentService {
     public PaymentRepresentation update(PaymentRepresentation paymentRepresentation){
 
         Payment payment = paymentRepository.getOne(paymentRepresentation.getId());
-        payment.setState(paymentRepresentation.getState());
 
         isValidStateForPayment(paymentRepresentation, payment);
 
+        PaymentChangedState changedState = findChangedState(paymentRepresentation);
+        payment = changedState.execute(payment);
+
         paymentRepository.save(payment);
+        productRepository.save(payment.getProduct());
 
         return paymentConverter.convert(payment);
+    }
+
+    private PaymentChangedState findChangedState(PaymentRepresentation payment) {
+        final PaymentState state = payment.getState();
+
+        return changedStates
+                .stream()
+                .filter(cs-> cs.apply(state))
+                .findFirst()
+                .orElseThrow(InvalidPaymentTypeException::new);
     }
 
     private void isValidStateForPayment(PaymentRepresentation paymentRepresentation, Payment payment) {
