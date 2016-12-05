@@ -1,4 +1,4 @@
-package com.epartner.shop.Resources;
+package com.epartner.shop.resources;
 
 
 import com.epartner.shop.representations.UserRepresentation;
@@ -6,7 +6,7 @@ import com.epartner.shop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static com.epartner.shop.Resources.UserResource.USERS;
+import static com.epartner.shop.resources.UserResource.USERS;
 
 /**
  * Created by martin on 05/11/16.
@@ -28,12 +28,6 @@ public class UserResource {
     public void create(@RequestBody UserRepresentation userRepresentation){
         userService.createUser(userRepresentation);
     }
-
-    @RequestMapping(value = ID, method = RequestMethod.PUT )
-    public void accountConfirmation(@PathVariable String hash , @RequestBody UserRepresentation userRepresentation){
-        userService.accountConfirmation(hash,userRepresentation);
-    }
-
 
 
 

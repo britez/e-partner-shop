@@ -4,6 +4,7 @@ package com.epartner.shop.services;
 import com.epartner.shop.converters.UserConverter;
 import com.epartner.shop.domain.User;
 import com.epartner.shop.exceptions.EntityPersist;
+import com.epartner.shop.exceptions.NoHashException;
 import com.epartner.shop.repositories.MailRepository;
 import com.epartner.shop.repositories.UserRepository;
 import com.epartner.shop.representations.UserRepresentation;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 /**
  * Created by martin on 05/11/16.
@@ -62,12 +64,11 @@ public class UserService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    public void accountConfirmation(String hash, UserRepresentation userRepresentation) {
-        String userName = (String) redisService.getValue(hash);
-        User user = this.converter.convert(this.getByName(userName));
-        user.setState(AVAILABLE);
-       /* user.setPassword(passwordUtil.encodePassword(userRepresentation.getPassword()));
-        this.repository.save(user);*/
-        this.redisService.deleteValue(hash);
+    public void accountConfirmation(String hash) {
+            String userName = (String) redisService.getValue(hash);
+            Optional.ofNullable(userName).orElseThrow(NoHashException::new);
+            User user = this.converter.convert(this.getByName(userName));
+            user.setState(AVAILABLE);
+            this.redisService.deleteValue(hash);
     }
 }

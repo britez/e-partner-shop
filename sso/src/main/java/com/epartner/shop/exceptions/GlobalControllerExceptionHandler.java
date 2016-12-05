@@ -18,6 +18,12 @@ public class GlobalControllerExceptionHandler {
         //handle used category
     }
 
+    @ExceptionHandler(NoHashException.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND,reason = "No existe el hash")
+    public void noHash(NoHashException ex) {
+        //handle used category
+    }
+
     @ExceptionHandler(MailCantBeSendException.class)
     @ResponseStatus(value = HttpStatus.IM_USED,reason = "No se puede enviar el e-mail")
     public void mailCantBeSend(MailCantBeSendException ex) {

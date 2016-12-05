@@ -2,6 +2,8 @@ package com.epartner.shop.controller;
 
 
 import com.epartner.shop.CustomDefaultOAuth2ExceptionRenderer;
+import com.epartner.shop.exceptions.NoHashException;
+import com.epartner.shop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.DisabledException;
@@ -21,10 +23,13 @@ import java.util.Map;
 @RestController
 public class UserController {
 
+    private final UserService userService;
     private String AUTH_URL;
 
     @Autowired
-    public UserController(@Value("${epartner.oauth.uri}") String authUrl){
+    public UserController(@Value("${epartner.oauth.uri}") String authUrl,
+                          UserService userService){
+        this.userService = userService;
         this.AUTH_URL = String.format(CustomDefaultOAuth2ExceptionRenderer.URL_FORMAT, authUrl);
     }
 
@@ -57,31 +62,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "/formUser")
-    public ModelAndView signUp(@RequestParam(value = "error", defaultValue = "false") Boolean error,
-                              Model model,
-                              HttpServletRequest request) {
-        Object isDisabled = request.getSession().getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-        if(isDisabled != null && isDisabled instanceof DisabledException){
-            model.addAttribute("blocked", true);
-            request.getSession().removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-        } else {
-            model.addAttribute("error", error);
-        }
+    public ModelAndView signUp(Model model) {
         return new ModelAndView("formUser", model.asMap());
     }
 
-    @RequestMapping(value = "/confirmation")
-    public ModelAndView confirmation(@RequestParam(value = "error", defaultValue = "false") Boolean error,
-                               Model model,
-                               HttpServletRequest request) {
-        Object isDisabled = request.getSession().getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-        if(isDisabled != null && isDisabled instanceof DisabledException){
-            model.addAttribute("blocked", true);
-            request.getSession().removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-        } else {
-            model.addAttribute("error", error);
+    @RequestMapping(value = "/user/confirm/{hash}")
+    public ModelAndView confirmation(Model model, @PathVariable String hash) {
+        try {
+            userService.accountConfirmation(hash);
+            return new ModelAndView("confirmation", model.asMap());
+        }catch (NoHashException e){
+            return new ModelAndView("errorNoHash",model.asMap());
         }
-        return new ModelAndView("formUser", model.asMap());
     }
 
 }

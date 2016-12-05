@@ -47,12 +47,7 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
-                .antMatchers(
-                        "/formUser",
-                        "/api/user",
-                        "/confirmation/**",
-                        "/api/user/confirm/{hash}",
-                        "/oauth/settings")
+                .antMatchers("/formUser", "/user","/confirmation/**","/user/confirm/**","/errorNoHash")
                 .permitAll()
                 .and()
 
