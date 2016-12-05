@@ -52,7 +52,7 @@ public class PaymentService {
     public PaymentRepresentation create(PaymentRepresentation paymentRepresentation) {
 
         //check if product exists
-        ProductRepresentation productRepresentation = productService.show(paymentRepresentation.getProductId());
+        ProductRepresentation productRepresentation = productService.show(paymentRepresentation.getProduct().getId());
 
 
 
@@ -63,7 +63,7 @@ public class PaymentService {
 
         productRepresentation.removeStock(paymentRepresentation.getQuantity());
 
-        productService.update(productRepresentation, paymentRepresentation.getProductId());
+        productService.update(productRepresentation, paymentRepresentation.getProduct().getId());
 
 
         Payment payment = this.paymentConverter.convert(paymentRepresentation);

@@ -9,8 +9,8 @@ public class PaymentRepresentation {
 
     private Long id;
     private String paymentType;
-    private Long productId;
-        private Integer quantity;
+    private SimpleProductRepresentation product;
+    private Integer quantity;
     private PaymentState state;
 
     public String getPaymentType() {
@@ -29,12 +29,12 @@ public class PaymentRepresentation {
         this.quantity = quantity;
     }
 
-    public Long getProductId() {
-        return productId;
+    public SimpleProductRepresentation getProduct() {
+        return product;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
+    public void setProduct(SimpleProductRepresentation product) {
+        this.product = product;
     }
 
     public Long getId() {
@@ -52,4 +52,7 @@ public class PaymentRepresentation {
     public void setState(PaymentState state) {
         this.state = state;
     }
+
+
+
 }

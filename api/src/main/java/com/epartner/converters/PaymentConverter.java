@@ -4,6 +4,7 @@ import com.epartner.domain.Payment;
 import com.epartner.domain.Product;
 import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.PaymentRepresentation;
+import com.epartner.representations.SimpleProductRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -22,11 +23,26 @@ public class PaymentConverter {
         PaymentRepresentation representation = new PaymentRepresentation();
         representation.setId(payment.getId());
         representation.setPaymentType(payment.getPaymenType());
-        representation.setProductId(payment.getProduct().getId());
+
+        representation.setProduct(
+                createSimpleRepresentation(payment.getProduct())
+        );
         representation.setQuantity(payment.getQuantity());
         representation.setState(payment.getState());
         return representation;
     }
+
+    private SimpleProductRepresentation createSimpleRepresentation(Product product){
+
+        SimpleProductRepresentation spr = new SimpleProductRepresentation();
+        
+        spr.setId(product.getId());
+        spr.setName(product.getName());
+        spr.setDescription(product.getDescription());
+
+        return spr;
+    }
+
 
     public Payment convert(PaymentRepresentation paymentRepresentation) {
         Payment payment = new Payment();

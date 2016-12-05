@@ -79,7 +79,9 @@ public class ProductImportService {
 
     public ProductRepresentation fetch(Product stored) {
         ProductRepresentation result = this.listByIds(stored.getImportedId()).get(0);
-        result.setId(stored.getId());
+        ProductRepresentation request = this.productConverter.convert(stored);
+        result.setId(request.getId());
+        result.setCategory(request.getCategory());
         return result;
     }
 
