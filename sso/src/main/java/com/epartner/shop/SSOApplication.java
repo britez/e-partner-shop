@@ -47,7 +47,13 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
                 .and()
 
                 .authorizeRequests()
-                .antMatchers("/formUser", "/user","/confirmation/**","/user/confirm/**","/errorNoHash")
+                .antMatchers(
+                        "/formUser",
+                        "/user",
+                        "/confirmation/**",
+                        "/user/confirm/**",
+                        "/errorNoHash",
+                        "/oauth/settings")
                 .permitAll()
                 .and()
 
@@ -164,10 +170,10 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
         public void configure(AuthorizationServerSecurityConfigurer oauthServer)
                 throws Exception {
             OAuth2AuthenticationEntryPoint ep = new OAuth2AuthenticationEntryPoint();
-            //ep.setExceptionRenderer(new CustomDefaultOAuth2ExceptionRenderer(oauthHost));
+            ep.setExceptionRenderer(new CustomDefaultOAuth2ExceptionRenderer(oauthHost));
             oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess(
                     "isAuthenticated()")
-                    //.authenticationEntryPoint(ep)
+                    .authenticationEntryPoint(ep)
                     .allowFormAuthenticationForClients();
         }
 
