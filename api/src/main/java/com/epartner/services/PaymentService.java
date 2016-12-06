@@ -84,9 +84,17 @@ public class PaymentService {
         storedProduct.getStock() < paymentRepresentation.getQuantity();
     }
 
-    public Page<PaymentRepresentation> getAllPayments(Optional<Integer> max, Optional<Integer> page) {
+    public Page<PaymentRepresentation> getAllPayments(
+            Optional<Integer> max,
+            Optional<Integer> page,
+            Optional<String> query) {
         PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
-        Page<Payment> stored = paymentRepository.findAll(pageRequest);
+        Page<Payment> stored;
+        if(query.isPresent()) {
+            stored = paymentRepository.findAllByProduct_nameContaining(query.get(), pageRequest);
+        } else {
+            stored = paymentRepository.findAll(pageRequest);
+        }
         return new PageImpl<>(this.paymentConverter.convert(stored), pageRequest, stored.getTotalElements());
     }
 
@@ -96,16 +104,17 @@ public class PaymentService {
     }
 
     public Page<PaymentRepresentation> getAllUnpaidPayments(Optional<Integer> max, Optional<Integer> page) {
-
         return getAllPayments(PaymentState.NOT_PAID, max, page);
     }
 
     public Page<PaymentRepresentation> getAllCanceledPayments(Optional<Integer> max, Optional<Integer> page) {
-
         return getAllPayments(PaymentState.CANCELED, max, page);
     }
 
-    public Page<PaymentRepresentation> getAllPayments(PaymentState state, Optional<Integer> max, Optional<Integer> page) {
+    public Page<PaymentRepresentation> getAllPayments(
+            PaymentState state,
+            Optional<Integer> max,
+            Optional<Integer> page) {
 
         PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
         Page<Payment> stored = paymentRepository.findAllByState(state, pageRequest);

@@ -37,10 +37,12 @@ public class PaymentResource {
     @RequestMapping(method = RequestMethod.GET)
     public Page<PaymentRepresentation> list(
             @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
-            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page){
+            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page,
+            @RequestParam(required = false) String query){
         return this.paymentService.getAllPayments(
                 Optional.ofNullable(max),
-                Optional.ofNullable(page));
+                Optional.ofNullable(page),
+                Optional.ofNullable(query));
     }
 
 
