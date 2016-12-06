@@ -5,11 +5,8 @@ package com.epartner.domain;
  */
 public class PaymentType {
 
-
     public static final String CASH = "CASH";
     public static final String DEBIT = "DEBIT";
     public static final String MERCADO_PAGO = "MERCADO_PAGO";
-
-
 
 }

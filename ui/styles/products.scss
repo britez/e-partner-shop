@@ -11,6 +11,27 @@
     padding: 0 10px 0 0;
   }
 
+  span.state {
+    padding: 2px 4px;
+    color: $mate-white;
+    border-radius: 2px;
+    font-weight: 100;
+    font-size: 12px;
+  }
+
+  span.state.not_paid {
+    background-color: $red;
+  }
+
+  span.state.paid {
+    background-color: $green;
+  }
+
+  span.state.canceled {
+    background-color: $yellow;
+    color: $black;
+  }
+
   .btn-lg.btn-primary {
     margin: 0 0 0 10px;
   }

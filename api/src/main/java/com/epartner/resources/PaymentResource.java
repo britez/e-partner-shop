@@ -44,10 +44,9 @@ public class PaymentResource {
     }
 
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public PaymentRepresentation update(@RequestBody PaymentRepresentation paymentRepresentation){
-
-        return paymentService.update(paymentRepresentation);
+    @RequestMapping(value = ID, method = RequestMethod.PUT)
+    public PaymentRepresentation update(@PathVariable Long id, @RequestBody PaymentRepresentation paymentRepresentation){
+        return paymentService.update(id, paymentRepresentation);
     }
 
 

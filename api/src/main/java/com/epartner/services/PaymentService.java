@@ -2,6 +2,7 @@ package com.epartner.services;
 
 import com.epartner.converters.PaymentConverter;
 import com.epartner.domain.*;
+import com.epartner.exceptions.InvalidPaymentStateException;
 import com.epartner.exceptions.InvalidPaymentTypeException;
 import com.epartner.exceptions.NoAvailableStockException;
 import com.epartner.payment.PaymentChangedState;
@@ -16,7 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -31,6 +34,7 @@ public class PaymentService {
     private PaymentConverter paymentConverter;
     private List<PaymentChangedState> changedStates;
     private ProductService productService;
+    private Map<String, PaymentState> stateFromPaymentType;
 
     private static final Integer PAGE = 0;
     private static final Integer MAX = 10;
@@ -47,37 +51,35 @@ public class PaymentService {
         this.paymentConverter = paymentConverter;
         this.productRepository = productRepository;
         this.changedStates = changedStates;
+
+        this.stateFromPaymentType = new HashMap<>();
+        this.stateFromPaymentType.put(PaymentType.CASH, PaymentState.NOT_PAID);
+        this.stateFromPaymentType.put(PaymentType.DEBIT, PaymentState.NOT_PAID);
+        this.stateFromPaymentType.put(PaymentType.MERCADO_PAGO, PaymentState.PAID);
     }
 
     public PaymentRepresentation create(PaymentRepresentation paymentRepresentation) {
-
         //check if product exists
         ProductRepresentation productRepresentation = productService.show(paymentRepresentation.getProduct().getId());
-
-
-
         //check stock availability
-        if( isStockAvailable(paymentRepresentation, productRepresentation) ) {
+        if(isNotAvailableStock(paymentRepresentation, productRepresentation) ) {
             throw new NoAvailableStockException();
         }
-
         productRepresentation.removeStock(paymentRepresentation.getQuantity());
-
+        //update stock
         productService.update(productRepresentation, paymentRepresentation.getProduct().getId());
-
-
         Payment payment = this.paymentConverter.convert(paymentRepresentation);
-
         //hay que buscar el producto para ponerselo al payment :(
         Product product = productRepository.findOne(productRepresentation.getId());
         payment.setProduct(product);
-
+        //set the payment state from payment type
+        payment.setState(this.stateFromPaymentType.get(paymentRepresentation.getPaymentType()));
         return this.paymentConverter.convert(
             this.paymentRepository.save(payment)
         );
     }
 
-    private boolean isStockAvailable(PaymentRepresentation paymentRepresentation, ProductRepresentation storedProduct) {
+    private boolean isNotAvailableStock(PaymentRepresentation paymentRepresentation, ProductRepresentation storedProduct) {
         return storedProduct.getStock() <= 0 ||
         storedProduct.getStock() < paymentRepresentation.getQuantity();
     }
@@ -86,14 +88,11 @@ public class PaymentService {
         PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
         Page<Payment> stored = paymentRepository.findAll(pageRequest);
         return new PageImpl<>(this.paymentConverter.convert(stored), pageRequest, stored.getTotalElements());
-
     }
 
 
     public Page<PaymentRepresentation> getAllPaidPayments(Optional<Integer> max, Optional<Integer> page) {
-
         return getAllPayments(PaymentState.PAID, max, page);
-
     }
 
     public Page<PaymentRepresentation> getAllUnpaidPayments(Optional<Integer> max, Optional<Integer> page) {
@@ -115,16 +114,13 @@ public class PaymentService {
     }
 
 
-    public PaymentRepresentation update(PaymentRepresentation paymentRepresentation){
-
-        Payment payment = paymentRepository.getOne(paymentRepresentation.getId());
-
+    public PaymentRepresentation update(Long id, PaymentRepresentation paymentRepresentation){
+        Payment payment = paymentRepository.getOne(id);
         isValidStateForPayment(paymentRepresentation, payment);
 
         PaymentChangedState changedState = findChangedState(paymentRepresentation);
-        payment = changedState.execute(payment);
 
-        paymentRepository.save(payment);
+        paymentRepository.save(changedState.execute(payment));
         productRepository.save(payment.getProduct());
 
         return paymentConverter.convert(payment);
@@ -141,14 +137,10 @@ public class PaymentService {
     }
 
     private void isValidStateForPayment(PaymentRepresentation paymentRepresentation, Payment payment) {
+        List<PaymentState> validStates = payment.getState().getNextState();
 
-
-        if(paymentRepresentation.getState().equals(PaymentState.NOT_PAID)){
-            // no se puede poner un pago como no pago??
-        }
-
-        if(paymentRepresentation.getState().equals(PaymentState.CANCELED) && payment.getState().equals(PaymentState.PAID)){
-            // no se puede poner un pago como no pago
+        if(!validStates.contains(paymentRepresentation.getState())) {
+            throw new InvalidPaymentStateException();
         }
     }
 

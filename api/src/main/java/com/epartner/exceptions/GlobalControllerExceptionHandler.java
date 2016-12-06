@@ -48,10 +48,15 @@ public class GlobalControllerExceptionHandler {
         return ResponseEntity.badRequest().build();
     }
 
-
     @ExceptionHandler(InvalidPaymentTypeException.class)
     public ResponseEntity handleInvalidStock(InvalidPaymentTypeException ex) {
         logger.error("Error intentando realizar la compra", ex);
+        return ResponseEntity.unprocessableEntity().build();
+    }
+
+    @ExceptionHandler(InvalidPaymentStateException.class)
+    public ResponseEntity handleInvalidState(InvalidPaymentStateException ex) {
+        logger.error("Error intentando cambiar el estado", ex);
         return ResponseEntity.unprocessableEntity().build();
     }
 }

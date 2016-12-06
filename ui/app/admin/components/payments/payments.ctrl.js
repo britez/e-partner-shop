@@ -7,6 +7,12 @@ export default class PaymentsController {
         this.api = api;
         this.params = $stateParams;
         this.init();
+
+        this.paymentTypes = {
+            'PAID': 'Pagado',
+            'NOT_PAID': 'No pagado',
+            'CANCELED': 'Cancelado'
+        }
     }
 
     init() {
@@ -17,6 +23,10 @@ export default class PaymentsController {
         this.last = false;
 
         this.getAllPayments();
+    }
+
+    getPaymentState(payment) {
+        return this.paymentTypes[payment.state];
     }
 
     getAllPayments(){
