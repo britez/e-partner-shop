@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
@@ -153,4 +154,9 @@ public class PaymentService {
         }
     }
 
+    public PaymentRepresentation show(Long id) {
+        return this.paymentConverter
+                .convert(Optional.ofNullable(paymentRepository.findOne(id))
+                                .orElseThrow(EntityNotFoundException::new));
+    }
 }

@@ -29,6 +29,7 @@
                            name="category"
                            required=""
                            placeholder="Elija la categoría"
+                           autocomplete="off    "
                            ng-model="ctrl.category"
                            uib-typeahead="category as category.name for category in ctrl.categories  | filter:$viewValue | limitTo:8"
                            typeahead-editable="false"
