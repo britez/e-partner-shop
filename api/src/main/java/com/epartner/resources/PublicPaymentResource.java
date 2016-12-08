@@ -11,11 +11,11 @@ import java.util.Optional;
 /**
  * Created by mapsi on 11/26/16.
  */
-@RequestMapping(value = PaymentResource.PAYMENT)
+@RequestMapping(value = PublicPaymentResource.PAYMENT)
 @RestController
-public class PaymentResource {
+public class PublicPaymentResource {
 
-    public static final String PAYMENT = "api/admin/me/payments";
+    public static final String PAYMENT = "api/payments";
     public static final String DEFAULT_PAGE = "0";
     public static final String DEFAULT_MAX = "10";
     public static final String ID = "/{id}";
@@ -23,8 +23,13 @@ public class PaymentResource {
     private PaymentService paymentService;
 
     @Autowired()
-    public PaymentResource(PaymentService paymentService) {
+    public PublicPaymentResource(PaymentService paymentService) {
         this.paymentService = paymentService;
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public PaymentRepresentation create(@RequestBody PaymentRepresentation paymentRepresentation){
+        return paymentService.create(paymentRepresentation);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = ID)
@@ -42,12 +47,5 @@ public class PaymentResource {
                 Optional.ofNullable(page),
                 Optional.ofNullable(query));
     }
-
-
-    @RequestMapping(value = ID, method = RequestMethod.PUT)
-    public PaymentRepresentation update(@PathVariable Long id, @RequestBody PaymentRepresentation paymentRepresentation){
-        return paymentService.update(id, paymentRepresentation);
-    }
-
 
 }

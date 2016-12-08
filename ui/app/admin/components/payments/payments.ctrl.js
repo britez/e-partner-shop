@@ -25,9 +25,9 @@ export default class PaymentsController {
         this.getAllPayments();
     }
 
-    getPaymentState(payment) {
-        return this.paymentTypes[payment.state];
-    }
+        getPaymentState(payment) {
+            return this.paymentTypes[payment.state];
+        }
 
     getAllPayments(){
 

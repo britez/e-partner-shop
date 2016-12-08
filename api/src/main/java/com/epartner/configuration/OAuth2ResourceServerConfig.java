@@ -69,8 +69,8 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
                 .antMatchers(
                     HttpMethod.GET,
                     "/**/tags",
-                    "/**/api/carousels",
-                    "/**/items/**")
+                    "/**/api/carousels/**",
+                    "/**/api/products/**")
                 .permitAll()
             .and()
                 .authorizeRequests()
