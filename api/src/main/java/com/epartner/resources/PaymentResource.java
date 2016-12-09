@@ -43,6 +43,11 @@ public class PaymentResource {
         return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = ID)
+    public PaymentRepresentation get(@PathVariable Long id) {
+        return paymentService.show(id);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public Page<PaymentRepresentation> list(
             @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,

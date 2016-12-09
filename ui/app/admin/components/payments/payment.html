@@ -1,0 +1,44 @@
+<div class="container" id="products">
+    <div class="row" ng-if="ctrl.updated">
+        <div class="col-md-12">
+            <div class="alert alert-success" role="alert">
+                Pago actualizado correctamente.
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row" style="padding: 20px 0;" ng-if="!ctrl.error">
+            <div class="col-md-12">
+                <h3 class="pull-left title" style=""># {{ctrl.entity.id}}</h3>
+                <span class="pull-left title state {{ctrl.getStateId()}}">{{ctrl.getState()}}</span>
+            </div>
+            <div class="col-md-12">
+                <h4>Producto: {{ ctrl.entity.product.name }}</h4>
+            </div>
+            <div class="col-md-12">
+                <h4>Cantidad: {{ ctrl.entity.quantity }}</h4>
+            </div>
+            <div class="col-md-12">
+                <h4>Tipo de pago: {{ ctrl.getPaymentType() }}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6" style="margin: 20px 0 0 0">
+        <div class="row">
+            <div class="col-md-12" ng-if="ctrl.getStateId() !== 'CANCELED'">
+                <h4>Acciones:</h4>
+                <ul>
+                    <li ng-click="ctrl.cancel()" ng-if="ctrl.isPaid() || ctrl.isNotPaid()"><a>Cancelar compra</a></li>
+                    <li ng-click="ctrl.paid()" ng-if="ctrl.isNotPaid()"><a>Marcar como pagado</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="ctrl.error">
+        <div class="col-md-12">
+            <div class="alert alert-danger" role="alert">
+                {{ctrl.error}}.
+            </div>
+        </div>
+    </div>
+</div>

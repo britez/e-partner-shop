@@ -32,7 +32,7 @@ let dashboardApiCfg = () => {
       .route('api/admin/me/product-imports');
 
     apiProvider.endpoint('payments')
-        .route('api/admin/me/payments');
+        .route('api/admin/me/payments/:id');
 
     apiProvider.endpoint('user')
       .route('/oauth/user');
