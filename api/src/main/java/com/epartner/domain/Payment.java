@@ -14,6 +14,8 @@ public class Payment {
 
     private String paymenType;
 
+    private String user;
+
     private PaymentState state = PaymentState.NOT_PAID;
 
     @ManyToOne
@@ -59,6 +61,14 @@ public class Payment {
 
     public void setState(PaymentState state) {
         this.state = state;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 }
 
