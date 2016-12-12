@@ -14,7 +14,6 @@ import 'github:jotielim/ng-magnify@master/src/js/ng-magnify';
 //Todo: Revisar
 import 'module-crud-ui/app/scripts/crud.module.js';
 
-import Routes from './scripts/config/router.cfg';
 import ApiCfg from './scripts/config/api.cfg';
 import OAuthCfg from './scripts/config/oauth.cfg.js';
 import ForbiddenInterceptor from './scripts/config/forbidden.interceptor.cfg.js';
@@ -28,6 +27,7 @@ import './admin/admin.module.cfg';
 import 'ng-file-upload/dist/ng-file-upload';
 
 import AuthService from './scripts/services/auth.srv';
+import PaymentService from './scripts/services/payment.types.srv';
 
 import './templates';
 
@@ -79,6 +79,7 @@ app
             '</div>';
     }])
     .component('epartnerApp', AppComponent)
-    .service('authService', AuthService);
+    .service('authService', AuthService)
+    .service('paymentService', PaymentService);
 
 export default app;

@@ -12,6 +12,14 @@ export default class AuthService {
         this.init();
     }
 
+    getUser() {
+        var promise = this.api.user.get().$promise;
+        promise.then(response => {
+            this.user = response;
+        });
+        return promise;
+    }
+
     init() {
         if(this.isAuthenticated()){
             this.api

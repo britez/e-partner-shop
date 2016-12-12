@@ -26,13 +26,16 @@ let dashboardApiCfg = () => {
       .route('/api/admin/me/categories/:id/products');
 
     apiProvider.endpoint('tags')
-      .route('/api/admin/me/tags/:id');
+        .route('/api/admin/me/tags/:id');
 
     apiProvider.endpoint('productImports')
       .route('api/admin/me/product-imports');
 
     apiProvider.endpoint('payments')
         .route('api/admin/me/payments/:id');
+
+    apiProvider.endpoint('publicPayments')
+        .route('api/payments/:id');
 
     apiProvider.endpoint('user')
       .route('/oauth/user');

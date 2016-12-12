@@ -1,11 +1,9 @@
 package com.epartner.resources;
 
-import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.PaymentRepresentation;
 import com.epartner.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -13,33 +11,25 @@ import java.util.Optional;
 /**
  * Created by mapsi on 11/26/16.
  */
-@RequestMapping(value = PaymentResource.PAYMENT)
+@RequestMapping(value = PublicPaymentResource.PAYMENT)
 @RestController
-public class PaymentResource {
+public class PublicPaymentResource {
 
-    public static final String PAYMENT = "api/admin/me/payments";
+    public static final String PAYMENT = "api/payments";
     public static final String DEFAULT_PAGE = "0";
     public static final String DEFAULT_MAX = "10";
     public static final String ID = "/{id}";
 
     private PaymentService paymentService;
 
-
     @Autowired()
-    public PaymentResource(PaymentService paymentService) {
+    public PublicPaymentResource(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public PaymentRepresentation create(@RequestBody PaymentRepresentation paymentRepresentation){
-
-
-        paymentRepresentation.setUser(getPrincipal());
         return paymentService.create(paymentRepresentation);
-    }
-
-    private String getPrincipal() {
-        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = ID)
@@ -57,12 +47,5 @@ public class PaymentResource {
                 Optional.ofNullable(page),
                 Optional.ofNullable(query));
     }
-
-
-    @RequestMapping(value = ID, method = RequestMethod.PUT)
-    public PaymentRepresentation update(@PathVariable Long id, @RequestBody PaymentRepresentation paymentRepresentation){
-        return paymentService.update(id, paymentRepresentation);
-    }
-
 
 }

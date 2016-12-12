@@ -60,6 +60,10 @@ public class PaymentService {
     }
 
     public PaymentRepresentation create(PaymentRepresentation paymentRepresentation) {
+        //check if payment type is valid
+        if(PaymentType.MERCADO_PAGO.equals(paymentRepresentation.getPaymentType())){
+            throw new InvalidPaymentTypeException();
+        }
         //check if product exists
         ProductRepresentation productRepresentation = productService.show(paymentRepresentation.getProduct().getId());
         //check stock availability

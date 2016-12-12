@@ -41,7 +41,7 @@ const common = angular
                 component: 'searchComponent'
             })
             .state('buy', {
-                url: '/buy/:id?quantity',
+                url: '/buy/:id?payment&quantity',
                 component: 'buyComponent'
             });
         $urlRouterProvider.otherwise('/');
