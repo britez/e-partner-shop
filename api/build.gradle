@@ -3,6 +3,7 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
+
     }
 
     dependencies {
@@ -17,6 +18,12 @@ apply plugin: 'spring-boot'
 
 springBoot {
     layout = 'ZIP'
+}
+
+repositories {
+    maven {
+        url "https://github.com/mercadopago/sdk-java/raw/master/releases"
+    }
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -52,6 +59,7 @@ dependencies {
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.5'
     compile 'net.logstash.logback:logstash-logback-encoder:4.5.1'
+    compile 'com.mercadopago:sdk:0.3.4'
 }
 
 task uploadNexus() {

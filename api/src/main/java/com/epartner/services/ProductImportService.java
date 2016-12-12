@@ -8,6 +8,7 @@ import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductImageRepresentation;
 import com.epartner.representations.ProductRepresentation;
+import com.mercadopago.MP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
