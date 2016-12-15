@@ -12,6 +12,7 @@ public class PaymentRepresentation {
     private SimpleProductRepresentation product;
     private Integer quantity;
     private PaymentState state;
+    private String user;
 
     public String getPaymentType() {
         return paymentType;
@@ -53,6 +54,11 @@ public class PaymentRepresentation {
         this.state = state;
     }
 
+    public String getUser() {
+        return user;
+    }
 
-
+    public void setUser(String user) {
+        this.user = user;
+    }
 }

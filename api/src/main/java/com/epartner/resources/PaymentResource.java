@@ -4,6 +4,7 @@ import com.epartner.representations.PaymentRepresentation;
 import com.epartner.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -25,6 +26,16 @@ public class PaymentResource {
     @Autowired()
     public PaymentResource(PaymentService paymentService) {
         this.paymentService = paymentService;
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public PaymentRepresentation create(@RequestBody PaymentRepresentation paymentRepresentation){
+        paymentRepresentation.setUser(getPrincipal());
+        return paymentService.create(paymentRepresentation);
+    }
+
+    private String getPrincipal() {
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = ID)
