@@ -43,6 +43,10 @@ export default class ProductsController {
             .then(response => {
                 this.last = response.last;
                 this.products = this.products.concat(response.content);
+            }, error => {
+                if(error.status === 409) {
+                    this.state.go('meliConfig');
+                }
             })
     }
 

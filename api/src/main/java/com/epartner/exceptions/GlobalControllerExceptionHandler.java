@@ -59,4 +59,10 @@ public class GlobalControllerExceptionHandler {
         logger.error("Error intentando cambiar el estado", ex);
         return ResponseEntity.unprocessableEntity().build();
     }
+
+    @ExceptionHandler(MeliNotConfiguredException.class)
+    public ResponseEntity handlerError(MeliNotConfiguredException e) {
+        logger.info("Mercado libre no fue configurado");
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
 }

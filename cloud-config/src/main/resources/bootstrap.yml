@@ -10,7 +10,7 @@ spring:
         git:
           uri: git@github.com:britez/e-partner-shop-config.git
 encrypt:
-  key: encryptme
+  techKey: encryptme
 security:
   user:
     password: sarasa

@@ -12,6 +12,7 @@ import { CarouselsComponent } from '../admin/components/carousel/carousels.cmp';
 import { CarouselComponent } from '../admin/components/carousel/carousel.cmp';
 import { PaymentsComponent } from '../admin/components/payments/payments.cmp';
 import { PaymentComponent } from '../admin/components/payments/payment.cmp';
+import { MeliConfigComponent } from '../admin/components/products/meli.config.cmp';
 
 const admin = angular
     .module('admin.module', [])
@@ -27,6 +28,7 @@ const admin = angular
     .component('carouselComponent', CarouselComponent)
     .component('paymentsComponent', PaymentsComponent)
     .component('paymentComponent', PaymentComponent)
+    .component('meliConfigComponent', MeliConfigComponent)
     .config(($stateProvider) => {
         $stateProvider
             .state('admin', {
@@ -76,6 +78,10 @@ const admin = angular
             .state('payment-detail', {
                 url: '/admin/payments/:id',
                 component: 'paymentComponent'
+            })
+            .state('meliConfig', {
+                url: '/admin/product-import/config',
+                component: 'meliConfigComponent'
             })
     })
     .name;

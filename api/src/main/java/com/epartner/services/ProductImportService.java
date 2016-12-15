@@ -2,8 +2,11 @@ package com.epartner.services;
 
 import com.epartner.converters.ProductConverter;
 import com.epartner.domain.MeiSearchResponse;
+import com.epartner.domain.MeliConfiguration;
 import com.epartner.domain.MeliItem;
 import com.epartner.domain.Product;
+import com.epartner.exceptions.MeliNotConfiguredException;
+import com.epartner.repositories.MeliConfigurationRepository;
 import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductImageRepresentation;
@@ -39,17 +42,27 @@ public class ProductImportService {
     private RestTemplate template;
     private ProductRepository productRepository;
     private ProductConverter productConverter;
+    private MeliConfigurationRepository meliConfigurationRepository;
 
     @Autowired
-    public ProductImportService(ProductRepository productRepository, ProductConverter productConverter) {
+    public ProductImportService(
+            ProductRepository productRepository,
+            ProductConverter productConverter,
+            MeliConfigurationRepository meliConfigurationRepository) {
         this.productRepository = productRepository;
         this.productConverter = productConverter;
+        this.meliConfigurationRepository = meliConfigurationRepository;
         this.template = new RestTemplate();
     }
 
-    public Page<ProductRepresentation> list(Optional<String> query, Optional<Integer> max, Optional<Integer> page) {
+    public Page<ProductRepresentation> list(
+            Optional<String> query,
+            Optional<Integer> max,
+            Optional<Integer> page) {
 
         Pageable pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
+
+        checkAccessToken();
 
         String url = URL
                 .replace("LIMIT", max.orElse(MAX).toString())
@@ -72,6 +85,12 @@ public class ProductImportService {
         List<ProductRepresentation> result = this.listByIds(ids);
 
         return new PageImpl<>(result, pageRequest, response.getBody().getPaging().getTotal());
+    }
+
+    private void checkAccessToken() {
+        if(this.meliConfigurationRepository.findAll().isEmpty()){
+            throw new MeliNotConfiguredException();
+        }
     }
 
     public ProductRepresentation fetch(Product stored) {

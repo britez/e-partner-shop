@@ -56,7 +56,7 @@
             <div class="col-md-12 item-tech" ng-if="item.entity.technicalSpecification && item.entity.technicalSpecification.length !== 0">
                 <label>Características</label>
                 <ul>
-                    <li ng-repeat="technicalSpec in item.entity.technicalSpecifications">{{technicalSpec.key}}: {{technicalSpec.value}}</li>
+                    <li ng-repeat="technicalSpec in item.entity.technicalSpecifications">{{technicalSpec.techKey}}: {{technicalSpec.value}}</li>
                 </ul>
             </div>
         </div>
