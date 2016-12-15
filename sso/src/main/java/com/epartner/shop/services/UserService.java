@@ -71,4 +71,15 @@ public class UserService {
             user.setState(AVAILABLE);
             this.redisService.deleteValue(hash);
     }
+
+    public void forgot(UserRepresentation userRepresentation) {
+        User user = this.converter.convert(this.getByName(userRepresentation.getUsername()));
+        if(userRepresentation.getUsername().equals(user.getUsername())
+                && userRepresentation.getEmail().equals(user.getEmail())) {
+            user.setPassword(this.passwordUtil.generatorPassword());
+            this.mailRepository.sendForgotPassword(user);
+        }else{
+            throw new EntityNotFoundException();
+        }
+    }
 }

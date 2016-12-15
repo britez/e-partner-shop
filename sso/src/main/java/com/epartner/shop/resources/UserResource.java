@@ -15,7 +15,7 @@ import static com.epartner.shop.resources.UserResource.USERS;
 @RestController
 public class UserResource {
 
-    public static final String ID = "/confirm/{hash}" ;
+    public static final String ID = "/forgot" ;
     public static final String USERS = "/user";
     private final UserService userService;
 
@@ -27,6 +27,11 @@ public class UserResource {
     @RequestMapping(method = RequestMethod.POST)
     public void create(@RequestBody UserRepresentation userRepresentation){
         userService.createUser(userRepresentation);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT,value = ID)
+    public void forgot(@RequestBody UserRepresentation userRepresentation){
+        userService.forgot(userRepresentation);
     }
 
 

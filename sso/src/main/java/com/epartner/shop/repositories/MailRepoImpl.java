@@ -43,6 +43,7 @@ public class MailRepoImpl implements MailRepository {
     @Value("${mail.link}")
     private String LINK;
 
+
     private String generateHash(){
         return UUID.randomUUID().toString();
     }
@@ -66,4 +67,23 @@ public class MailRepoImpl implements MailRepository {
         this.mailSender.send(preparator);
         throw  new MailCantBeSendException();
     }
+
+    @Override
+    public void sendForgotPassword(User user) {
+        MimeMessagePreparator preparator = mimeMessage -> {
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+            message.setTo(user.getEmail());
+            message.setSubject(SUBJECT);
+            Map model = new HashMap();
+            model.put("name",user.getUsername());
+            model.put("pass",user.getPassword());
+            String text = VelocityEngineUtils.mergeTemplateIntoString(
+                    velocityEngine, "/templates/forgotPassword.vm",CHARSET_UTF8, model);
+            message.setText(text, true);
+        };
+        this.mailSender.send(preparator);
+        throw  new MailCantBeSendException();
+    }
+
 }
+
