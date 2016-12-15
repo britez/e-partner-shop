@@ -24,6 +24,7 @@ public class PaymentConverter {
         representation.setId(payment.getId());
         representation.setPaymentType(payment.getPaymenType());
 
+        representation.setUser(payment.getUser());
         representation.setProduct(
                 createSimpleRepresentation(payment.getProduct())
         );
@@ -50,6 +51,7 @@ public class PaymentConverter {
         payment.setPaymenType(paymentRepresentation.getPaymentType());
         payment.setQuantity(paymentRepresentation.getQuantity());
         payment.setState(paymentRepresentation.getState());
+        payment.setUser(paymentRepresentation.getUser());
         return payment;
     }
 

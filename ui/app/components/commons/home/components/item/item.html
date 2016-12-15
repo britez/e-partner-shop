@@ -25,11 +25,13 @@
                 <span class="animated fadeInUp price">${{item.entity.price}}</span>
             </div>
             <div class="col-md-12 payment-holder">
-                <div class="payment-option clearfix" ng-repeat="option in item.paymentOptions">
+                <div class="payment-option clearfix" ng-repeat="option in item.paymentOptions" ng-if="item.editPayment || item.selectedPayment === option">
                     <i class="{{option.icon}} pull-left"></i>
                     <div class="payment-info pull-left">
                         <p>{{option.title}}</p>
-                        <a ng-if="item.selectedPayment === option" ng-click="item.changePayment = true;">Cambiar</a>
+                        <a ng-if="item.selectedPayment === option && item.editPayment === false" ng-click="item.editPayment = true;">Cambiar</a>
+                        <a ng-if="item.selectedPayment === option && item.editPayment === true" ng-click="item.editPayment = false;">Cancelar</a>
+                        <a ng-if="item.selectedPayment !== option && item.editPayment === true" ng-click="item.selectPayment(option)">Seleccionar</a>
                     </div>
                 </div>
             </div>
@@ -46,7 +48,7 @@
                     </div>
                 </div>
 
-                <a ui-sref="buy({id:item.entity.id, quantity:item.quantity})" class="pull-left btn btn-lg btn-primary animated fadeInRight">Comprar <i class="fa fa-shopping-cart"></i></a>
+                <a ui-sref="buy({id: item.entity.id, payment:item.selectedPayment.id, quantity:item.quantity})" class="pull-left btn btn-lg btn-primary animated fadeInRight">Comprar <i class="fa fa-shopping-cart"></i></a>
             </div>
             <div class="col-md-12" style="">
                 <div class="animated fadeInRightBig item-description">{{item.entity.description}}</div>

@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +60,10 @@ public class PaymentService {
     }
 
     public PaymentRepresentation create(PaymentRepresentation paymentRepresentation) {
+        //check if payment type is valid
+        if(PaymentType.MERCADO_PAGO.equals(paymentRepresentation.getPaymentType())){
+            throw new InvalidPaymentTypeException();
+        }
         //check if product exists
         ProductRepresentation productRepresentation = productService.show(paymentRepresentation.getProduct().getId());
         //check stock availability
@@ -153,4 +158,9 @@ public class PaymentService {
         }
     }
 
+    public PaymentRepresentation show(Long id) {
+        return this.paymentConverter
+                .convert(Optional.ofNullable(paymentRepository.findOne(id))
+                                .orElseThrow(EntityNotFoundException::new));
+    }
 }

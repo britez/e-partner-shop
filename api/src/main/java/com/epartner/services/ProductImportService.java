@@ -18,10 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -104,6 +101,11 @@ public class ProductImportService {
     }
 
     private List<ProductRepresentation> listByIds(String ids) {
+
+        if("".equals(ids)) {
+            return Collections.emptyList();
+        }
+
         ResponseEntity<MeliItem[]> itemsResponse =
                 this.template.getForEntity(ITEM_URL + ids, MeliItem[].class);
 

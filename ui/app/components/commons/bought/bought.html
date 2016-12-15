@@ -1,23 +1,28 @@
 <div class="container" id="buy">
-    <div class="col-md-3">
-        <div class="row">
-            <img class="thumbnail-image"
-                 alt=""
-                 ng-src="{{buy.entity.principalImage}}">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 summary">
+        <div class="col-md-12">
+            <h3 class="pull-left">Revisá tu compra</h3>
+            <h4 class="pull-right">Hola {{buy.user.name}}! <small ng-click="buy.authService.logout()">no soy yo.</small></h4>
+        </div>
+        <div class="col-md-3">
+            <img class="img-thumbnail" ng-src="{{buy.product.principalImage.url}}" />
+        </div>
+        <div class="col-md-9">
+            <p>Cantidad: {{buy.params.quantity}}</p>
+            <p>Precio: {{buy.params.quantity * buy.product.price}}</p>
+            <div class="col-md-12 payment-holder">
+                <div class="payment-option clearfix">
+                    <i class="{{buy.payment.icon}} pull-left"></i>
+                    <div class="payment-info pull-left">
+                        <p>{{buy.payment.title}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <a class="btn btn-primary pull-right" ng-click="buy.confirm()">Confirmar</a>
             </div>
         </div>
     </div>
-    <div class="col-md-9">
-        <div class="row">
-            <span class="col-md-12">Hola Maxi! <small>no soy yo.</small></span>
-            <p>Revisa tu compra</p>
-        </div>
-        <div class="row">
-            <p>Stock</p>
-            <p>Medios de pago</p>
-        </div>
-        <div class="row">
-            Comprar!
-        </div>
-    </div>
+    <div class="col-md-2"></div>
 </div>
