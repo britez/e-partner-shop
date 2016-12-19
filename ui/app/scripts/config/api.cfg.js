@@ -31,6 +31,9 @@ let dashboardApiCfg = () => {
     apiProvider.endpoint('productImports')
       .route('api/admin/me/product-imports');
 
+    apiProvider.endpoint('productImportsConfig')
+        .route('api/admin/me/product-imports/current/config');
+
     apiProvider.endpoint('payments')
         .route('api/admin/me/payments/:id');
 

@@ -83,6 +83,10 @@ const admin = angular
                 url: '/admin/product-import/config',
                 component: 'meliConfigComponent'
             })
+            .state('meliConfigSuccess', {
+                url: '/admin/product-import/config/success',
+                templateUrl: 'admin/components/products/meli.config.success.html'
+            })
     })
     .name;
 

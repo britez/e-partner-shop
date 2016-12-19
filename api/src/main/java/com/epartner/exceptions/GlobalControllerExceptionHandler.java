@@ -65,4 +65,11 @@ public class GlobalControllerExceptionHandler {
         logger.info("Mercado libre no fue configurado");
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
+
+    @ExceptionHandler(CodeNotPresentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity handlerError(CodeNotPresentException e) {
+        logger.info("Mercado libre no fue configurado");
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
 }

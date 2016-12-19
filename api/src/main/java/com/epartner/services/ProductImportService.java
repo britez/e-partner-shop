@@ -8,8 +8,6 @@ import com.epartner.domain.Product;
 import com.epartner.exceptions.MeliNotConfiguredException;
 import com.epartner.repositories.MeliConfigurationRepository;
 import com.epartner.repositories.ProductRepository;
-import com.epartner.representations.CategoryRepresentation;
-import com.epartner.representations.ProductImageRepresentation;
 import com.epartner.representations.ProductRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +19,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -36,6 +37,9 @@ public class ProductImportService {
                     "limit=LIMIT&" +
                     "offset=OFFSET&" +
                     "q=QUERY";
+    private static final String CODE_URL = "https://api.mercadolibre.com/oauth/token?grant_type=authorization_code" +
+            "&client_id=8319105886566033&client_secret=GJUZQ9QZS5jIOFZqQVN7EZAqwgLqv0kc" +
+            "&code=CODE&redirect_uri=https://example.com";
     private static final Integer MAX = 10;
     private static final Integer PAGE = 0;
 
@@ -140,5 +144,13 @@ public class ProductImportService {
                         it,
                         this.productRepository.findOneByImportedId(it.getId()).isPresent()))
                 .collect(Collectors.toList());
+    }
+
+    public void saveConfig(String code) {
+        ResponseEntity<MeliConfiguration> result = this.template.postForEntity(CODE_URL.replace("CODE", code), null, MeliConfiguration.class);
+        if(HttpStatus.OK.equals(result.getStatusCode())) {
+            MeliConfiguration config = result.getBody();
+            this.meliConfigurationRepository.save(config);
+        }
     }
 }

@@ -14,8 +14,8 @@ public class MeliConfiguration {
     @GeneratedValue
     private Long id;
 
-    private String accessToken;
-    private String refreshToken;
+    private String access_token;
+    private String refresh_token;
 
     public Long getId() {
         return id;
@@ -25,19 +25,19 @@ public class MeliConfiguration {
         this.id = id;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getAccess_token() {
+        return access_token;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
+    public String getRefresh_token() {
+        return refresh_token;
     }
 
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+    public void setRefresh_token(String refresh_token) {
+        this.refresh_token = refresh_token;
     }
 }
