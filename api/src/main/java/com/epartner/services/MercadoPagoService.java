@@ -31,6 +31,8 @@ public class MercadoPagoService {
     private static final String succesUrl = "\"http://localhosts:8080/lala\"";
     private static final String failureUrl = "\"http://localhosts:8080/lala\"";
     private static final String pendingUrl = "\"http://localhosts:8080/lala\"";
+    private static final String CLIENT_ID = "6004361641371424";
+    private static final String SECRET_ID = "dRjMmDt6nN8va0j9Qqcyp3w7rAKiGHV7";
 
     private Boolean sandboxMode = true;
     private String mercadoPagoUrlExtractor="sandbox_init_point";
@@ -44,7 +46,7 @@ public class MercadoPagoService {
 
             String paymentUrl;
             try {
-                    MP mp = new MP("6004361641371424", "dRjMmDt6nN8va0j9Qqcyp3w7rAKiGHV7");
+                MP mp = new MP(CLIENT_ID, SECRET_ID);
 
                 mp.sandboxMode(sandboxMode);
 
