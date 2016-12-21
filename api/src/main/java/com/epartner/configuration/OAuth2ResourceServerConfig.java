@@ -70,7 +70,8 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
                     HttpMethod.GET,
                     "/**/tags",
                     "/**/api/carousels/**",
-                    "/**/api/products/**")
+                    "/**/api/products/**",
+                    "/**/api/meli/notification/**")
                 .permitAll()
             .and()
                 .authorizeRequests()

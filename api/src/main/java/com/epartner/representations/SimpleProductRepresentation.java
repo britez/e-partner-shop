@@ -8,6 +8,7 @@ public class SimpleProductRepresentation {
     private Long id;
     private String name;
     private String description;
+    private String url;
 
     public Long getId() {
         return id;
@@ -31,5 +32,13 @@ public class SimpleProductRepresentation {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
