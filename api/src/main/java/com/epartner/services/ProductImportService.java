@@ -1,10 +1,7 @@
 package com.epartner.services;
 
 import com.epartner.converters.ProductConverter;
-import com.epartner.domain.MeiSearchResponse;
-import com.epartner.domain.MeliConfiguration;
-import com.epartner.domain.MeliItem;
-import com.epartner.domain.Product;
+import com.epartner.domain.*;
 import com.epartner.exceptions.MeliNotConfiguredException;
 import com.epartner.repositories.MeliConfigurationRepository;
 import com.epartner.repositories.ProductRepository;
@@ -33,13 +30,16 @@ public class ProductImportService {
 
     private static final String ITEM_URL = "https://api.mercadolibre.com/items?ids=";
     private static final String URL =
-            "https://api.mercadolibre.com/sites/MLA/search?seller_id=165975732&" +
+            "https://api.mercadolibre.com/sites/MLA/search?seller_id=SELLER_ID&" +
                     "limit=LIMIT&" +
                     "offset=OFFSET&" +
                     "q=QUERY";
     private static final String CODE_URL = "https://api.mercadolibre.com/oauth/token?grant_type=authorization_code" +
             "&client_id=8319105886566033&client_secret=GJUZQ9QZS5jIOFZqQVN7EZAqwgLqv0kc" +
             "&code=CODE&redirect_uri=https://example.com";
+
+    private static final String USER_URL = "https://api.mercadolibre.com/users/me?access_token=ACCESS_TOKEN";
+
     private static final Integer MAX = 10;
     private static final Integer PAGE = 0;
 
@@ -66,12 +66,13 @@ public class ProductImportService {
 
         Pageable pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
 
-        checkAccessToken();
+        MeliConfiguration config = checkAccessToken();
 
         String url = URL
                 .replace("LIMIT", max.orElse(MAX).toString())
                 .replace("OFFSET", ((Integer)(page.orElse(PAGE) * max.orElse(MAX))).toString())
-                .replace("QUERY", query.orElse(""));
+                .replace("QUERY", query.orElse(""))
+                .replace("SELLER_ID", config.getUser_id());
 
         ResponseEntity<MeiSearchResponse> response = this.template.getForEntity(url, MeiSearchResponse.class);
 
@@ -91,9 +92,12 @@ public class ProductImportService {
         return new PageImpl<>(result, pageRequest, response.getBody().getPaging().getTotal());
     }
 
-    private void checkAccessToken() {
-        if(this.meliConfigurationRepository.findAll().isEmpty()){
+    private MeliConfiguration checkAccessToken() {
+        List<MeliConfiguration> configurations = this.meliConfigurationRepository.findAll();
+        if(configurations.isEmpty()){
             throw new MeliNotConfiguredException();
+        } else {
+            return configurations.get(0);
         }
     }
 
@@ -150,7 +154,13 @@ public class ProductImportService {
         ResponseEntity<MeliConfiguration> result = this.template.postForEntity(CODE_URL.replace("CODE", code), null, MeliConfiguration.class);
         if(HttpStatus.OK.equals(result.getStatusCode())) {
             MeliConfiguration config = result.getBody();
+            config.setUser_id(this.fetchUser(config.getAccess_token()).getId());
             this.meliConfigurationRepository.save(config);
         }
+    }
+
+    private MeliUser fetchUser(String accessToken){
+        ResponseEntity<MeliUser> result = this.template.getForEntity(USER_URL.replace("ACCESS_TOKEN",accessToken), MeliUser.class);
+        return result.getBody();
     }
 }

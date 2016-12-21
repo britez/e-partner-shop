@@ -16,6 +16,7 @@ public class MeliConfiguration {
 
     private String access_token;
     private String refresh_token;
+    private String user_id;
 
     public Long getId() {
         return id;
@@ -39,5 +40,13 @@ public class MeliConfiguration {
 
     public void setRefresh_token(String refresh_token) {
         this.refresh_token = refresh_token;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 }
