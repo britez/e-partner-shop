@@ -6,7 +6,6 @@ import com.epartner.exceptions.MeliNotConfiguredException;
 import com.epartner.repositories.MeliConfigurationRepository;
 import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.ProductRepresentation;
-import com.mercadopago.MP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -36,10 +35,15 @@ public class ProductImportService {
                     "offset=OFFSET&" +
                     "q=QUERY";
     private static final String CODE_URL = "https://api.mercadolibre.com/oauth/token?grant_type=authorization_code" +
-            "&client_id=8319105886566033&client_secret=GJUZQ9QZS5jIOFZqQVN7EZAqwgLqv0kc" +
+            "&client_id=APP_ID&client_secret=SECRET_KEY" +
             "&code=CODE&redirect_uri=https://example.com";
 
     private static final String USER_URL = "https://api.mercadolibre.com/users/me?access_token=ACCESS_TOKEN";
+
+    private static final String REFRESH_URL = "https://api.mercadolibre.com/oauth/token?grant_type=refresh_token&client_id=APP_ID&client_secret=SECRET_KEY&refresh_token=REFRESH_TOKEN";
+
+    private static final String APP_ID = "8319105886566033";
+    private static final String SECRET_KEY = "GJUZQ9QZS5jIOFZqQVN7EZAqwgLqv0kc";
 
     private static final Integer MAX = 10;
     private static final Integer PAGE = 0;
@@ -67,7 +71,7 @@ public class ProductImportService {
 
         Pageable pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
 
-        MeliConfiguration config = checkAccessToken();
+        MeliConfiguration config = this.testAccessToken(checkAccessToken());
 
         String url = URL
                 .replace("LIMIT", max.orElse(MAX).toString())
@@ -152,12 +156,31 @@ public class ProductImportService {
     }
 
     public void saveConfig(String code) {
-        ResponseEntity<MeliConfiguration> result = this.template.postForEntity(CODE_URL.replace("CODE", code), null, MeliConfiguration.class);
+        ResponseEntity<MeliConfiguration> result = this.template.postForEntity(
+                CODE_URL
+                        .replace("CODE", code)
+                        .replace("APP_ID", APP_ID)
+                        .replace("SECRET_KEY", SECRET_KEY), null, MeliConfiguration.class);
         if(HttpStatus.OK.equals(result.getStatusCode())) {
             MeliConfiguration config = result.getBody();
             config.setUser_id(this.fetchUser(config.getAccess_token()).getId());
             this.meliConfigurationRepository.save(config);
         }
+    }
+
+    private MeliConfiguration testAccessToken(MeliConfiguration config) {
+        ResponseEntity<MeliUser> response =
+                this.template.getForEntity(USER_URL.replace("ACCESS_TOKEN",config.getAccess_token()), MeliUser.class);
+        if(HttpStatus.UNAUTHORIZED.equals(response.getStatusCode())) {
+            ResponseEntity<MeliConfiguration> result = this.template.postForEntity(
+                    REFRESH_URL.replace("APP_ID", APP_ID)
+                               .replace("SECRET_KEY",SECRET_KEY)
+                               .replace("REFRESH_TOKEN", config.getRefresh_token()), null, MeliConfiguration.class);
+            MeliConfiguration newConfig = result.getBody();
+            config.setAccess_token(newConfig.getAccess_token());
+            this.meliConfigurationRepository.save(config);
+        }
+        return config;
     }
 
     private MeliUser fetchUser(String accessToken){

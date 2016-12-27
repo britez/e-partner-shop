@@ -1,5 +1,6 @@
 package com.epartner.services;
 
+import com.epartner.domain.MeliConfiguration;
 import com.epartner.exceptions.PaymentException;
 import com.epartner.mercadopago.MercadoPagoBackUrls;
 import com.epartner.mercadopago.MercadoPagoButtonData;
@@ -37,7 +38,10 @@ public class MercadoPagoService {
     private Boolean sandboxMode = true;
     private String mercadoPagoUrlExtractor="sandbox_init_point";
 
-    @Autowired
+    public MercadoPagoService() {
+        mapper = new ObjectMapper();
+    }
+
     ObjectMapper mapper;
 
     Logger logger = LoggerFactory.getLogger(MercadoPagoService.class);

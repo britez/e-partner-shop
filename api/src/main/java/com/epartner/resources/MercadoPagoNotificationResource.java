@@ -18,7 +18,7 @@ import com.mercadopago.MP;
 /**
  * Created by maty on 21/12/16.
  */
-@RequestMapping(value = MercadoPagoResource.MERCADO_PAGO)
+@RequestMapping(value = MercadoPagoNotificationResource.MERCADO_PAGO)
 @RestController
 public class MercadoPagoNotificationResource {
 
