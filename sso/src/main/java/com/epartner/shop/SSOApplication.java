@@ -1,7 +1,12 @@
 package com.epartner.shop;
 
+import com.epartner.shop.configuration.EpartnerAuthenticationProvider;
+import com.epartner.shop.domain.Role;
+import com.epartner.shop.repositories.RoleRepository;
+import com.epartner.shop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +15,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,9 +40,27 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @EnableResourceServer
 public class SSOApplication extends ResourceServerConfigurerAdapter {
 
+    private static final String USER = "USER";
+    private static final String ADMIN = "ADMIN";
+
     public static void main(String[] args) {
         SpringApplication.run(SSOApplication.class, args);
     }
+
+    @Bean
+    public CommandLineRunner demo(RoleRepository repository){
+        return (args)->{
+            Role role = new Role();
+            role.setAuthority(ADMIN);
+            repository.save(role);
+            Role role2 = new Role();
+            role2.setAuthority(USER);
+            repository.save(role2);
+        };
+    }
+
+
+
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -50,6 +74,8 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
                 .antMatchers(
                         "/formUser",
                         "/user",
+                        "/role",
+                        "/role/**",
                         "/confirmation/**",
                         "/user/confirm/**",
                         "/user/forgot",
@@ -181,14 +207,23 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
 
     }
 
+
     @Configuration
     @EnableWebSecurity
     @Order(201)
     protected static class AuthServerConfig extends WebSecurityConfigurerAdapter {
 
         @Autowired
+        private UserService service;
+
+        @Autowired
         public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-            auth.inMemoryAuthentication().withUser("admin").password("admin").roles("admin");
+            auth.authenticationProvider(getAuthProvider());
+        }
+
+        @Bean
+        public AuthenticationProvider getAuthProvider() {
+            return new EpartnerAuthenticationProvider(service);
         }
     }
 

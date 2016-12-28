@@ -66,6 +66,12 @@ public class UserController {
         return new ModelAndView("formUser", model.asMap());
     }
 
+
+    @RequestMapping(value = "/forgotPassword")
+    public ModelAndView forgot(Model model) {
+        return new ModelAndView("forgotPassword", model.asMap());
+    }
+
     @RequestMapping(value = "/user/confirm/{hash}")
     public ModelAndView confirmation(Model model, @PathVariable String hash) {
         try {
