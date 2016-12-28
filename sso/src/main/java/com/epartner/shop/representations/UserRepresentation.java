@@ -1,5 +1,11 @@
 package com.epartner.shop.representations;
 
+//import com.epartner.shop.domain.Role;
+
+import com.epartner.shop.domain.Role;
+
+import java.util.List;
+
 /**
  * Created by martin on 05/11/16.
  */
@@ -14,6 +20,15 @@ public class UserRepresentation {
     private String email;
     private String password;
     private String state;
+    private List<Role> roles;
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
 
     public String getState() {
         return state;

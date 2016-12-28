@@ -65,7 +65,6 @@ public class MailRepoImpl implements MailRepository {
             message.setText(text, true);
         };
         this.mailSender.send(preparator);
-        throw  new MailCantBeSendException();
     }
 
     @Override
@@ -78,11 +77,10 @@ public class MailRepoImpl implements MailRepository {
             model.put("name",user.getUsername());
             model.put("pass",user.getPassword());
             String text = VelocityEngineUtils.mergeTemplateIntoString(
-                    velocityEngine, "/templates/forgotPassword.vm",CHARSET_UTF8, model);
+                    velocityEngine, "/templates/forgotpassMail.vm",CHARSET_UTF8, model);
             message.setText(text, true);
         };
         this.mailSender.send(preparator);
-        throw  new MailCantBeSendException();
     }
 
 }

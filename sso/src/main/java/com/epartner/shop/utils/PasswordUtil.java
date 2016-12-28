@@ -1,7 +1,11 @@
 package com.epartner.shop.utils;
 
+import org.apache.commons.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
 import java.util.Random;
 
 /**
@@ -9,6 +13,8 @@ import java.util.Random;
  */
 @Component
 public class PasswordUtil {
+
+
 
     public String encodePassword(String pwd) {
         String quotedPassword = "\"" + pwd + "\"";
@@ -36,5 +42,9 @@ public class PasswordUtil {
         String saltStr = salt.toString();
         return saltStr;
     }
+
+
+
+
 
 }

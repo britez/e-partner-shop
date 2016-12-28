@@ -1,9 +1,9 @@
 package com.epartner.shop.domain;
-
+import javax.jws.soap.SOAPBinding;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by martin on 05/11/16.
@@ -22,6 +22,13 @@ public class User {
     private String email;
     private String password;
     private String state;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
+
+
+    public User(){
+        this.roles = new ArrayList<>();
+    }
 
     public String getState() {
         return state;
@@ -93,6 +100,19 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role){
+            roles.add(role);
     }
 
 
