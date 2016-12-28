@@ -3,13 +3,15 @@
 export default class AuthService {
 
     /*ngInject*/
-    constructor(OAuth, OAuthToken, api, $location) {
+    constructor(OAuth, OAuthToken, api, $location, $state) {
         this.REDIRECT_URI = $location.absUrl();
 
         this.api = api;
         this.oauth = OAuth;
         this.oauthToken = OAuthToken;
+        this.state = $state;
         this.init();
+
     }
 
     getUser() {
@@ -58,5 +60,19 @@ export default class AuthService {
 
     logout() {
         this.oauth.logout();
+    }
+
+    saveMeliAccessToken(code){
+        this
+            .api
+            .productImportsConfig
+            .save({},{code: code})
+            .$promise
+            .then(() => {
+                this.state.go('meliConfigSuccess')
+            },
+            error => {
+                console.log('error')
+            })
     }
 }

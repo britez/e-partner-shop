@@ -1,5 +1,6 @@
 package com.epartner.resources;
 
+import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.PaymentRepresentation;
 import com.epartner.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;

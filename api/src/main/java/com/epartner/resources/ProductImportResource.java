@@ -1,5 +1,6 @@
 package com.epartner.resources;
 
+import com.epartner.exceptions.CodeNotPresentException;
 import com.epartner.representations.ProductRepresentation;
 import com.epartner.services.ProductImportService;
 import com.epartner.services.ProductService;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -53,5 +55,13 @@ public class ProductImportResource {
             @RequestBody List<ProductRepresentation> products,
             @RequestParam Long categoryId){
         this.productService.create(categoryId, products);
+    }
+
+    @RequestMapping(method = POST, value = "/current/config")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void saveConfig(@RequestBody Map<String, String> body){
+        this.productImportService.saveConfig(
+                Optional.ofNullable(body.get("code"))
+                        .orElseThrow(CodeNotPresentException::new));
     }
 }

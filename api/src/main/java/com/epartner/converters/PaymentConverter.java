@@ -30,6 +30,7 @@ public class PaymentConverter {
         );
         representation.setQuantity(payment.getQuantity());
         representation.setState(payment.getState());
+        representation.setPrice(payment.getProduct().getPrice());
         return representation;
     }
 

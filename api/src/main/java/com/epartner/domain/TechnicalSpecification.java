@@ -12,7 +12,7 @@ public class TechnicalSpecification {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    private String key;
+    private String techKey;
     private String value;
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="product_id")
@@ -59,12 +59,12 @@ public class TechnicalSpecification {
         this.value = value;
     }
 
-    public String getKey() {
-        return key;
+    public String getTechKey() {
+        return techKey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setTechKey(String techKey) {
+        this.techKey = techKey;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class TechnicalSpecification {
 
     public TechnicalSpecification merge(TechnicalSpecification technicalSpecification) {
 
-        this.key = technicalSpecification.getKey();
+        this.techKey = technicalSpecification.getTechKey();
         this.value = technicalSpecification.getValue();
 
         return this;

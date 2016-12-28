@@ -56,9 +56,16 @@ System.import('jquery').then(function () {
   });
 });
 
-app.run((OAuthToken, $location) => {
+app.run((OAuthToken, $location, authService) => {
 
     let token = $location.path().substr(1);
+    let code = $location.absUrl();
+
+    if(typeof code !== 'undefined' && code !== '' && code.indexOf('code')>0 ){
+         console.log('Ahi vino el code: ' + code.split('code')[1].split('#')[0].substring(1));
+        authService.saveMeliAccessToken(code.split('code')[1].split('#')[0].substring(1));
+    }
+
     if(typeof token !== 'undefined' && token !== '' && token.indexOf('access_token')===0 ){
         OAuthToken.setToken(token);
         window.location.replace(OAuthToken.getLogin().redirect);
