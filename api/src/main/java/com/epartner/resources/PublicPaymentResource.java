@@ -16,9 +16,6 @@ import java.util.Optional;
 public class PublicPaymentResource {
 
     public static final String PAYMENT = "api/payments";
-    public static final String DEFAULT_PAGE = "0";
-    public static final String DEFAULT_MAX = "10";
-    public static final String ID = "/{id}";
 
     private PaymentService paymentService;
 
@@ -30,22 +27,6 @@ public class PublicPaymentResource {
     @RequestMapping(method = RequestMethod.POST)
     public PaymentRepresentation create(@RequestBody PaymentRepresentation paymentRepresentation){
         return paymentService.create(paymentRepresentation);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = ID)
-    public PaymentRepresentation get(@PathVariable Long id) {
-        return paymentService.show(id);
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public Page<PaymentRepresentation> list(
-            @RequestParam(required = false, defaultValue = DEFAULT_MAX) Integer max,
-            @RequestParam(required = false, defaultValue = DEFAULT_PAGE) Integer page,
-            @RequestParam(required = false) String query){
-        return this.paymentService.getAllPayments(
-                Optional.ofNullable(max),
-                Optional.ofNullable(page),
-                Optional.ofNullable(query));
     }
 
 }

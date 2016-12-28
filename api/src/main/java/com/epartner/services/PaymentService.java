@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -85,6 +86,7 @@ public class PaymentService {
         //hay que buscar el producto para ponerselo al payment :(
         Product product = productRepository.findOne(productRepresentation.getId());
         payment.setProduct(product);
+        payment.setUser(this.getPrincipal());
         //set the payment state from payment type
         payment.setState(this.stateFromPaymentType.get(paymentRepresentation.getPaymentType()));
         return this.paymentConverter.convert(
@@ -111,13 +113,30 @@ public class PaymentService {
         PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX), new Sort(Sort.Direction.DESC, "id"));
         Page<Payment> stored;
         if(query.isPresent()) {
-            stored = paymentRepository.findAllByProduct_nameContaining(query.get(), pageRequest);
+            stored = paymentRepository.findAllByProduct_nameContainingOrUserContaining(query.get(), query.get(), pageRequest);
         } else {
             stored = paymentRepository.findAll(pageRequest);
         }
         return new PageImpl<>(this.paymentConverter.convert(stored), pageRequest, stored.getTotalElements());
     }
 
+    public Page<PaymentRepresentation> getAllPaymentsByUser(
+            Optional<Integer> max,
+            Optional<Integer> page,
+            Optional<String> query) {
+        PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX), new Sort(Sort.Direction.DESC, "id"));
+        Page<Payment> stored;
+        if(query.isPresent()) {
+            stored = paymentRepository.findAllByProduct_nameContainingAndUser(query.get(), getPrincipal(), pageRequest);
+        } else {
+            stored = paymentRepository.findAllByUser(getPrincipal(), pageRequest);
+        }
+        return new PageImpl<>(this.paymentConverter.convert(stored), pageRequest, stored.getTotalElements());
+    }
+
+    private String getPrincipal() {
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
 
     public Page<PaymentRepresentation> getAllPaidPayments(Optional<Integer> max, Optional<Integer> page) {
         return getAllPayments(PaymentState.PAID, max, page);
@@ -177,5 +196,11 @@ public class PaymentService {
         return this.paymentConverter
                 .convert(Optional.ofNullable(paymentRepository.findOne(id))
                                 .orElseThrow(EntityNotFoundException::new));
+    }
+
+    public PaymentRepresentation showByUser(Long id) {
+        return this.paymentConverter
+                .convert(Optional.ofNullable(paymentRepository.findOneByUserAndId(getPrincipal(), id))
+                        .orElseThrow(EntityNotFoundException::new));
     }
 }

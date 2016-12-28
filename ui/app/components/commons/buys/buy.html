@@ -1,0 +1,19 @@
+<div class="container" id="products">
+    <div class="col-md-6">
+        <div class="row" style="padding: 20px 0;" ng-if="!buy.error">
+            <div class="col-md-12">
+                <h3 class="pull-left title" style=""># {{buy.entity.id}}</h3>
+                <span class="pull-left title state {{buy.getStateId()}}">{{buy.getState()}}</span>
+            </div>
+            <div class="col-md-12">
+                <h4>Producto: {{ buy.entity.product.name }}</h4>
+            </div>
+            <div class="col-md-12">
+                <h4>Cantidad: {{ buy.entity.quantity }}</h4>
+            </div>
+            <div class="col-md-12">
+                <h4>Tipo de pago: {{ buy.getPaymentType() }}</h4>
+            </div>
+        </div>
+    </div>
+</div>

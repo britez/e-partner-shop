@@ -1,0 +1,49 @@
+<div class="container" id="products">
+    <div class="row" style="padding: 20px 0;">
+        <div class="col-md-5">
+            <h3>Mis Compras</h3>
+        </div>
+        <div class="col-md-7">
+            <div class="search-form pull-right">
+                <form ng-submit="buys.init()">
+                    <input type="text" placeholder="B&uacute;sca compras" ng-model="buys.query">
+                    <span>
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" ng-if="buys.content.length === 0 && !buys.query">
+            <div class="alert alert-info" role="alert">
+                No se registran compras</a>.
+            </div>
+        </div>
+        <div class="col-md-12" ng-if="buys.content.length === 0 && buys.query">
+            <div class="alert alert-info" role="alert">
+                No existen compras que coincidan con tu búsqueda.
+            </div>
+        </div>
+        <div class="col-md-12" ng-repeat="buy in buys.content">
+            <div class="category-item">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="pull-left">
+                            <span class="title">#{{buy.id}} - {{buy.product.name}}</span>
+                            <span class="state {{buy.state.toLowerCase()}}">{{buys.getPaymentState(buy)}}</span>
+                        </div>
+                        <ul class="pull-right">
+                            <li ui-sref="user-buy({id: buy.id})">
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 more-button" ng-if="!buys.last">
+            <a class="btn-lg btn-primary" ng-click="buys.loadMoreBuys()">Mostrar más</a>
+        </div>
+    </div>
+</div>

@@ -73,7 +73,7 @@ public class UserService {
 
     public UserRepresentation getByName(String username) {
         return this.repository.findOneByUsername(username)
-                .map(it -> this.converter.convert(it))
+                .map(this.converter::convert)
                 .orElseThrow(EntityNotFoundException::new);
     }
 

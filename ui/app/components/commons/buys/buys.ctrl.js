@@ -1,35 +1,34 @@
 'use strict';
+export default class BuysController {
 
-export default class PaymentsController {
-
-    /*ngInject*/
-    constructor(api, $stateParams){
+    /*@ngInject*/
+    constructor(api, $stateParams) {
         this.api = api;
         this.params = $stateParams;
         this.init();
-
-        this.paymentTypes = {
-            'PAID': 'Pagado',
-            'NOT_PAID': 'No pagado',
-            'CANCELED': 'Cancelado'
-        }
     }
 
     init() {
         this.number = 0;
         this.max = 5;
         this.last = false;
-        this.payments = [];
+        this.content = [];
         this.last = false;
 
-        this.getAllPayments();
+        this.paymentTypes = {
+            'PAID': 'Pagado',
+            'NOT_PAID': 'No pagado',
+            'CANCELED': 'Cancelado'
+        }
+
+        this.getAllBuys();
     }
 
     getPaymentState(payment) {
         return this.paymentTypes[payment.state];
     }
 
-    getAllPayments(){
+    getAllBuys(){
 
         let params = {
             max: this.max,
@@ -40,23 +39,23 @@ export default class PaymentsController {
             params.query = this.query;
         }
 
-        this.api.payments
+        this.api.buys
             .get(params)
             .$promise
             .then(response => {
                 this.last = response.last;
                 this.number = response.number;
-                this.payments = this.payments.concat(response.content);
+                this.content = this.content.concat(response.content);
             })
     }
 
-    loadMorePayments() {
+    loadMoreBuys() {
         if(this.last){
             return;
         }
 
         this.number = this.number + 1;
-        this.getAllPayments();
+        this.getAllBuys();
     }
 
 }

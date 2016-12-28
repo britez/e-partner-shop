@@ -43,6 +43,9 @@ let dashboardApiCfg = () => {
     apiProvider.endpoint('mercadoPago')
         .route('api/me/mercado-pago');
 
+    apiProvider.endpoint('buys')
+        .route('api/me/buys/:id');
+
     apiProvider.endpoint('user')
       .route('/oauth/user');
 

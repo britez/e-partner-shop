@@ -40,6 +40,10 @@
                     </div>
                 </div>
             </li>
+            <li
+                ng-if="header.authService.isAuthenticated() && !header.isAdminUser()">
+                <a ui-sref="user-buys()">MIS COMPRAS</a>
+            </li>
         </ul>
 
         <ul class="pull-right log-in">
