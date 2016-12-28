@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -17,7 +17,7 @@
 
 <body class="login-content">
     <!-- Login -->
-    <form method="POST" action="" class="lc-block toggled" id="l-login" autocomplete="off">
+    <form method="POST" action="user" class="lc-block toggled" id="l-login" autocomplete="off">
 
         <div class="input-group m-b-20">
             <span class="input-group-addon"><i class="zmdi zmdi-account" style="padding-right: 6px;"></i></span>
@@ -25,8 +25,6 @@
                 <input type="text" name="username" class="form-control" placeholder="Nombre de Usuario" autocomplete="off" style="padding-left: 3px;"/>
             </div>
         </div>
-
-
 
         <div class="input-group m-b-20">
             <span class="input-group-addon"><i class="zmdi zmdi-phone" style="padding-right: 6px;"></i></span>
@@ -64,6 +62,11 @@
         </div>
 
         <div  id="msgResponse"></div>
+
+        <div th:if="${error}" class="has-error">
+            <label class="control-label" th:text="${error}">
+            </label>
+        </div>
 
         <div th:if="${error == true}" class="has-error">
             <label class="control-label">
@@ -133,7 +136,12 @@
             var errors = $('.input-group.has-error');
             if (errors.length > 0) {
                 event.preventDefault();
+                return false;
             } else {
+
+                return true;
+
+                /*
                 var data = {
                     'username': username,
                     'phone': phone,
@@ -154,6 +162,7 @@
                         }
                     }
                 });
+                */
             }
             return false;
         }

@@ -1,10 +1,13 @@
 package com.epartner.shop.resources;
 
 
+import com.epartner.shop.exceptions.EntityPersist;
 import com.epartner.shop.representations.UserRepresentation;
 import com.epartner.shop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import static com.epartner.shop.resources.UserResource.USERS;
 
@@ -25,13 +28,20 @@ public class UserResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void create(@RequestBody UserRepresentation userRepresentation){
-        userService.createUser(userRepresentation);
+    public ModelAndView create(@ModelAttribute UserRepresentation userRepresentation, Model model){
+        try {
+            userService.createUser(userRepresentation);
+        } catch (EntityPersist ex) {
+            model.addAttribute("error", "El usuario ya existe");
+            return new ModelAndView("formUser", model.asMap());
+        }
+        return new ModelAndView("success");
     }
 
-    @RequestMapping(method = RequestMethod.PUT,value = ID)
-    public void forgot(@RequestBody UserRepresentation userRepresentation){
+    @RequestMapping(method = RequestMethod.POST,value = ID)
+    public ModelAndView forgot(@ModelAttribute UserRepresentation userRepresentation){
         userService.forgot(userRepresentation);
+        return new ModelAndView("changed");
     }
 
 
