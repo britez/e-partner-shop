@@ -1,6 +1,5 @@
 package com.epartner.services;
 
-import com.epartner.domain.MeliConfiguration;
 import com.epartner.exceptions.PaymentException;
 import com.epartner.mercadopago.MercadoPagoBackUrls;
 import com.epartner.mercadopago.MercadoPagoButtonData;
@@ -8,12 +7,13 @@ import com.epartner.mercadopago.MercadoPagoItem;
 import com.epartner.representations.MercadoPagoPaymentRepresentation;
 import com.epartner.representations.PaymentRepresentation;
 import com.mercadopago.MP;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -26,68 +26,65 @@ import java.util.List;
 @Component
 public class MercadoPagoService {
 
-    private static final String CURRENCY = "\"ARS\"";
-    private static final String notificationUrl = "\"http://localhosts:8080/lala\"";
+    private static final String SUCCES_URL = "http://localhost:18111/#/buy-success";
+    private static final String NOTIFICATION_URL = "http://ec2-35-163-50-117.us-west-2.compute.amazonaws.com:18100/api/meli/notification";
+    //private static final String failureUrl = "http://localhosts:8080/lala";
+    //private static final String pendingUrl = "http://localhosts:8080/lala";
+    private static final String CLIENT_ID = "5388494152368678";
+    private static final String SECRET_ID = "6LCadMJuqFsIdVR61jj7j3trfZHc9ucO";
 
-    private static final String succesUrl = "\"http://localhosts:8080/lala\"";
-    private static final String failureUrl = "\"http://localhosts:8080/lala\"";
-    private static final String pendingUrl = "\"http://localhosts:8080/lala\"";
-    private static final String CLIENT_ID = "6004361641371424";
-    private static final String SECRET_ID = "dRjMmDt6nN8va0j9Qqcyp3w7rAKiGHV7";
-
-    private Boolean sandboxMode = true;
-    private String mercadoPagoUrlExtractor="sandbox_init_point";
+    private ObjectMapper mapper;
+    private static final Logger logger = LoggerFactory.getLogger(MercadoPagoService.class);
 
     public MercadoPagoService() {
         mapper = new ObjectMapper();
+        mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+        mapper.configure(JsonGenerator.Feature.QUOTE_FIELD_NAMES, false);
+        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
     }
 
-    ObjectMapper mapper;
+    public MercadoPagoPaymentRepresentation createMercadoPagoPayment(PaymentRepresentation payment){
 
-    Logger logger = LoggerFactory.getLogger(MercadoPagoService.class);
+        String paymentUrl;
+        try {
+            MP mp = new MP(CLIENT_ID, SECRET_ID);
+            //mp.sandboxMode(true);
 
-        public MercadoPagoPaymentRepresentation createMercadoPagoPayment(PaymentRepresentation payment){
-
-            String paymentUrl;
-            try {
-                MP mp = new MP(CLIENT_ID, SECRET_ID);
-
-
-                mp.sandboxMode(sandboxMode);
-
-                String jsonData = createJSONData(payment);
-
-                logger.info("Creando preferencias con el json: " + jsonData);
-                JSONObject preference = mp.createPreference(jsonData);
-
-                paymentUrl = preference.getJSONObject("response").getString(mercadoPagoUrlExtractor);
-                logger.info("se creo al url de pago ["+ paymentUrl+"]");
-            }catch (JSONException json){
-
-                logger.error("Errro al parsear el JSON de pago");
-                throw new PaymentException();
-            }catch (Exception e){
-
-                logger.error("Error al instanciar el cliente de mercado pago ");
-                throw new PaymentException();
-            }
+            String jsonData = createJSONData(payment);
 
 
-            return new MercadoPagoPaymentRepresentation(paymentUrl);
+            logger.info("Creando preferencias con el json: " + jsonData);
+            JSONObject preference = mp.createPreference(jsonData);
 
+            String mercadoPagoUrlExtractor = "sandbox_init_point";
+
+            paymentUrl = preference.getJSONObject("response").getString(mercadoPagoUrlExtractor);
+            logger.info("se creo al url de pago ["+ paymentUrl+"]");
+
+        }catch (JSONException json){
+            logger.error("Errro al parsear el JSON de pago");
+            throw new PaymentException();
+        }catch (Exception e){
+            logger.error("Error al instanciar el cliente de mercado pago ");
+            throw new PaymentException();
         }
 
-        private String createJSONData(PaymentRepresentation payment) throws IOException {
 
-            MercadoPagoButtonData buttonData = new MercadoPagoButtonData();
-            buttonData.setItems(createItems(payment));
-            buttonData.setBackUrls(createBackUrls());
-            buttonData.setNotificationUrl(notificationUrl);
-            buttonData.setExternalReference(payment.getId().toString());
+        return new MercadoPagoPaymentRepresentation(paymentUrl);
+
+    }
+
+    private String createJSONData(PaymentRepresentation payment) throws IOException {
+
+        MercadoPagoButtonData buttonData = new MercadoPagoButtonData();
+        buttonData.setItems(createItems(payment));
+        buttonData.setBackUrls(createBackUrls());
+        buttonData.setNotificationUrl(NOTIFICATION_URL);
+        buttonData.setExternalReference(payment.getId().toString());
 
 
-            return mapper.writeValueAsString(buttonData);
-        }
+        return mapper.writeValueAsString(buttonData);
+    }
 
     private List<MercadoPagoItem>  createItems(PaymentRepresentation payment) {
 
@@ -96,8 +93,8 @@ public class MercadoPagoService {
         item.setTitle(payment.getProduct().getName());
         item.setId(payment.getProduct().getId().toString());
         item.setPictureUrl(payment.getProduct().getUrl());
-        item.setQuantity(payment.getQuantity().toString());
-        item.setUnitPrice(payment.getPrice().toString());
+        item.setQuantity(payment.getQuantity());
+        item.setUnitPrice(payment.getPrice());
 
         List<MercadoPagoItem> items = new ArrayList<>();
         items.add(item);
@@ -108,9 +105,9 @@ public class MercadoPagoService {
     private MercadoPagoBackUrls createBackUrls(){
 
         MercadoPagoBackUrls backUrls = new MercadoPagoBackUrls();
-        backUrls.setFailure(failureUrl);
-        backUrls.setPending(pendingUrl);
-        backUrls.setSuccess(succesUrl);
+        //backUrls.setFailure(failureUrl);
+        //backUrls.setPending(pendingUrl);
+        backUrls.setSuccess(SUCCES_URL);
 
         return backUrls;
     }

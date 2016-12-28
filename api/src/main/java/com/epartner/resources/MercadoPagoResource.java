@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MercadoPagoResource {
 
-    public static final String MERCADO_PAGO = "api/admin/me/mercado-pago";
-
-    Logger logger = LoggerFactory.getLogger(MercadoPagoResource.class);
-
+    static final String MERCADO_PAGO = "api/me/mercado-pago";
 
     private MercadoPagoService mercadoPagoService;
     private PaymentService paymentService;
@@ -45,9 +42,9 @@ public class MercadoPagoResource {
         paymentRepresentation.setUser(getPrincipal());
 
         //crear el payment y que solo sea de mercado pago
-        return mercadoPagoService
+            return mercadoPagoService
                 .createMercadoPagoPayment(
-                        paymentService.create(paymentRepresentation)
+                        paymentService.createAllowed(paymentRepresentation)
                 );
     }
 

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class PaymentPaidState implements PaymentChangedState {
 
-
     @Override
     public Payment execute(Payment payment) {
 

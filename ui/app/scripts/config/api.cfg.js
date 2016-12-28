@@ -40,6 +40,9 @@ let dashboardApiCfg = () => {
     apiProvider.endpoint('publicPayments')
         .route('api/payments/:id');
 
+    apiProvider.endpoint('mercadoPago')
+        .route('api/me/mercado-pago');
+
     apiProvider.endpoint('user')
       .route('/oauth/user');
 

@@ -36,6 +36,7 @@ public class PaymentService {
     private List<PaymentChangedState> changedStates;
     private ProductService productService;
     private Map<String, PaymentState> stateFromPaymentType;
+    private ProductImportService productImportService;
 
     private static final Integer PAGE = 0;
     private static final Integer MAX = 10;
@@ -45,18 +46,20 @@ public class PaymentService {
                           PaymentConverter paymentConverter,
                           ProductRepository productRepository,
                           ProductService productService,
-                          List<PaymentChangedState> changedStates) {
+                          List<PaymentChangedState> changedStates,
+                          ProductImportService productImportService) {
 
         this.productService = productService;
         this.paymentRepository = paymentRepository;
         this.paymentConverter = paymentConverter;
         this.productRepository = productRepository;
         this.changedStates = changedStates;
+        this.productImportService = productImportService;
 
         this.stateFromPaymentType = new HashMap<>();
         this.stateFromPaymentType.put(PaymentType.CASH, PaymentState.NOT_PAID);
         this.stateFromPaymentType.put(PaymentType.DEBIT, PaymentState.NOT_PAID);
-        this.stateFromPaymentType.put(PaymentType.MERCADO_PAGO, PaymentState.PAID);
+        this.stateFromPaymentType.put(PaymentType.MERCADO_PAGO, PaymentState.NOT_PAID);
     }
 
     public PaymentRepresentation create(PaymentRepresentation paymentRepresentation) {
@@ -64,14 +67,18 @@ public class PaymentService {
         if(PaymentType.MERCADO_PAGO.equals(paymentRepresentation.getPaymentType())){
             throw new InvalidPaymentTypeException();
         }
+        return createAllowed(paymentRepresentation);
+    }
+
+    public PaymentRepresentation createAllowed(PaymentRepresentation paymentRepresentation) {
         //check if product exists
         ProductRepresentation productRepresentation = productService.show(paymentRepresentation.getProduct().getId());
         //check stock availability
         if(isNotAvailableStock(paymentRepresentation, productRepresentation) ) {
             throw new NoAvailableStockException();
         }
-        productRepresentation.removeStock(paymentRepresentation.getQuantity());
         //update stock
+        this.removeStock(productRepresentation, paymentRepresentation);
         productService.update(productRepresentation, paymentRepresentation.getProduct().getId());
         Payment payment = this.paymentConverter.convert(paymentRepresentation);
         //hay que buscar el producto para ponerselo al payment :(
@@ -80,13 +87,20 @@ public class PaymentService {
         //set the payment state from payment type
         payment.setState(this.stateFromPaymentType.get(paymentRepresentation.getPaymentType()));
         return this.paymentConverter.convert(
-            this.paymentRepository.save(payment)
+                this.paymentRepository.save(payment)
         );
     }
 
+    private void removeStock(ProductRepresentation productRepresentation, PaymentRepresentation paymentRepresentation) {
+        productRepresentation.removeStock(paymentRepresentation.getQuantity());
+        if(productRepresentation.getImported()) {
+            this.productImportService.updateStock(productRepresentation);
+        }
+    }
+
     private boolean isNotAvailableStock(PaymentRepresentation paymentRepresentation, ProductRepresentation storedProduct) {
-        return storedProduct.getStock() <= 0 ||
-        storedProduct.getStock() < paymentRepresentation.getQuantity();
+        return storedProduct.getStock() <= 1 ||
+        storedProduct.getStock() <= paymentRepresentation.getQuantity();
     }
 
     public Page<PaymentRepresentation> getAllPayments(

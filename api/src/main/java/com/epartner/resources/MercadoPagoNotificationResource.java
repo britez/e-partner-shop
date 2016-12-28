@@ -23,6 +23,8 @@ import com.mercadopago.MP;
 public class MercadoPagoNotificationResource {
 
   public static final String MERCADO_PAGO = "api/meli/notification";
+  private static final String CLIENT_ID = "5388494152368678";
+  private static final String SECRET_ID = "6LCadMJuqFsIdVR61jj7j3trfZHc9ucO";
 
   Logger logger = LoggerFactory.getLogger(MercadoPagoNotificationResource.class);
 
@@ -31,16 +33,28 @@ public class MercadoPagoNotificationResource {
   public void create(@RequestParam(value = "topic", required = false) String topic,
                      @RequestParam(value = "id", required = false) String id){
 
-
-      final String CLIENT_ID = "6004361641371424";
-      final String SECRET_ID = "dRjMmDt6nN8va0j9Qqcyp3w7rAKiGHV7";
-
     MP mp = new MP(CLIENT_ID, SECRET_ID);
 
     try {
+      logger.info("El topic: " + topic);
+      logger.info("El id del payment: " + id);
 
-      JSONObject payment = mp.get("/payments/"+id);
-      logger.info(payment.toString());
+      mp.sandboxMode(true);
+
+      JSONObject info = mp.getPaymentInfo(id);
+      logger.info("Payment info: " + info);
+
+      JSONObject info2 = mp.getPayment(id);
+      logger.info("Payment: " + info2);
+
+      JSONObject info3 = mp.getPreapprovalPayment(id);
+      logger.info("Pre Appr Payment: " + info3);
+
+      JSONObject info4 = mp.getAuthorizedPayment(id);
+      logger.info("Auth Payment: " + info4);
+
+      //JSONObject payment = mp.get("/payments/"+id);
+      //logger.info(payment.toString());
 
     } catch (Exception e) {
       logger.error("Rompio al llamar al servicio",e);

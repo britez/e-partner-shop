@@ -5,6 +5,7 @@ import com.epartner.domain.*;
 import com.epartner.exceptions.MeliNotConfiguredException;
 import com.epartner.repositories.MeliConfigurationRepository;
 import com.epartner.repositories.ProductRepository;
+import com.epartner.representations.PaymentRepresentation;
 import com.epartner.representations.ProductRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -47,6 +50,7 @@ public class ProductImportService {
 
     private static final Integer MAX = 10;
     private static final Integer PAGE = 0;
+    private static final String ITEM_UPDATE_URL = "https://api.mercadolibre.com/items/ID?access_token=ACCESS_TOKEN";
 
     private RestTemplate template;
     private ProductRepository productRepository;
@@ -169,16 +173,21 @@ public class ProductImportService {
     }
 
     private MeliConfiguration testAccessToken(MeliConfiguration config) {
-        ResponseEntity<MeliUser> response =
-                this.template.getForEntity(USER_URL.replace("ACCESS_TOKEN",config.getAccess_token()), MeliUser.class);
-        if(HttpStatus.UNAUTHORIZED.equals(response.getStatusCode())) {
-            ResponseEntity<MeliConfiguration> result = this.template.postForEntity(
-                    REFRESH_URL.replace("APP_ID", APP_ID)
-                               .replace("SECRET_KEY",SECRET_KEY)
-                               .replace("REFRESH_TOKEN", config.getRefresh_token()), null, MeliConfiguration.class);
-            MeliConfiguration newConfig = result.getBody();
-            config.setAccess_token(newConfig.getAccess_token());
-            this.meliConfigurationRepository.save(config);
+        ResponseEntity<MeliUser> response;
+        try {
+            this.template.getForEntity(USER_URL.replace("ACCESS_TOKEN",config.getAccess_token()), MeliUser.class);
+        } catch (HttpStatusCodeException ex) {
+            if(HttpStatus.UNAUTHORIZED.equals(ex.getStatusCode())) {
+                ResponseEntity<MeliConfiguration> result = this.template.postForEntity(
+                        REFRESH_URL.replace("APP_ID", APP_ID)
+                                .replace("SECRET_KEY",SECRET_KEY)
+                                .replace("REFRESH_TOKEN", config.getRefresh_token()), null, MeliConfiguration.class);
+                MeliConfiguration newConfig = result.getBody();
+                config.setAccess_token(newConfig.getAccess_token());
+                this.meliConfigurationRepository.save(config);
+            }
+        } catch (RestClientException ex) {
+            //error inesperado
         }
         return config;
     }
@@ -186,5 +195,16 @@ public class ProductImportService {
     private MeliUser fetchUser(String accessToken){
         ResponseEntity<MeliUser> result = this.template.getForEntity(USER_URL.replace("ACCESS_TOKEN",accessToken), MeliUser.class);
         return result.getBody();
+    }
+
+    public void updateStock(ProductRepresentation productRepresentation) {
+        MeliConfiguration config = this.testAccessToken(checkAccessToken());
+
+        MeliItemQuantity request = new MeliItemQuantity();
+        request.setAvailable_quantity(productRepresentation.getStock());
+
+        this.template.put(ITEM_UPDATE_URL
+                .replace("ID", productRepresentation.getMeliId())
+                .replace("ACCESS_TOKEN", config.getAccess_token()), request);
     }
 }

@@ -14,7 +14,7 @@ export default class ItemCtrl{
     }
 
     addItem() {
-        if(this.quantity === this.entity.stock) {
+        if(this.quantity === this.entity.stock - 1) {
             return;
         }
         this.quantity = this.quantity + 1;

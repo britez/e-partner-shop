@@ -34,4 +34,8 @@ export default class PaymentService {
         return this.paymentOptions.find(it => it.id == id);
     }
 
+    isMercadoPago(payment) {
+        return payment.code === this.getPaymentOption(3).code;
+    }
+
 }

@@ -12,6 +12,7 @@ import { ItemComponent } from '../commons/home/components/item/item.component';
 import { HomeCategoryComponent } from './home/home.category.component';
 import { SearchComponent } from './search/search.component';
 import { BoughtComponent } from './bought/bought.component';
+import { BoughtSuccessComponent } from './bought/bought.success.component';
 
 const common = angular
     .module('commons.module', [])
@@ -22,6 +23,7 @@ const common = angular
     .component('itemComponent', ItemComponent)
     .component('searchComponent', SearchComponent)
     .component('buyComponent', BoughtComponent)
+    .component('boughtSuccessComponent', BoughtSuccessComponent)
     .config(($stateProvider, $urlRouterProvider) => {
         $stateProvider
             .state('home', {
@@ -43,6 +45,10 @@ const common = angular
             .state('buy', {
                 url: '/buy/:id?payment&quantity',
                 component: 'buyComponent'
+            })
+            .state('bought-success', {
+                url: '/buy-success',
+                component: 'boughtSuccessComponent'
             });
         $urlRouterProvider.otherwise('/');
     })

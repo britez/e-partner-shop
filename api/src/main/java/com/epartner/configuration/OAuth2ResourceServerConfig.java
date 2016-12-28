@@ -74,6 +74,12 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
                     "/**/api/meli/notification/**")
                 .permitAll()
             .and()
+            .authorizeRequests()
+                .antMatchers(
+                    HttpMethod.POST,
+                    "/**/api/meli/notification/**")
+                .permitAll()
+            .and()
                 .authorizeRequests()
                 .anyRequest()
                     .authenticated();

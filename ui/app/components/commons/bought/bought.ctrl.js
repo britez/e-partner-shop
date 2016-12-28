@@ -5,6 +5,7 @@ export default class BoughtController {
     constructor(authService, $state, api, paymentService) {
         this.authService = authService;
         this.api = api;
+        this.$state = $state;
         this.params = $state.params;
         this.paymentService = paymentService;
         this.init();
@@ -25,10 +26,13 @@ export default class BoughtController {
             .$promise
             .then(response => {
                 this.product = response;
+
+                if(this.product.stock <= this.params.quantity) {
+                    this.$state.go('item', {id: this.product.id})
+                }
+
         });
-
         this.payment = this.paymentService.getPaymentOption(this.params.payment);
-
     }
 
     confirm() {
@@ -41,14 +45,25 @@ export default class BoughtController {
             quantity: this.params.quantity
         };
 
-        this
-            .api
-            .publicPayments
-            .save({},payment)
-            .$promise
-            .then(()=> {
-                console.log('COMPRADO!')
-            })
+        if (this.paymentService.isMercadoPago(this.payment)){
+            this.api
+                .mercadoPago
+                .save({}, payment)
+                .$promise
+                .then(response => {
+                    window.location.replace(response.paymentUrl);
+                })
+        } else {
+            this
+                .api
+                .publicPayments
+                .save({},payment)
+                .$promise
+                .then(()=> {
+                    this.$state.go('bought-success')
+                })
+        }
+
     }
 
 
