@@ -2,7 +2,9 @@ package com.epartner.shop;
 
 import com.epartner.shop.configuration.EpartnerAuthenticationProvider;
 import com.epartner.shop.domain.Role;
+import com.epartner.shop.domain.User;
 import com.epartner.shop.repositories.RoleRepository;
+import com.epartner.shop.repositories.UserRepository;
 import com.epartner.shop.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +23,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -48,7 +51,9 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
     }
 
     @Bean
-    public CommandLineRunner demo(RoleRepository repository){
+    public CommandLineRunner demo(
+            RoleRepository repository,
+            UserRepository userRepository){
         return (args)->{
             Role role = new Role();
             role.setAuthority(ADMIN);
@@ -56,6 +61,13 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
             Role role2 = new Role();
             role2.setAuthority(USER);
             repository.save(role2);
+
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(new BCryptPasswordEncoder().encode("admin"));
+            admin.addRole(role);
+            userRepository.save(admin);
+
         };
     }
 

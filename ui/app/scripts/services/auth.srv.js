@@ -46,7 +46,7 @@ export default class AuthService {
         if(!this.user) {
             return false;
         }
-        return this.user.authorities.filter(it => it.authority === 'ROLE_admin').length != 0;
+        return this.user.authorities.filter(it => it.authority === 'ADMIN').length != 0;
     }
 
     login() {

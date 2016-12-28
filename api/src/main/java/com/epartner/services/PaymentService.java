@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -107,7 +108,7 @@ public class PaymentService {
             Optional<Integer> max,
             Optional<Integer> page,
             Optional<String> query) {
-        PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX));
+        PageRequest pageRequest = new PageRequest(page.orElse(PAGE), max.orElse(MAX), new Sort(Sort.Direction.DESC, "id"));
         Page<Payment> stored;
         if(query.isPresent()) {
             stored = paymentRepository.findAllByProduct_nameContaining(query.get(), pageRequest);

@@ -50,7 +50,7 @@
                 <a ui-sref="admin()">Hola {{header.getUser().name}} !</a>
                 <div ng-class="{'out':!header.user, 'hide': !header.user}" class="sub-menu">
                     <div class="container sub-menu-container session">
-                        <span>Maximiliano Britez</span>
+                        <span>{{header.getUser().name}}</span>
                         <p ng-click="header.logout()"><a>Salir</a></p>
                     </div>
                 </div>
