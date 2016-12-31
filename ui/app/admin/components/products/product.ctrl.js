@@ -65,8 +65,12 @@ export default class ProductController {
                 .products
                 .update(params,this.entity)
                 .$promise
-                .then(() => {
+                .then(response => {
+                 let productId = response.id;
+                    var promises = [];
                     this.updated = true;
+                    promises.push(this.uploadPictures(productId));
+                    promises.push(this.uploadPrincipalPicture(productId));
                     this.init();
                 });
         } else {
