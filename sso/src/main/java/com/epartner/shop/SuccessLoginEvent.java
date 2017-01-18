@@ -1,9 +1,7 @@
-package com.epartnet.shop;
+package com.epartner.shop;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.event.AbstractAuthenticationEvent;
 
 @Configuration
