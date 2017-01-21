@@ -4,6 +4,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,8 +29,12 @@ import com.mercadopago.MP;
 public class MercadoPagoNotificationResource {
 
   public static final String MERCADO_PAGO = "api/meli/notification";
-  private static final String CLIENT_ID = "5388494152368678";
-  private static final String SECRET_ID = "6LCadMJuqFsIdVR61jj7j3trfZHc9ucO";
+
+  @Value("${epartner.mercadopago.clientId}")
+  private String CLIENT_ID;
+
+  @Value("${epartner.mercadopago.secretId}")
+  private String SECRET_ID;
 
   Logger logger = LoggerFactory.getLogger(MercadoPagoNotificationResource.class);
 

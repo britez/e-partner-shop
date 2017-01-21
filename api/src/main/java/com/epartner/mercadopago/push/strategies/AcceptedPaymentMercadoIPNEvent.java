@@ -39,7 +39,7 @@ public class AcceptedPaymentMercadoIPNEvent implements MercadoPagoIPNEvent {
     PaymentRepresentation payment = paymentService.show(Long.valueOf(paymentId));
     payment.setState(PaymentState.PAID);
     //hay que remover el stock??
-    
+
     paymentService.update(paymentId, payment);
 
   }
