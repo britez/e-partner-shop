@@ -15,7 +15,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "id",
-    "site_id",
     "date_created",
     "date_approved",
     "money_release_date",
@@ -61,89 +60,130 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Collection {
 
     @JsonProperty("id")
+    @JsonIgnore
     private Long id;
     @JsonProperty("site_id")
+    @JsonIgnore
     private String siteId;
+    @JsonIgnore
     @JsonProperty("date_created")
     private String dateCreated;
+    @JsonIgnore
     @JsonProperty("date_approved")
     private String dateApproved;
+    @JsonIgnore
     @JsonProperty("money_release_date")
     private String moneyReleaseDate;
+    @JsonIgnore
     @JsonProperty("last_modified")
     private String lastModified;
+    @JsonIgnore
     @JsonProperty("payer")
     private Payer payer;
+    @JsonIgnore
     @JsonProperty("order_id")
     private Long orderId;
-    @JsonProperty("external_reference")
-    private String externalReference;
+    private String external_reference;
+    @JsonIgnore
     @JsonProperty("merchant_order_id")
     private Long merchantOrderId;
+    @JsonIgnore
     @JsonProperty("reason")
     private String reason;
+    @JsonIgnore
     @JsonProperty("currency_id")
     private String currencyId;
+    @JsonIgnore
     @JsonProperty("transaction_amount")
     private Double transactionAmount;
+    @JsonIgnore
     @JsonProperty("net_received_amount")
     private Double netReceivedAmount;
+    @JsonIgnore
     @JsonProperty("total_paid_amount")
     private Double totalPaidAmount;
+    @JsonIgnore
     @JsonProperty("shipping_cost")
     private Double shippingCost;
+    @JsonIgnore
     @JsonProperty("coupon_amount")
     private Double couponAmount;
+    @JsonIgnore
     @JsonProperty("coupon_fee")
     private Double couponFee;
+    @JsonIgnore
     @JsonProperty("finance_fee")
     private Double financeFee;
+    @JsonIgnore
     @JsonProperty("discount_fee")
     private Double discountFee;
+    @JsonIgnore
     @JsonProperty("coupon_id")
     private Object couponId;
+    @JsonIgnore
     @JsonProperty("status")
     private String status;
+    @JsonIgnore
     @JsonProperty("status_detail")
     private String statusDetail;
+    @JsonIgnore
     @JsonProperty("installments")
     private Integer installments;
+    @JsonIgnore
     @JsonProperty("issuer_id")
     private Long issuerId;
+    @JsonIgnore
     @JsonProperty("installment_amount")
     private Double installmentAmount;
+    @JsonIgnore
     @JsonProperty("deferred_period")
     private Object deferredPeriod;
+    @JsonIgnore
     @JsonProperty("payment_type")
     private String paymentType;
+    @JsonIgnore
     @JsonProperty("marketplace")
     private String marketplace;
+    @JsonIgnore
     @JsonProperty("operation_type")
     private String operationType;
+    @JsonIgnore
     @JsonProperty("transaction_order_id")
     private Long transactionOrderId;
+    @JsonIgnore
     @JsonProperty("statement_descriptor")
     private String statementDescriptor;
+    @JsonIgnore
     @JsonProperty("cardholder")
     private Cardholder cardholder;
+    @JsonIgnore
     @JsonProperty("authorization_code")
     private String authorizationCode;
+    @JsonIgnore
     @JsonProperty("marketplace_fee")
     private Double marketplaceFee;
+    @JsonIgnore
     @JsonProperty("deduction_schema")
     private Object deductionSchema;
+    @JsonIgnore
     @JsonProperty("refunds")
     private List<Object> refunds = null;
+    @JsonIgnore
     @JsonProperty("amount_refunded")
     private Double amountRefunded;
+    @JsonIgnore
     @JsonProperty("last_modified_by_admin")
     private Object lastModifiedByAdmin;
+    @JsonIgnore
     @JsonProperty("concept_id")
     private Object conceptId;
+    @JsonIgnore
     @JsonProperty("concept_amount")
     private Double conceptAmount;
+    @JsonIgnore
     @JsonProperty("internal_metadata")
     private InternalMetadata internalMetadata;
+    @JsonIgnore
     @JsonProperty("collector")
     private Collector collector;
     @JsonIgnore
@@ -159,11 +199,13 @@ public class Collection {
         this.id = id;
     }
 
+    @JsonIgnore
     @JsonProperty("site_id")
     public String getSiteId() {
         return siteId;
     }
 
+    @JsonIgnore
     @JsonProperty("site_id")
     public void setSiteId(String siteId) {
         this.siteId = siteId;
@@ -229,14 +271,12 @@ public class Collection {
         this.orderId = orderId;
     }
 
-    @JsonProperty("external_reference")
-    public String getExternalReference() {
-        return externalReference;
+    public String getExternal_reference() {
+        return external_reference;
     }
 
-    @JsonProperty("external_reference")
-    public void setExternalReference(String externalReference) {
-        this.externalReference = externalReference;
+    public void setExternal_reference(String external_reference) {
+        this.external_reference = external_reference;
     }
 
     @JsonProperty("merchant_order_id")

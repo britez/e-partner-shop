@@ -55,6 +55,7 @@ public class MercadoPagoNotificationResource {
 
     MP mp = new MP(CLIENT_ID, SECRET_ID);
     ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(org.codehaus.jackson.map.DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     try {
       logger.info("El topic: " + topic);

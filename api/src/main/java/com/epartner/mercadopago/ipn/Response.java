@@ -17,17 +17,14 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class Response {
 
-    @JsonProperty("collection")
     private Collection collection;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    @JsonProperty("collection")
     public Collection getCollection() {
         return collection;
     }
 
-    @JsonProperty("collection")
     public void setCollection(Collection collection) {
         this.collection = collection;
     }

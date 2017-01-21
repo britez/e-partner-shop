@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.epartner.domain.PaymentState;
 import com.epartner.mercadopago.ipn.MercadoPagoIPNPush;
 import com.epartner.representations.PaymentRepresentation;
-import com.epartner.services.MercadoPagoService;
 import com.epartner.services.PaymentService;
 
 /**
@@ -33,7 +32,7 @@ public class AcceptedPaymentMercadoIPNEvent implements MercadoPagoIPNEvent {
     //extraer a algun lugar se va usar por varios
     // lados falta manejor de errores
 
-    Long paymentId = Long.valueOf(data.getResponse().getCollection().getExternalReference());
+    Long paymentId = Long.valueOf(data.getResponse().getCollection().getExternal_reference());
     logger.info("Marcando el pago [" + paymentId + "] como pagado");
 
     PaymentRepresentation payment = paymentService.show(Long.valueOf(paymentId));
