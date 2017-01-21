@@ -3,4 +3,4 @@ spring:
     name: sso
   cloud:
     config:
-      uri: http://e-partner-cloud-config:18090/config
+      uri: http://52.206.123.197:18090/config
