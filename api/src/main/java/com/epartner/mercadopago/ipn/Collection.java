@@ -61,7 +61,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Collection {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("site_id")
     private String siteId;
     @JsonProperty("date_created")
@@ -75,31 +75,31 @@ public class Collection {
     @JsonProperty("payer")
     private Payer payer;
     @JsonProperty("order_id")
-    private String orderId;
+    private Long orderId;
     @JsonProperty("external_reference")
     private String externalReference;
     @JsonProperty("merchant_order_id")
-    private Integer merchantOrderId;
+    private Long merchantOrderId;
     @JsonProperty("reason")
     private String reason;
     @JsonProperty("currency_id")
     private String currencyId;
     @JsonProperty("transaction_amount")
-    private Integer transactionAmount;
+    private Double transactionAmount;
     @JsonProperty("net_received_amount")
     private Double netReceivedAmount;
     @JsonProperty("total_paid_amount")
-    private Integer totalPaidAmount;
+    private Double totalPaidAmount;
     @JsonProperty("shipping_cost")
-    private Integer shippingCost;
+    private Double shippingCost;
     @JsonProperty("coupon_amount")
-    private Integer couponAmount;
+    private Double couponAmount;
     @JsonProperty("coupon_fee")
-    private Integer couponFee;
+    private Double couponFee;
     @JsonProperty("finance_fee")
-    private Integer financeFee;
+    private Double financeFee;
     @JsonProperty("discount_fee")
-    private Integer discountFee;
+    private Double discountFee;
     @JsonProperty("coupon_id")
     private Object couponId;
     @JsonProperty("status")
@@ -109,9 +109,9 @@ public class Collection {
     @JsonProperty("installments")
     private Integer installments;
     @JsonProperty("issuer_id")
-    private Integer issuerId;
+    private Long issuerId;
     @JsonProperty("installment_amount")
-    private Integer installmentAmount;
+    private Double installmentAmount;
     @JsonProperty("deferred_period")
     private Object deferredPeriod;
     @JsonProperty("payment_type")
@@ -121,7 +121,7 @@ public class Collection {
     @JsonProperty("operation_type")
     private String operationType;
     @JsonProperty("transaction_order_id")
-    private String transactionOrderId;
+    private Long transactionOrderId;
     @JsonProperty("statement_descriptor")
     private String statementDescriptor;
     @JsonProperty("cardholder")
@@ -129,19 +129,19 @@ public class Collection {
     @JsonProperty("authorization_code")
     private String authorizationCode;
     @JsonProperty("marketplace_fee")
-    private Integer marketplaceFee;
+    private Double marketplaceFee;
     @JsonProperty("deduction_schema")
     private Object deductionSchema;
     @JsonProperty("refunds")
     private List<Object> refunds = null;
     @JsonProperty("amount_refunded")
-    private Integer amountRefunded;
+    private Double amountRefunded;
     @JsonProperty("last_modified_by_admin")
     private Object lastModifiedByAdmin;
     @JsonProperty("concept_id")
     private Object conceptId;
     @JsonProperty("concept_amount")
-    private Integer conceptAmount;
+    private Double conceptAmount;
     @JsonProperty("internal_metadata")
     private InternalMetadata internalMetadata;
     @JsonProperty("collector")
@@ -150,12 +150,12 @@ public class Collection {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("id")
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -220,12 +220,12 @@ public class Collection {
     }
 
     @JsonProperty("order_id")
-    public String getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
     @JsonProperty("order_id")
-    public void setOrderId(String orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
@@ -240,12 +240,12 @@ public class Collection {
     }
 
     @JsonProperty("merchant_order_id")
-    public Integer getMerchantOrderId() {
+    public Long getMerchantOrderId() {
         return merchantOrderId;
     }
 
     @JsonProperty("merchant_order_id")
-    public void setMerchantOrderId(Integer merchantOrderId) {
+    public void setMerchantOrderId(Long merchantOrderId) {
         this.merchantOrderId = merchantOrderId;
     }
 
@@ -270,12 +270,12 @@ public class Collection {
     }
 
     @JsonProperty("transaction_amount")
-    public Integer getTransactionAmount() {
+    public Double getTransactionAmount() {
         return transactionAmount;
     }
 
     @JsonProperty("transaction_amount")
-    public void setTransactionAmount(Integer transactionAmount) {
+    public void setTransactionAmount(Double transactionAmount) {
         this.transactionAmount = transactionAmount;
     }
 
@@ -290,62 +290,62 @@ public class Collection {
     }
 
     @JsonProperty("total_paid_amount")
-    public Integer getTotalPaidAmount() {
+    public Double getTotalPaidAmount() {
         return totalPaidAmount;
     }
 
     @JsonProperty("total_paid_amount")
-    public void setTotalPaidAmount(Integer totalPaidAmount) {
+    public void setTotalPaidAmount(Double totalPaidAmount) {
         this.totalPaidAmount = totalPaidAmount;
     }
 
     @JsonProperty("shipping_cost")
-    public Integer getShippingCost() {
+    public Double getShippingCost() {
         return shippingCost;
     }
 
     @JsonProperty("shipping_cost")
-    public void setShippingCost(Integer shippingCost) {
+    public void setShippingCost(Double shippingCost) {
         this.shippingCost = shippingCost;
     }
 
     @JsonProperty("coupon_amount")
-    public Integer getCouponAmount() {
+    public Double getCouponAmount() {
         return couponAmount;
     }
 
     @JsonProperty("coupon_amount")
-    public void setCouponAmount(Integer couponAmount) {
+    public void setCouponAmount(Double couponAmount) {
         this.couponAmount = couponAmount;
     }
 
     @JsonProperty("coupon_fee")
-    public Integer getCouponFee() {
+    public Double getCouponFee() {
         return couponFee;
     }
 
     @JsonProperty("coupon_fee")
-    public void setCouponFee(Integer couponFee) {
+    public void setCouponFee(Double couponFee) {
         this.couponFee = couponFee;
     }
 
     @JsonProperty("finance_fee")
-    public Integer getFinanceFee() {
+    public Double getFinanceFee() {
         return financeFee;
     }
 
     @JsonProperty("finance_fee")
-    public void setFinanceFee(Integer financeFee) {
+    public void setFinanceFee(Double financeFee) {
         this.financeFee = financeFee;
     }
 
     @JsonProperty("discount_fee")
-    public Integer getDiscountFee() {
+    public Double getDiscountFee() {
         return discountFee;
     }
 
     @JsonProperty("discount_fee")
-    public void setDiscountFee(Integer discountFee) {
+    public void setDiscountFee(Double discountFee) {
         this.discountFee = discountFee;
     }
 
@@ -390,22 +390,22 @@ public class Collection {
     }
 
     @JsonProperty("issuer_id")
-    public Integer getIssuerId() {
+    public Long getIssuerId() {
         return issuerId;
     }
 
     @JsonProperty("issuer_id")
-    public void setIssuerId(Integer issuerId) {
+    public void setIssuerId(Long issuerId) {
         this.issuerId = issuerId;
     }
 
     @JsonProperty("installment_amount")
-    public Integer getInstallmentAmount() {
+    public Double getInstallmentAmount() {
         return installmentAmount;
     }
 
     @JsonProperty("installment_amount")
-    public void setInstallmentAmount(Integer installmentAmount) {
+    public void setInstallmentAmount(Double installmentAmount) {
         this.installmentAmount = installmentAmount;
     }
 
@@ -450,12 +450,12 @@ public class Collection {
     }
 
     @JsonProperty("transaction_order_id")
-    public String getTransactionOrderId() {
+    public Long getTransactionOrderId() {
         return transactionOrderId;
     }
 
     @JsonProperty("transaction_order_id")
-    public void setTransactionOrderId(String transactionOrderId) {
+    public void setTransactionOrderId(Long transactionOrderId) {
         this.transactionOrderId = transactionOrderId;
     }
 
@@ -490,12 +490,12 @@ public class Collection {
     }
 
     @JsonProperty("marketplace_fee")
-    public Integer getMarketplaceFee() {
+    public Double getMarketplaceFee() {
         return marketplaceFee;
     }
 
     @JsonProperty("marketplace_fee")
-    public void setMarketplaceFee(Integer marketplaceFee) {
+    public void setMarketplaceFee(Double marketplaceFee) {
         this.marketplaceFee = marketplaceFee;
     }
 
@@ -520,12 +520,12 @@ public class Collection {
     }
 
     @JsonProperty("amount_refunded")
-    public Integer getAmountRefunded() {
+    public Double getAmountRefunded() {
         return amountRefunded;
     }
 
     @JsonProperty("amount_refunded")
-    public void setAmountRefunded(Integer amountRefunded) {
+    public void setAmountRefunded(Double amountRefunded) {
         this.amountRefunded = amountRefunded;
     }
 
@@ -550,12 +550,12 @@ public class Collection {
     }
 
     @JsonProperty("concept_amount")
-    public Integer getConceptAmount() {
+    public Double getConceptAmount() {
         return conceptAmount;
     }
 
     @JsonProperty("concept_amount")
-    public void setConceptAmount(Integer conceptAmount) {
+    public void setConceptAmount(Double conceptAmount) {
         this.conceptAmount = conceptAmount;
     }
 
