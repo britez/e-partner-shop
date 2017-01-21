@@ -47,7 +47,7 @@ let dashboardApiCfg = () => {
         .route('api/me/buys/:id');
 
     apiProvider.endpoint('user')
-      .route('/oauth/user');
+      .route('/oauth/principal');
 
     apiProvider.endpoint('settings')
         .route('/oauth/settings');
