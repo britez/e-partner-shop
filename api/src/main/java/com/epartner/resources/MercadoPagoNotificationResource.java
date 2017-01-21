@@ -60,12 +60,15 @@ public class MercadoPagoNotificationResource {
       logger.info("El topic: " + topic);
       logger.info("El id del payment: " + id);
 
-      JSONObject merchant = mp.get("/merchant_orders/"+id);
-      logger.info("payments:" + merchant.getJSONObject("response").getJSONObject("payments"));
 
       if(PAYMENT_TOPIC.equals(topic)){
 
-        MercadoPagoIPNPush pushData = mapper.readValue(merchant.toString(), MercadoPagoIPNPush.class);
+        JSONObject payment = mp.getPayment(id);
+
+        String paymentObject = payment.toString();
+        logger.info("payments:" + paymentObject);
+
+        MercadoPagoIPNPush pushData = mapper.readValue(paymentObject, MercadoPagoIPNPush.class);
 
         MercadoPagoIPNEvent eventStrategy = mercadoPagoIPNEventHolder.getEventStrategy(pushData
           .getResponse()
@@ -75,6 +78,7 @@ public class MercadoPagoNotificationResource {
 
       }else {
 
+        JSONObject merchant = mp.get("/merchant_orders/"+id);
         logger.info("Merchant order: ", merchant.toString());
       }
 

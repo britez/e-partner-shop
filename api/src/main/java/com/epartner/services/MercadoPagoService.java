@@ -27,7 +27,7 @@ import java.util.List;
 @Component
 public class MercadoPagoService {
 
-    private static final String SUCCES_URL = "http://localhost:18111/#/buy-success";
+    private static final String SUCCES_URL = "http://ec2-35-163-50-117.us-west-2.compute.amazonaws.com:18111/#/buy-success";
     private static final String NOTIFICATION_URL = "http://ec2-35-163-50-117.us-west-2.compute.amazonaws.com:18100/api/meli/notification";
     //private static final String failureUrl = "http://localhosts:8080/lala";
     //private static final String pendingUrl = "http://localhosts:8080/lala";
@@ -61,7 +61,7 @@ public class MercadoPagoService {
             logger.info("Creando preferencias con el json: " + jsonData);
             JSONObject preference = mp.createPreference(jsonData);
 
-            String mercadoPagoUrlExtractor = "sandbox_init_point";
+            String mercadoPagoUrlExtractor = "init_point";
 
             paymentUrl = preference.getJSONObject("response").getString(mercadoPagoUrlExtractor);
             logger.info("se creo al url de pago ["+ paymentUrl+"]");
