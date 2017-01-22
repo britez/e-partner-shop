@@ -9,7 +9,7 @@ import java.util.List;
  */
 public enum PaymentState {
 
-    PAID, NOT_PAID, CANCELED;
+    PAID, NOT_PAID, CANCELED, PENDING;
 
     public List<PaymentState> getNextState(){
         if(CANCELED.equals(this)){
@@ -18,7 +18,7 @@ public enum PaymentState {
 
         List<PaymentState> result = new ArrayList<>();
 
-        if(NOT_PAID.equals(this)){
+        if(NOT_PAID.equals(this) || PENDING.equals(this)){
             result.add(PAID);
             result.add(CANCELED);
         }
@@ -26,6 +26,7 @@ public enum PaymentState {
         if(PAID.equals(this)) {
             result.add(CANCELED);
         }
+
         return result;
     }
 }

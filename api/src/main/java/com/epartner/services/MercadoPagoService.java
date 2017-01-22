@@ -14,6 +14,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -26,12 +27,16 @@ import java.util.List;
 @Component
 public class MercadoPagoService {
 
-    private static final String SUCCES_URL = "http://localhost:18111/#/buy-success";
+    private static final String SUCCES_URL = "http://ec2-35-163-50-117.us-west-2.compute.amazonaws.com:18111/#/buy-success";
     private static final String NOTIFICATION_URL = "http://ec2-35-163-50-117.us-west-2.compute.amazonaws.com:18100/api/meli/notification";
     //private static final String failureUrl = "http://localhosts:8080/lala";
     //private static final String pendingUrl = "http://localhosts:8080/lala";
-    private static final String CLIENT_ID = "5388494152368678";
-    private static final String SECRET_ID = "6LCadMJuqFsIdVR61jj7j3trfZHc9ucO";
+
+    @Value("${epartner.mercadopago.clientId}")
+    private String CLIENT_ID;
+
+    @Value("${epartner.mercadopago.secretId}")
+    private String SECRET_ID;
 
     private ObjectMapper mapper;
     private static final Logger logger = LoggerFactory.getLogger(MercadoPagoService.class);
@@ -48,7 +53,7 @@ public class MercadoPagoService {
         String paymentUrl;
         try {
             MP mp = new MP(CLIENT_ID, SECRET_ID);
-            //mp.sandboxMode(true);
+
 
             String jsonData = createJSONData(payment);
 
@@ -56,7 +61,7 @@ public class MercadoPagoService {
             logger.info("Creando preferencias con el json: " + jsonData);
             JSONObject preference = mp.createPreference(jsonData);
 
-            String mercadoPagoUrlExtractor = "sandbox_init_point";
+            String mercadoPagoUrlExtractor = "init_point";
 
             paymentUrl = preference.getJSONObject("response").getString(mercadoPagoUrlExtractor);
             logger.info("se creo al url de pago ["+ paymentUrl+"]");

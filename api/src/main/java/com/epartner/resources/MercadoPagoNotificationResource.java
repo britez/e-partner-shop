@@ -3,16 +3,22 @@ package com.epartner.resources;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.epartner.representations.MercadoPagoPaymentRepresentation;
-import com.epartner.representations.PaymentRepresentation;
+import com.epartner.domain.Payment;
+import com.epartner.mercadopago.ipn.MercadoPagoIPNPush;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
+import com.epartner.mercadopago.push.strategies.MercadoPagoIPNEvent;
+import com.epartner.mercadopago.push.strategies.MercadoPagoIPNEventHolder;
 import com.mercadopago.MP;
 
 /**
@@ -23,10 +29,24 @@ import com.mercadopago.MP;
 public class MercadoPagoNotificationResource {
 
   public static final String MERCADO_PAGO = "api/meli/notification";
-  private static final String CLIENT_ID = "5388494152368678";
-  private static final String SECRET_ID = "6LCadMJuqFsIdVR61jj7j3trfZHc9ucO";
+
+  @Value("${epartner.mercadopago.clientId}")
+  private String CLIENT_ID;
+
+  @Value("${epartner.mercadopago.secretId}")
+  private String SECRET_ID;
 
   Logger logger = LoggerFactory.getLogger(MercadoPagoNotificationResource.class);
+
+  private static final String PAYMENT_TOPIC = "payment";
+  private static final String MERCHANT_ORDER_TOPIC = "merchant_order";
+
+  private final MercadoPagoIPNEventHolder mercadoPagoIPNEventHolder;
+
+  @Autowired
+  public MercadoPagoNotificationResource(MercadoPagoIPNEventHolder mercadoPagoIPNEventHolder) {
+    this.mercadoPagoIPNEventHolder = mercadoPagoIPNEventHolder;
+  }
 
   @RequestMapping(method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.OK)
@@ -34,27 +54,34 @@ public class MercadoPagoNotificationResource {
                      @RequestParam(value = "id", required = false) String id){
 
     MP mp = new MP(CLIENT_ID, SECRET_ID);
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(org.codehaus.jackson.map.DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     try {
       logger.info("El topic: " + topic);
       logger.info("El id del payment: " + id);
 
-      mp.sandboxMode(true);
 
-      JSONObject info = mp.getPaymentInfo(id);
-      logger.info("Payment info: " + info);
+      if(PAYMENT_TOPIC.equals(topic)){
 
-      JSONObject info2 = mp.getPayment(id);
-      logger.info("Payment: " + info2);
+        JSONObject payment = mp.getPayment(id);
 
-      JSONObject info3 = mp.getPreapprovalPayment(id);
-      logger.info("Pre Appr Payment: " + info3);
+        String paymentObject = payment.toString();
+        logger.info("payments:" + paymentObject);
 
-      JSONObject info4 = mp.getAuthorizedPayment(id);
-      logger.info("Auth Payment: " + info4);
+        MercadoPagoIPNPush pushData = mapper.readValue(paymentObject, MercadoPagoIPNPush.class);
 
-      //JSONObject payment = mp.get("/payments/"+id);
-      //logger.info(payment.toString());
+        MercadoPagoIPNEvent eventStrategy = mercadoPagoIPNEventHolder.getEventStrategy(pushData
+          .getResponse()
+          .getCollection()
+          .getStatus());
+        eventStrategy.execute(pushData);
+
+      }else {
+
+        JSONObject merchant = mp.get("/merchant_orders/"+id);
+        logger.info("Merchant order: ", merchant.toString());
+      }
 
     } catch (Exception e) {
       logger.error("Rompio al llamar al servicio",e);

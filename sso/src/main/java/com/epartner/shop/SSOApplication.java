@@ -93,7 +93,7 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
                         "/user/forgot",
                         "/errorNoHash",
                         "/forgotPassword",
-                        "/oauth/settings")
+                        "/settings")
                 .permitAll()
                 .and()
 
