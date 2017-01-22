@@ -21,7 +21,10 @@ import java.util.UUID;
  */
 @Repository
 public class MailRepoImpl implements MailRepository {
-
+    
+    @Value("${partner-properties.logo}")
+    private String URLBANNER;
+    
     private RedisService redisService;
     private VelocityEngine velocityEngine;
     private JavaMailSender mailSender;
@@ -59,6 +62,7 @@ public class MailRepoImpl implements MailRepository {
             model.put("name",user.getUsername());
             model.put("pass",user.getPassword());
             model.put("link", LINK + hash );
+            model.put("logoBanner", URLBANNER);
             String text = VelocityEngineUtils.mergeTemplateIntoString(
                     velocityEngine, "/templates/registerMail.vm",CHARSET_UTF8, model);
             redisService.setValue(hash,user.getUsername());
