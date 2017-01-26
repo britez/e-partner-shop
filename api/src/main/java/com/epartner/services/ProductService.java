@@ -75,8 +75,6 @@ public class ProductService {
         }
     }
 
-
-
     public ProductRepresentation update(ProductRepresentation productRepresentation, Long id) {
         Product product = this.get(id);
         product.setName(productRepresentation.getName());
@@ -95,14 +93,14 @@ public class ProductService {
         Product stored = this.get(id);
 
         if(stored.getImported()){
-            return this.productImportService.fetch(stored);
+            this.productImportService.fetch(stored);
         }
 
         return this.converter.convert(stored);
     }
 
     private Product get(Long id) {
-        return Optional.ofNullable(this.repository.findOne(id))
+        return this.repository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
     }
 

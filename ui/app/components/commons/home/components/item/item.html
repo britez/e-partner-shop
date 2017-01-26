@@ -39,16 +39,16 @@
                 <div class="quantity-selector pull-left">
                     <div class="input-group">
                         <span class="input-group-btn">
-                            <button class="btn btn-primary input-lg" ng-click="item.addItem()" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                            <button ng-class="{'disabled': !item.canBuy()}" class="btn btn-primary input-lg" ng-click="item.addItem()" type="button"><span class="glyphicon glyphicon-plus"></span></button>
                         </span>
                         <input class="form-control input-lg" disabled ng-model="item.quantity">
                         <span class="input-group-btn">
-                            <button class="btn btn-primary input-lg" ng-click="item.removeItem()" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+                            <button ng-class="{'disabled': !item.canBuy()}" class="btn btn-primary input-lg" ng-click="item.removeItem()" type="button"><span class="glyphicon glyphicon-minus"></span></button>
                         </span>
                     </div>
                 </div>
 
-                <a ui-sref="buy({id: item.entity.id, payment:item.selectedPayment.id, quantity:item.quantity})" class="pull-left btn btn-lg btn-primary animated fadeInRight">Comprar <i class="fa fa-shopping-cart"></i></a>
+                <a ng-class="{'disabled': !item.canBuy()}" ui-sref="buy({id: item.entity.id, payment:item.selectedPayment.id, quantity:item.quantity})" class="pull-left btn btn-lg btn-primary animated fadeInRight">Comprar <i class="fa fa-shopping-cart"></i></a>
             </div>
             <div class="col-md-12" style="">
                 <div class="animated fadeInRightBig item-description">{{item.entity.description}}</div>

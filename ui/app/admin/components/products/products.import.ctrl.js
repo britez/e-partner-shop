@@ -6,13 +6,11 @@ export default class ProductsController {
     constructor(api, $q, $state){
         this.api = api;
         this.state = $state;
-        this.q = $q;
-
         this.init();
     }
 
     init() {
-        this.max = 5;
+        this.max = 8;
         this.page = 0;
         this.products = [];
 

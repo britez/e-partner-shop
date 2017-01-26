@@ -64,6 +64,7 @@ app.run((OAuthToken, $location, authService) => {
     if(typeof code !== 'undefined' && code !== '' && code.indexOf('code')>0 ){
          console.log('Ahi vino el code: ' + code.split('code')[1].split('#')[0].substring(1));
         authService.saveMeliAccessToken(code.split('code')[1].split('#')[0].substring(1));
+        window.location.replace(code.substr(0,code.indexOf('code') - 1));
     }
 
     if(typeof token !== 'undefined' && token !== '' && token.indexOf('access_token')===0 ){

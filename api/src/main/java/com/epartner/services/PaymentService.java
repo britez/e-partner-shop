@@ -102,7 +102,11 @@ public class PaymentService {
     }
 
     private boolean isNotAvailableStock(PaymentRepresentation paymentRepresentation, ProductRepresentation storedProduct) {
-        return storedProduct.getStock() <= 1 ||
+        Integer minimStock = 1;
+        if(storedProduct.getImported()) {
+            minimStock = 2;
+        }
+        return storedProduct.getStock() <= minimStock ||
         storedProduct.getStock() <= paymentRepresentation.getQuantity();
     }
 
