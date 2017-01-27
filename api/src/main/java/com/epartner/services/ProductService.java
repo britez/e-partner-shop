@@ -100,7 +100,8 @@ public class ProductService {
     }
 
     private Product get(Long id) {
-        return this.repository.findById(id)
+        //return this.repository.findById(id)
+        return Optional.ofNullable(this.repository.findOne(id))
                 .orElseThrow(EntityNotFoundException::new);
     }
 
