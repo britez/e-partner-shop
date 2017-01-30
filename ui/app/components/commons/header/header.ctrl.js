@@ -6,6 +6,7 @@ export default class HeaderController {
         this.authService = authService;
         this.intervalCount = true;
         this.state = $state;
+
         $interval(() => {
             this.intervalCount = !this.intervalCount;
         }, 3000)

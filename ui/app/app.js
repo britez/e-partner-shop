@@ -69,6 +69,7 @@ app.run((OAuthToken, $location, authService) => {
 
     if(typeof token !== 'undefined' && token !== '' && token.indexOf('access_token')===0 ){
         OAuthToken.setToken(token);
+        authService.loadUser();
         window.location.replace(OAuthToken.getLogin().redirect);
     }
 });

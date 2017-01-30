@@ -10,6 +10,7 @@ export default class AuthService {
         this.oauth = OAuth;
         this.oauthToken = OAuthToken;
         this.state = $state;
+        this.subscriptions = {};
         this.init();
 
     }
@@ -22,16 +23,17 @@ export default class AuthService {
         return promise;
     }
 
+    loadUser() {
+        this.api
+            .user
+            .get()
+            .$promise
+            .then(response => {
+                this.user = response;
+            });
+    }
+
     init() {
-        if(this.isAuthenticated()){
-            this.api
-                .user
-                .get()
-                .$promise
-                .then(response => {
-                    this.user = response;
-                });
-        }
 
         this.api
             .settings
@@ -60,6 +62,14 @@ export default class AuthService {
 
     logout() {
         this.oauth.logout();
+    }
+
+    subscribeOnTokenReceive(name, fn) {
+        this.subscriptions[name] = fn;
+    }
+
+    unsubscribeOnTokenReceive(name) {
+        delete this.subscripions[name];
     }
 
     saveMeliAccessToken(code){
