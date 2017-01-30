@@ -33,13 +33,13 @@ public class UserController {
         this.AUTH_URL = String.format(CustomDefaultOAuth2ExceptionRenderer.URL_FORMAT, authUrl);
     }
 
-    @RequestMapping(value = "/principal", method = RequestMethod.GET)
+    @RequestMapping(value = "/oauth/principal", method = RequestMethod.GET)
     @ResponseBody
     public Principal user(Principal user) {
         return user;
     }
 
-    @RequestMapping(value = "/settings", method = RequestMethod.GET)
+    @RequestMapping(value = "/oauth/settings", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, String> settings(){
         Map<String, String> result = new HashMap<>();

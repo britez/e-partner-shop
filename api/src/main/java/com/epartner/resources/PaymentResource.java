@@ -1,11 +1,9 @@
 package com.epartner.resources;
 
-import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.PaymentRepresentation;
 import com.epartner.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;

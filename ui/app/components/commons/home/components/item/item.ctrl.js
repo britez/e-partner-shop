@@ -13,8 +13,16 @@ export default class ItemCtrl{
         this.init();
     }
 
+    canBuy() {
+        if(!this.entity) {
+            return false;
+        }
+
+        return this.entity.imported && this.entity.stock > 1;
+    }
+
     addItem() {
-        if(this.quantity === this.entity.stock - 1) {
+        if(this.quantity >= this.entity.stock - 1) {
             return;
         }
         this.quantity = this.quantity + 1;

@@ -93,7 +93,7 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
                         "/user/forgot",
                         "/errorNoHash",
                         "/forgotPassword",
-                        "/settings")
+                        "/oauth/settings")
                 .permitAll()
                 .and()
 
@@ -134,6 +134,7 @@ public class SSOApplication extends ResourceServerConfigurerAdapter {
                     .requestMatchers()
                     .antMatchers(
                             "/login",
+                            "settins",
                             "/oauth/authorize",
                             "/oauth/confirm_access",
                             "/oauth/logout")
