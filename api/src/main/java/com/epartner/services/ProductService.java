@@ -113,7 +113,9 @@ public class ProductService {
     }
 
     public void delete(long id) {
-        repository.delete(this.get(id));
+        Product product = this.get(id);
+        this.tagService.removeFromProduct(product);
+        repository.delete(product);
     }
 
     public Page<ProductRepresentation> list(

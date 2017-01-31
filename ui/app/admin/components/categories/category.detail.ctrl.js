@@ -8,6 +8,8 @@ export default class CategoryDetailController {
         this.$state = $state;
         this.$q = $q;
         this.init();
+        this.productSelect = false;
+    
     }
 
     init(){
@@ -74,7 +76,9 @@ export default class CategoryDetailController {
                 .then((response) => {
                     this.updated = true;
                     this.entity = response;
-                    this.saveOrUpdateTags();
+                        this.saveOrUpdateTags();
+                    this.productSelect = false;
+    
                 });
         } else {
             this.api
@@ -116,29 +120,35 @@ export default class CategoryDetailController {
     }
 
     saveOrUpdateTags() {
-        if(this.entity.highlight) {
-            let prodIds = this.categoryProducts
-                .filter(prod => prod.highlight);
-
-            if(this.entity.tag) {
-                this.entity.tag.products = prodIds;
-                this.api
-                    .tags
-                    .update({id: this.entity.tag.id}, this.entity.tag)
-                    .$promise
-                    .then(()=> {
-                        this.init();
-                    })
-            } else {
-                this.api
-                    .tags
-                    .save({}, {isCategory: true, name: this.entity.name, products: prodIds})
-                    .$promise
-                    .then(() => {
-                        this.init()
-                    })
+            if (this.entity.highlight) {
+                let prodIds = this.categoryProducts
+                    .filter(prod => prod.highlight);
+        
+                if (this.entity.tag) {
+                    this.entity.tag.products = prodIds;
+                    this.api
+                        .tags
+                        .update({id: this.entity.tag.id}, this.entity.tag)
+                        .$promise
+                        .then((response) => {
+                            this.init();
+                           
+                        },(error)=>{
+                        if(error.status === 409){
+                            this.productSelect  = true;
+                        }
+                        })
+                } else {
+                    this.api
+                        .tags
+                        .save({}, {isCategory: true, name: this.entity.name, products: prodIds})
+                        .$promise
+                        .then(() => {
+                            this.init()
+                        })
+                }
             }
         }
-    }
+    
 
 }

@@ -3,6 +3,7 @@ package com.epartner.services;
 import com.epartner.converters.TagConverter;
 import com.epartner.domain.Product;
 import com.epartner.domain.Tag;
+import com.epartner.exceptions.NotProductException;
 import com.epartner.repositories.ProductRepository;
 import com.epartner.repositories.TagRepository;
 import com.epartner.representations.TagRepresentation;
@@ -55,7 +56,9 @@ public class TagService {
 
     public TagRepresentation update(TagRepresentation tagRepresentation, Long tagId) {
         Tag stored = Optional.ofNullable(this.repository.findOne(tagId)).orElseThrow(EntityNotFoundException::new);
-
+        if(tagRepresentation.getProducts().size() < 1){
+            throw new NotProductException();
+        }
         stored.getProducts().clear();
 
         tagRepresentation.getProducts().forEach(it -> {
@@ -116,7 +119,7 @@ public class TagService {
     public void removeFromProduct(Product product) {
         product.getTags().forEach(tag -> {
             tag.getProducts().remove(product);
-            this.repository.save(tag);
+            this.repository.delete(tag);
         });
     }
 }
