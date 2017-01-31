@@ -39,7 +39,7 @@ export default class HighLightDetailController {
             page: this.page
         };
 
-        this.api.products
+        this.api.publicProducts
             .get(params)
             .$promise
             .then(response => {

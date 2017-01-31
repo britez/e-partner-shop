@@ -33,6 +33,7 @@ public class ProductService {
     private final CategoryService categoryService;
     private final StorageService storageService;
     private final CategoryRepository categoryRepository;
+    private final TagService tagService;
     private final TechnicalSpecificationConverter technicalSpecificationConverter;
     private final ProductImportService productImportService;
 
@@ -42,6 +43,7 @@ public class ProductService {
     @Autowired
     public ProductService(ProductRepository productRepository,
                           ProductConverter productConverter,
+                          TagService tagService,
                           TechnicalSpecificationConverter technicalSpecificationConverter,
                           CategoryService categoryService,
                           StorageService storageService,
@@ -54,6 +56,7 @@ public class ProductService {
         this.categoryService = categoryService;
         this.storageService = storageService;
         this.categoryRepository = categoryRepository;
+        this.tagService = tagService;
         this.productImportService = productImportService;
     }
 
@@ -82,6 +85,10 @@ public class ProductService {
         product.setPrice(productRepresentation.getPrice());
         product.setStock(productRepresentation.getStock());
         product.setPublished(productRepresentation.getPublished());
+        if(!product.getPublished()) {
+            this.tagService.removeFromProduct(product);
+            product.setTags(new ArrayList<>());
+        }
         product.setCategory(this.categoryRepository.findOne(productRepresentation.getCategory().getId()));
         product.addTechnicalSpecifications(this.technicalSpecificationConverter.convertList(productRepresentation.getTechnicalSpecifications()));
         this.repository.save(product);
