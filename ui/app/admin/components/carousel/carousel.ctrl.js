@@ -46,8 +46,11 @@ export default class CarouselController {
                 .carousels
                 .update(params,this.entity)
                 .$promise
-                .then(() => {
-                    this.updated = true;
+                .then((response) => {
+                    let carouselId = response.id;
+                     this.uploadPrincipalPicture(carouselId).then
+                    this.uploadBackgroundPicture(carouselId);
+                    this.$state.go('carousels', {updated: true});
                     this.init();
                 });
         } else {
