@@ -3,4 +3,4 @@ spring:
     name: sso
   cloud:
     config:
-      uri: http://52.87.189.110:18090/config
+      uri: http://localhost:18090/config
