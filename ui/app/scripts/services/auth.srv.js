@@ -42,6 +42,10 @@ export default class AuthService {
             .then(response => {
                 this.AUTH_URL = response.auth_url;
             });
+
+        if(this.isAuthenticated()){
+            this.loadUser();
+        }
     }
 
     isAdmin() {

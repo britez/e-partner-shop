@@ -6,6 +6,7 @@ import com.epartner.exceptions.CategoryInUseException;
 import com.epartner.repositories.CategoryRepository;
 import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.CategoryRepresentation;
+import com.epartner.representations.TagRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -81,6 +82,11 @@ public class CategoryService {
         category.setDescription(representation.getDescription());
         category.setName(representation.getName());
         category.setHighlight(representation.getHighlight());
+        if(!category.getHighlight()) {
+            Optional.ofNullable(
+                    tagService.getByName(category.getName()))
+                    .map(it -> {this.tagService.delete(it); return null;});
+        }
         return this.fetchTag(converter.convert(categoryRepository.save(category)));
     }
 
