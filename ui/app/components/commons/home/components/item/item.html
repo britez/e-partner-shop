@@ -53,7 +53,7 @@
             <div class="col-md-12" style="">
                 <div class="animated fadeInRightBig item-description">{{item.entity.description}}</div>
             </div>
-            <div class="col-md-12 item-tech" ng-if="item.entity.technicalSpecification && item.entity.technicalSpecification.length !== 0">
+            <div class="col-md-12 item-tech" ng-if="item.entity.technicalSpecifications && item.entity.technicalSpecifications.length !== 0">
                 <label>Características</label>
                 <ul>
                     <li ng-repeat="technicalSpec in item.entity.technicalSpecifications">{{technicalSpec.techKey}}: {{technicalSpec.value}}</li>
