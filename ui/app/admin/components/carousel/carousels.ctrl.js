@@ -47,7 +47,7 @@ export default class CarouselsController {
             .remove({id: carousel.id})
             .$promise
             .then(() => {
-                this.getAllCarousels();
+                this.init();
             })
     }
 
