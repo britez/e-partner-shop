@@ -72,4 +72,11 @@ public class GlobalControllerExceptionHandler {
         logger.info("Mercado libre no fue configurado");
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
+    @ExceptionHandler(NotProductException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity notProduct(NotProductException e) {
+        logger.info("No asigno ningun producto a destacar");
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
+    
 }

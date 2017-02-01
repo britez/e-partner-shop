@@ -69,7 +69,7 @@ public class CategoryService {
 
     private CategoryRepresentation checkProducts(Category category) {
         CategoryRepresentation result = this.converter.convert(category);
-        result.setTotalProducts(this.productRepository.countByCategoryAndIsPublished(category, true));
+        result.setTotalProducts(this.productRepository.countByCategory(category));
         return result;
     }
 

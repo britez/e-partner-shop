@@ -5,8 +5,6 @@ import com.epartner.services.CategoryService
 import org.springframework.data.domain.PageImpl
 import spock.lang.Specification
 
-import javax.persistence.EntityNotFoundException
-
 /**
  * Created by mbritez on 28/08/16.
  */
@@ -59,7 +57,7 @@ class CategoryResourceTest extends Specification {
         def result = resource.update(mockedRepresentation, 1L)
 
         then:
-        1 * mockedService.update(mockedRepresentation, 1L) >> mockedRepresentation
+        1 * mockedService.update(mockedRepresentation, 1L, tagRepresentation) >> mockedRepresentation
         result
         result == mockedRepresentation
     }

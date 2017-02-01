@@ -4,7 +4,6 @@ import com.epartner.converters.CategoryConverter
 import com.epartner.repositories.CategoryRepository
 import com.epartner.repositories.ProductRepository
 import com.epartner.representations.CategoryRepresentation
-import com.epartner.resources.CategoryResourceTest
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import spock.lang.Specification
@@ -69,7 +68,7 @@ class CategoryServiceTests extends Specification {
         def mockedRepresentation = Mock(CategoryRepresentation)
         def mockedStored = Mock(com.epartner.domain.Category)
         when:
-        def result = service.update(mockedRepresentation, 1L)
+        def result = service.update(mockedRepresentation, 1L, tagRepresentation)
         then:
         1 * mockedRepository.findOne(1L) >> mockedStored
         1 * mockedRepository.save(mockedStored) >> mockedStored

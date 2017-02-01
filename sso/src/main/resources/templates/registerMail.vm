@@ -8,6 +8,9 @@
 
     <a href="${link}">Link</a>
 
+    <img src=${logoBanner}>
+
+
 </div>
 </body>
 </html>
