@@ -12,8 +12,8 @@
                 <div class="float-label">
                     <span ui-sref="home-categories({id: tag.id})">{{tag.name}}</span>
                 </div>
-                <div class="product col-md-3" ng-repeat="product in tag.products">
-                    <img ng-src="{{product.principalImage.url}}">
+                <div ui-sref="item({id: product.id})"class="product col-md-3" ng-repeat="product in tag.products">
+                    <img  ng-src="{{product.principalImage.url}}">
                     <span>{{product.name}}</span>
                     <p>${{product.price}}</p>
                     <div class="overlay">
