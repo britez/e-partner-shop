@@ -1,5 +1,5 @@
 <div id="home">
-    <div uib-carousel active="home.active" interval="home.myInterval">
+    <div uib-carousel active="home.active" interval="home.myInterval" no-pause="true">
         <div uib-slide ng-repeat="carousel in home.carousels track by $index" index="$index" style="{{home.getUrl(carousel)}}">
             <img ng-src="{{carousel.principalImage.url}}" class="animated fadeInLeftBig"/>
             <a href="{{carousel.titleUrl}}" class="header animated fadeInUp">{{carousel.title}}</a>

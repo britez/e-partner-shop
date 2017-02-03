@@ -138,22 +138,11 @@ public class Product {
     }
 
     private void removeSpecs(List<TechnicalSpecification> technicalSpecificationList) {
-        List<TechnicalSpecification> toRemove = this.technicalSpecifications
+        this.technicalSpecifications
                 .stream()
-                .filter(spec ->
-                    Optional.ofNullable(
-                        technicalSpecificationList
-                            .stream()
-                            .filter(it -> Optional.ofNullable(spec.getId()).isPresent() &&
-                                    !spec.getId().equals(it.getId()))
-                            .findFirst()
-                            .orElse(null)).isPresent())
-                .collect(Collectors.toList());
-
-        toRemove.forEach(it -> {
-            this.technicalSpecifications.remove(it);
-            it.setProduct(null);
-        });
+                .filter(it -> !it.isNew() && !technicalSpecificationList.contains(it))
+                .collect(Collectors.toList())
+                .forEach(it -> {this.technicalSpecifications.remove(it); it.setProduct(null);});
     }
 
     private TechnicalSpecification addTechnicalSpecification(TechnicalSpecification technicalSpecification) {

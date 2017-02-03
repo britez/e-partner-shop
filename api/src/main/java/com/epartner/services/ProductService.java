@@ -2,8 +2,10 @@ package com.epartner.services;
 
 import com.epartner.converters.ProductConverter;
 import com.epartner.converters.TechnicalSpecificationConverter;
+import com.epartner.domain.Category;
 import com.epartner.domain.Product;
 import com.epartner.domain.ProductImage;
+import com.epartner.domain.Tag;
 import com.epartner.exceptions.AlreadyImportedException;
 import com.epartner.repositories.CategoryRepository;
 import com.epartner.repositories.ProductRepository;
@@ -85,14 +87,32 @@ public class ProductService {
         product.setPrice(productRepresentation.getPrice());
         product.setStock(productRepresentation.getStock());
         product.setPublished(productRepresentation.getPublished());
+
+        this.updateCategory(product, productRepresentation);
         if(!product.getPublished()) {
             this.tagService.removeFromProduct(product);
             product.setTags(new ArrayList<>());
         }
-        product.setCategory(this.categoryRepository.findOne(productRepresentation.getCategory().getId()));
         product.addTechnicalSpecifications(this.technicalSpecificationConverter.convertList(productRepresentation.getTechnicalSpecifications()));
         this.repository.save(product);
         return this.converter.convert(product);
+    }
+
+    private void updateCategory(Product product, ProductRepresentation productRepresentation) {
+        Category newCategory = this.categoryRepository.findOne(productRepresentation.getCategory().getId());
+        if(!product.getCategory().equals(newCategory) ) {
+            if(product.getCategory().getHighlight()) {
+                Tag tag = product
+                        .getTags()
+                        .stream()
+                        .filter(it -> it.getName().equals(product.getCategory().getName()))
+                        .findFirst()
+                        .get();
+                this.tagService.removeProduct(product, tag);
+                product.getTags().remove(tag);
+            }
+            product.setCategory(newCategory);
+        }
     }
 
     public ProductRepresentation show(Long id) {

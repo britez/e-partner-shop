@@ -122,4 +122,9 @@ public class TagService {
             this.repository.delete(tag);
         });
     }
+
+    public void removeProduct(Product product, Tag tag) {
+        tag.getProducts().remove(product);
+        this.repository.save(tag);
+    }
 }

@@ -6,7 +6,7 @@ export default class HomeCtrl{
     constructor($state, api) {
         this.state = $state;
         this.api = api;
-        this.myInterval = 5000;
+        this.myInterval = 2500;
         this.getTags();
         this.getCarousels();
     }
