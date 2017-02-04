@@ -4,6 +4,10 @@
             <h3 ng-if="ctrl.isNew()">Crear producto</h3>
             <h3 ng-if="!ctrl.isNew()">Editar producto</h3>
         </div>
+        <div class="col-md-6">
+            <a class="btn-lg btn-primary pull-right"
+               ui-sref="categories-detail({id: null})">Crear categoría</a>
+        </div>
     </div>
     <div class="row" ng-if="ctrl.updated">
         <div class="col-md-12">

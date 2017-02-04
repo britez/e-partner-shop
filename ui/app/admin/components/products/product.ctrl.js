@@ -33,6 +33,9 @@ export default class ProductController {
                     this.entity = response;
                     this.currentPrincipalPic = this.entity.principalImage;
                     this.principalPic = this.entity.principalImage.url;
+                    if (this.entity.technicalSpecifications.length === 0) {
+                        this.entity.technicalSpecifications.push({})
+                    }
                     this.currentPics = this.entity
                         .images
                         .filter(img => !img.principal);
