@@ -18,7 +18,7 @@ export default class ProductController {
         this.currentPics = [];
 
         this.api.categories
-            .get()
+            .get({max: 100})
             .$promise
             .then(response => {
                 this.categories = response.content;
