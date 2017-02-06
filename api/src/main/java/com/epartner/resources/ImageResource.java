@@ -28,8 +28,11 @@ public class ImageResource {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/images")
-    public ResponseEntity create(@PathVariable("productId") Long id, @RequestParam("files") List<MultipartFile> files){
-        productService.addImage(id, files);
+    public ResponseEntity create(
+            @PathVariable("productId") Long id,
+            @RequestParam("files") List<MultipartFile> files,
+            @RequestParam(value = "toDelete", required = false) List<Long> toDelete){
+        productService.addImage(id, files, toDelete);
         return ResponseEntity.ok().build();
     }
 

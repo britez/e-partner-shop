@@ -24,6 +24,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created by maty on 1/9/16.
@@ -176,15 +177,20 @@ public class ProductService {
     }
 
 
-    public void addImage(Long id, List<MultipartFile> files) {
+    public void addImage(Long id, List<MultipartFile> files, List<Long> toDelete) {
         Product product = this.get(id);
 
-        product.getImages().forEach(it -> {
-            if(Optional.ofNullable(it.getFileName()).isPresent()) {
-                storageService.delete(it.getFileName());
-            }
-            productImageRepository.delete(it.getId());
-        });
+        product.getImages()
+                .stream()
+                .filter(img -> toDelete.contains(img.getId()))
+                .collect(Collectors.toList())
+                .forEach(img -> {
+                    if(Optional.ofNullable(img.getFileName()).isPresent()) {
+                        storageService.delete(img.getFileName());
+                    }
+                    product.getImages().remove(img);
+                    productImageRepository.delete(img.getId());
+                });
 
         files.forEach(file -> {
             ProductImage pi = createProductImage(file);

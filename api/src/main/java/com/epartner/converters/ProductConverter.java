@@ -134,8 +134,10 @@ public class ProductConverter {
     }
 
     private List<ProductImageRepresentation> convertImages(List<MeliItemPicture> pictures) {
+        if(pictures.size() > 0) {
+            pictures.remove(0);
+        }
         return pictures
-                .subList(1,pictures.size() - 1)
                 .stream()
                 .map(this::convertImage)
                 .collect(Collectors.toList());

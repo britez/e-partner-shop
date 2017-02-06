@@ -16,6 +16,7 @@ export default class ProductController {
         this.entity = {};
         this.pictures = [];
         this.currentPics = [];
+        this.picsToDelete = [];
 
         this.api.categories
             .get({max: 100})
@@ -74,7 +75,11 @@ export default class ProductController {
                     this.updated = true;
                     promises.push(this.uploadPictures(productId));
                     promises.push(this.uploadPrincipalPicture(productId));
-                    this.init();
+                    this.$q
+                        .all(promises)
+                        .then(() => {
+                            this.init();
+                        });
                 });
         } else {
             this.api
@@ -116,16 +121,22 @@ export default class ProductController {
     uploadPictures(productId) {
         return this.uploader.upload({
             url: 'api/admin/me/products/' + productId + '/images',
-            data: {files: this.pictures},
+            data: {files: this.pictures, toDelete: this.picsToDelete},
             arrayKey: '',
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
     }
 
     loadFile(pics, index) {
-        for(var i = 0; i < pics.length && index < 7; i++) {
-            this.pictures[index] = pics[i];
-            index++;
+        let limit = index + pics.length;
+        for(var i = index; i < limit; i++) {
+            this.pictures[i] = pics.shift();
+
+            let currentPic = this.currentPics[i];
+            if(currentPic) {
+                this.picsToDelete.push(currentPic.id);
+                this.currentPics[i] = undefined;
+            }
         }
     }
 
