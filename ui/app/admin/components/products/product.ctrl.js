@@ -122,6 +122,13 @@ export default class ProductController {
         });
     }
 
+    loadFile(pics, index) {
+        for(var i = 0; i < pics.length && index < 7; i++) {
+            this.pictures[index] = pics[i];
+            index++;
+        }
+    }
+
     addTechnicalSpecification() {
         this.entity.technicalSpecifications.push({});
     }

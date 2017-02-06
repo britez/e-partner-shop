@@ -8,6 +8,7 @@ import com.epartner.domain.ProductImage;
 import com.epartner.domain.Tag;
 import com.epartner.exceptions.AlreadyImportedException;
 import com.epartner.repositories.CategoryRepository;
+import com.epartner.repositories.ProductImageRepository;
 import com.epartner.repositories.ProductRepository;
 import com.epartner.representations.CategoryRepresentation;
 import com.epartner.representations.ProductRepresentation;
@@ -32,6 +33,7 @@ public class ProductService {
 
     private final ProductRepository repository;
     private final ProductConverter converter;
+    private final ProductImageRepository productImageRepository;
     private final CategoryService categoryService;
     private final StorageService storageService;
     private final CategoryRepository categoryRepository;
@@ -45,6 +47,7 @@ public class ProductService {
     @Autowired
     public ProductService(ProductRepository productRepository,
                           ProductConverter productConverter,
+                          ProductImageRepository productImageRepository,
                           TagService tagService,
                           TechnicalSpecificationConverter technicalSpecificationConverter,
                           CategoryService categoryService,
@@ -54,6 +57,7 @@ public class ProductService {
 
         this.repository = productRepository;
         this.converter = productConverter;
+        this.productImageRepository = productImageRepository;
         this.technicalSpecificationConverter = technicalSpecificationConverter;
         this.categoryService = categoryService;
         this.storageService = storageService;
@@ -175,11 +179,17 @@ public class ProductService {
     public void addImage(Long id, List<MultipartFile> files) {
         Product product = this.get(id);
 
+        product.getImages().forEach(it -> {
+            if(Optional.ofNullable(it.getFileName()).isPresent()) {
+                storageService.delete(it.getFileName());
+            }
+            productImageRepository.delete(it.getId());
+        });
+
         files.forEach(file -> {
             ProductImage pi = createProductImage(file);
             product.addImage(pi);
         });
-
         saveImages(product);
     }
 

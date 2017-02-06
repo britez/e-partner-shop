@@ -1,6 +1,7 @@
 package com.epartner.converters;
 
 import com.epartner.domain.MeliItem;
+import com.epartner.domain.MeliItemPicture;
 import com.epartner.domain.Product;
 import com.epartner.domain.ProductImage;
 import com.epartner.domain.builders.ProductBuilder;
@@ -119,13 +120,24 @@ public class ProductConverter {
         result.setStock(meliItem.getAvailable_quantity());
         result.setTechnicalSpecifications(new ArrayList<>());
 
-        ProductImageRepresentation principalImage = new ProductImageRepresentation();
-        principalImage.setUrl(meliItem.getPictures().get(0).getUrl());
-
-        result.setPrincipalImage(principalImage);
-        //TODO: Agregar las imagenes restantes
+        result.setPrincipalImage(convertImage(meliItem.getPictures().get(0)));
+        result.setImages(convertImages(meliItem.getPictures()));
         result.setImported(alreadyImported);
 
         return result;
+    }
+
+    private ProductImageRepresentation convertImage(MeliItemPicture picture) {
+        ProductImageRepresentation principalImage = new ProductImageRepresentation();
+        principalImage.setUrl(picture.getUrl());
+        return principalImage;
+    }
+
+    private List<ProductImageRepresentation> convertImages(List<MeliItemPicture> pictures) {
+        return pictures
+                .subList(1,pictures.size() - 1)
+                .stream()
+                .map(this::convertImage)
+                .collect(Collectors.toList());
     }
 }

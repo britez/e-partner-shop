@@ -105,7 +105,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12" ng-repeat="technicalSpecification in ctrl.entity.technicalSpecifications track by $index">
+            <div class="col-md-12"
+                 ng-if="!ctrl.entity.imported"
+                 ng-repeat="technicalSpecification in ctrl.entity.technicalSpecifications track by $index">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -117,7 +119,6 @@
                                 id="technicalDescription_{{$index}}"
                                 name="technicalDescription_{{$index}}"
                                 placeholder="T&iacute;tulo"
-                                ng-disabled="ctrl.entity.imported"
                                 required=""
                                 ng-model="technicalSpecification.key">
                             <div ng-messages="productForm['technicalDescription_' + $index].$error" ng-if="productForm.$submitted || productForm['technicalDescription_' + $index].$touched">
@@ -137,7 +138,6 @@
                                     id="technicalDescriptionValue_{{$index}}"
                                     name="technicalDescriptionValue_{{$index}}"
                                     placeholder="Valor"
-                                    ng-disabled="ctrl.entity.imported"
                                     required=""
                                     ng-model="technicalSpecification.value">
                                 <span class="input-group-btn">
@@ -175,14 +175,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" ng-if="!ctrl.entity.imported">
                 <div class="form-group">
                     <label for="description">Descripci&oacute;n</label>
                     <textarea ng-class = "{'invalid': (productForm.description.$invalid && productForm.description.$touched) || (productForm.$submitted && productForm.description.$invalid)}"
                         class="form-control"
                         id="description"
                         name="description"
-                        ng-disabled="ctrl.entity.imported"
                         required=""
                         style="resize: none;"
                         placeholder="Descripci&oacute;n"
@@ -225,111 +224,165 @@
                 <!-- Image 1 -->
                 <div
                     class="pictures-select"
-                    ngf-select
                     ng-if="!ctrl.pictures[0] && !ctrl.currentPics[0]"
-                    ng-model="ctrl.pictures[0]"></div>
+                    ng-model="ctrl.pictures[0]"
+                    ngf-select="ctrl.loadFile($files, 0)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"></div>
                 <img
                     class="pictures-select"
-                    ngf-select
                     ng-if="ctrl.pictures[0]"
                     ng-model="ctrl.pictures[0]"
-                    ngf-src="ctrl.pictures[0]"/>
+                    ngf-src="ctrl.pictures[0]"
+                    ngf-select="ctrl.loadFile($files, 0)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
                 <img
                     class="pictures-select"
                     ng-if="ctrl.currentPics[0] && !ctrl.pictures[0]"
-                    ngf-select
                     ng-model="ctrl.pictures[0]"
-                    ng-src="{{ctrl.currentPics[0].url}}"/>
+                    ng-src="{{ctrl.currentPics[0].url}}"
+                    ngf-select="ctrl.loadFile($files, 0)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
                 <!-- Image 2 -->
                 <div
                     class="pictures-select"
-                    ngf-select
                     ng-if="!ctrl.pictures[1] && !ctrl.currentPics[1]"
-                    ng-model="ctrl.pictures[1]"></div>
+                    ng-model="ctrl.pictures[1]"
+                    ngf-select="ctrl.loadFile($files, 1)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"></div>
                 <img
                     class="pictures-select"
-                    ngf-select
                     ng-if="ctrl.pictures[1]"
                     ng-model="ctrl.pictures[1]"
-                    ngf-src="ctrl.pictures[1]"/>
+                    ngf-src="ctrl.pictures[1]"
+                    ngf-select="ctrl.loadFile($files, 1)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
                 <img
                     class="pictures-select"
                     ng-if="ctrl.currentPics[1] && !ctrl.pictures[1]"
-                    ngf-select
                     ng-model="ctrl.pictures[1]"
-                    ng-src="{{ctrl.currentPics[1].url}}"/>
+                    ng-src="{{ctrl.currentPics[1].url}}"
+                    ngf-select="ctrl.loadFile($files, 1)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
                 <!-- Image 3 -->
                 <div
                     class="pictures-select"
-                    ngf-select
                     ng-if="!ctrl.pictures[2] && !ctrl.currentPics[2]"
-                    ng-model="ctrl.pictures[2]"></div>
+                    ng-model="ctrl.pictures[2]"
+                    ngf-select="ctrl.loadFile($files, 2)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"></div>
                 <img
                     class="pictures-select"
-                    ngf-select
                     ng-if="ctrl.pictures[2]"
                     ng-model="ctrl.pictures[2]"
-                    ngf-src="ctrl.pictures[2]"/>
+                    ngf-src="ctrl.pictures[2]"
+                    ngf-select="ctrl.loadFile($files, 2)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
                 <img
                     class="pictures-select"
                     ng-if="ctrl.currentPics[2] && !ctrl.pictures[2]"
-                    ngf-select
                     ng-model="ctrl.pictures[2]"
-                    ng-src="{{ctrl.currentPics[2].url}}"/>
+                    ng-src="{{ctrl.currentPics[2].url}}"
+                    ngf-select="ctrl.loadFile($files, 2)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
                 <!-- Image 4 -->
                 <div
                     class="pictures-select"
-                    ngf-select
                     ng-if="!ctrl.pictures[3] && !ctrl.currentPics[3]"
-                    ng-model="ctrl.pictures[3]"></div>
+                    ng-model="ctrl.pictures[3]"
+                    ngf-select="ctrl.loadFile($files, 3)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"></div>
                 <img
                     class="pictures-select"
-                    ngf-select
                     ng-if="ctrl.pictures[3]"
                     ng-model="ctrl.pictures[3]"
-                    ngf-src="ctrl.pictures[3]"/>
+                    ngf-src="ctrl.pictures[3]"
+                    ngf-select="ctrl.loadFile($files, 3)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
                 <img
                     class="pictures-select"
                     ng-if="ctrl.currentPics[3] && !ctrl.pictures[3]"
-                    ngf-select
                     ng-model="ctrl.pictures[3]"
-                    ng-src="{{ctrl.currentPics[3].url}}"/>
+                    ng-src="{{ctrl.currentPics[3].url}}"
+                    ngf-select="ctrl.loadFile($files, 3)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
                 <!-- Image 5 -->
                 <div
                     class="pictures-select"
-                    ngf-select
                     ng-if="!ctrl.pictures[4] && !ctrl.currentPics[4]"
-                    ng-model="ctrl.pictures[4]"></div>
+                    ng-model="ctrl.pictures[4]"
+                    ngf-select="ctrl.loadFile($files, 4)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"></div>
                 <img
                     class="pictures-select"
-                    ngf-select
                     ng-if="ctrl.pictures[4]"
                     ng-model="ctrl.pictures[4]"
-                    ngf-src="ctrl.pictures[4]"/>
+                    ngf-src="ctrl.pictures[4]"
+                    ngf-select="ctrl.loadFile($files, 4)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
                 <img
                     class="pictures-select"
                     ng-if="ctrl.currentPics[4] && !ctrl.pictures[4]"
-                    ngf-select
                     ng-model="ctrl.pictures[4]"
-                    ng-src="{{ctrl.currentPics[4].url}}"/>
+                    ng-src="{{ctrl.currentPics[4].url}}"
+                    ngf-select="ctrl.loadFile($files, 4)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
                 <!-- Image 6 -->
                 <div
                     class="pictures-select"
-                    ngf-select
                     ng-if="!ctrl.pictures[5] && !ctrl.currentPics[5]"
-                    ng-model="ctrl.pictures[5]"></div>
+                    ng-model="ctrl.pictures[5]"
+                    ngf-select="ctrl.loadFile($files, 5)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"></div>
                 <img
                     class="pictures-select"
-                    ngf-select
                     ng-if="ctrl.pictures[5]"
                     ng-model="ctrl.pictures[5]"
-                    ngf-src="ctrl.pictures[5]"/>
+                    ngf-src="ctrl.pictures[5]"
+                    ngf-select="ctrl.loadFile($files, 5)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
                 <img
                     class="pictures-select"
                     ng-if="ctrl.currentPics[5] && !ctrl.pictures[5]"
-                    ngf-select
                     ng-model="ctrl.pictures[5]"
-                    ng-src="{{ctrl.currentPics[5].url}}"/>
+                    ng-src="{{ctrl.currentPics[5].url}}"
+                    ngf-select="ctrl.loadFile($files, 5)"
+                    multiple
+                    accept="image/*"
+                    ngf-multiple="true"/>
             </div>
             <div class="col-md-12">
                 <div class="form-group">
