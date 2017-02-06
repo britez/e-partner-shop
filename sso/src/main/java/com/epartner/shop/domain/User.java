@@ -1,7 +1,5 @@
 package com.epartner.shop.domain;
-import javax.jws.soap.SOAPBinding;
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +20,7 @@ public class User {
     private String email;
     private String password;
     private String state;
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
 
 

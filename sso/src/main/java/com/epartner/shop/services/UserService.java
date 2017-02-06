@@ -20,8 +20,6 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Optional;
 
-//import com.epartner.shop.domain.Role;
-
 /**
  * Created by martin on 05/11/16.
  */
@@ -56,19 +54,27 @@ public class UserService {
 
 
     public UserRepresentation createUser(UserRepresentation userRepresentation) {
-        try {
-            this.getByName(userRepresentation.getUsername());
+
+        Optional<User> storedByUsername = this.repository.findOneByUsername(
+                userRepresentation.getUsername());
+
+        Optional<User> storedByMail = this.repository.findOneByEmail(
+                userRepresentation.getEmail());
+
+        if(storedByMail.isPresent() || storedByUsername.isPresent()) {
             throw new EntityPersist();
-        } catch (EntityNotFoundException e) {
-            userRepresentation.setPassword(encoder.encode(userRepresentation.getPassword()));
-            userRepresentation.setState(DISABLED);
-            User saveUser = this.converter.convert(userRepresentation);
-            Role role = roleRepository.findByAuthority(USER);
-            saveUser.addRole(role);
-            this.repository.save(saveUser);
-            this.mailRepository.registerMail(saveUser);
-            return this.converter.convert(saveUser);
         }
+
+        userRepresentation.setPassword(encoder.encode(userRepresentation.getPassword()));
+        userRepresentation.setState(DISABLED);
+
+        User saveUser = this.converter.convert(userRepresentation);
+        Role role = roleRepository.findByAuthority(USER);
+        saveUser.addRole(role);
+
+        this.repository.save(saveUser);
+        this.mailRepository.registerMail(saveUser);
+        return this.converter.convert(saveUser);
     }
 
     public UserRepresentation getByName(String username) {

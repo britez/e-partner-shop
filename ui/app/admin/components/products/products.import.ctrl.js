@@ -16,7 +16,7 @@ export default class ProductsController {
 
         this.getAllProducts();
         this.api.categories
-            .get()
+            .get({max: 100})
             .$promise
             .then(response => {
                 this.categories = response.content;

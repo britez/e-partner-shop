@@ -33,6 +33,7 @@
                            ng-model="ctrl.category"
                            uib-typeahead="category as category.name for category in ctrl.categories  | filter:$viewValue | limitTo:8"
                            typeahead-editable="false"
+                           typeahead-show-hint="true" typeahead-min-length="0"
                            class="form-control">
                     <div ng-messages="productForm.category.$error" ng-show="productForm.category.$touched || productForm.$submitted">
                         <span class="error" ng-message="required">La categor&iacute;a es requerida.</span>
