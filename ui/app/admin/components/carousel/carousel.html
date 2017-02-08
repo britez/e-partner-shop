@@ -94,9 +94,13 @@
                     <div
                         class="picture-select"
                         ng-if="!ctrl.backgroundPic && !ctrl.currentBackgroundPic">
-                        <div class="holder" ng-class="{'invalid': carouselForm.$submitted && !ctrl.backgroundPic}"></div>
+                        <div class="holder"
+                             ng-class="{'invalid': (carouselForm.$submitted && !ctrl.backgroundPic) || ctrl.invalidBackgroundPic}"></div>
                         <div class="overlay">
-                            <a ngf-select="ctrl.loadBackgroundPic()" ng-model="ctrl.currentBackgroundPic">Seleccionar</a>
+                            <a ngf-select="ctrl.loadBackgroundPic()"
+                               ngf-validate="{width: {min: 1280}, height: {min: 570}}"
+                               ngf-model-invalid="ctrl.invalidBackgroundPic"
+                               ng-model="ctrl.currentBackgroundPic">Seleccionar</a>
                         </div>
                     </div>
                     <!-- Selected pic -->
@@ -127,6 +131,9 @@
                     <div ng-if="carouselForm.$submitted && !ctrl.backgroundPic && !ctrl.currentBackgroundPic">
                         <span class="error">La imágen de fondo es requerida.</span>
                     </div>
+                    <div ng-if="ctrl.invalidBackgroundPic">
+                        <span class="error">La imágen selecionada debe ser mínimamente de 1280x570.</span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -136,9 +143,11 @@
                     <div
                         class="picture-select"
                         ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic">
-                        <div class="holder" ng-class="{'invalid': carouselForm.$submitted && !ctrl.principalPic}"></div>
+                        <div class="holder" ng-class="{'invalid': (carouselForm.$submitted && !ctrl.principalPic) || ctrl.invalidPrincipalPic}"></div>
                         <div class="overlay">
-                            <a ngf-select="ctrl.loadPrincipalPic()" ng-model="ctrl.currentPrincipalPic">Seleccionar</a>
+                            <a ngf-select="ctrl.loadPrincipalPic()" ng-model="ctrl.currentPrincipalPic"
+                               ngf-model-invalid="ctrl.invalidPrincipalPic"
+                               ngf-validate="{width: {min: 500}, height: {min: 500}}">Seleccionar</a>
                         </div>
                     </div>
                     <!-- Selected pic -->
@@ -168,6 +177,9 @@
                     <!-- Error label -->
                     <div ng-if="carouselForm.$submitted && !ctrl.principalPic && !ctrl.currentPrincipalPic">
                         <span class="error">La imágen de fondo es requerida.</span>
+                    </div>
+                    <div ng-if="ctrl.invalidPrincipalPic">
+                        <span class="error">La imágen selecionada debe ser mínimamente de 500x500.</span>
                     </div>
                 </div>
             </div>
