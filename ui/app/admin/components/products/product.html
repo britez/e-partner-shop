@@ -193,196 +193,275 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <div class="form-group">
+                <div class="form-group row">
+                    <!-- Non selected pic -->
                     <div
                         class="picture-select"
-                        ng-class = "{'invalid': productForm.$submitted && !ctrl.principalPic}"
-                        ngf-select
-                        ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic"
-                        ng-model="ctrl.principalPic"></div>
-                    <img
-                        class="picture-select"
-                        ngf-select
-                        ng-if="ctrl.principalPic"
-                        ng-model="ctrl.principalPic"
-                        ng-src="{{ctrl.principalPic}}"
-                        ng-disabled="ctrl.entity.imported"
-                        ngf-src="ctrl.principalPic"/>
-                    <img
-                        class="picture-select"
-                        ng-if="ctrl.currentPrincipalPic.url && !ctrl.principalPic"
-                        ngf-select
-                        ng-disabled="ctrl.entity.imported"
-                        ng-model="ctrl.principalPic"
-                        ng-src="{{ctrl.currentPrincipalPic.url}}"/>
-                    <div ng-if="productForm.$submitted && !ctrl.principalPic">
+                        ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic">
+                        <div class="holder" ng-class = "{'invalid': productForm.$submitted && !ctrl.principalPic}"></div>
+                        <div class="overlay">
+                            <a ngf-select="ctrl.loadPrincipalPic()" ng-model="ctrl.currentPrincipalPic">Seleccionar</a>
+                        </div>
+                    </div>
+                    <!-- Selected pic -->
+                    <div ng-if="ctrl.currentPrincipalPic && !ctrl.principalPic" class="picture-select">
+                        <div class="holder">
+                            <img
+                                class="picture-select"
+                                ngf-src="ctrl.currentPrincipalPic"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deletePrincipal()">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Stored pic -->
+                    <div
+                        ng-if="ctrl.principalPic && !ctrl.currentPrincipalPic"
+                        class="picture-select">
+                        <div class="holder">
+                            <img
+                                ng-src="{{ctrl.principalPic}}"
+                                ng-disabled="ctrl.entity.imported"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deletePrincipal()">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Error label -->
+                    <div ng-if="productForm.$submitted && !ctrl.currentPrincipalPic && !ctrl.principalPic">
                         <span class="error">La imágen es requerida.</span>
                     </div>
                 </div>
             </div>
             <div class="col-md-10 pictures-container">
-                <!-- Image 1 -->
-                <div
-                    class="pictures-select"
-                    ng-if="!ctrl.pictures[0] && !ctrl.currentPics[0]"
-                    ng-model="ctrl.pictures[0]"
-                    ngf-select="ctrl.loadFile($files, 0)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"></div>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.pictures[0]"
-                    ng-model="ctrl.pictures[0]"
-                    ngf-src="ctrl.pictures[0]"
-                    ngf-select="ctrl.loadFile($files, 0)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.currentPics[0] && !ctrl.pictures[0]"
-                    ng-model="ctrl.pictures[0]"
-                    ng-src="{{ctrl.currentPics[0].url}}"
-                    ngf-select="ctrl.loadFile($files, 0)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
-                <!-- Image 2 -->
-                <div
-                    class="pictures-select"
-                    ng-if="!ctrl.pictures[1] && !ctrl.currentPics[1]"
-                    ng-model="ctrl.pictures[1]"
-                    ngf-select="ctrl.loadFile($files, 1)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"></div>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.pictures[1]"
-                    ng-model="ctrl.pictures[1]"
-                    ngf-src="ctrl.pictures[1]"
-                    ngf-select="ctrl.loadFile($files, 1)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.currentPics[1] && !ctrl.pictures[1]"
-                    ng-model="ctrl.pictures[1]"
-                    ng-src="{{ctrl.currentPics[1].url}}"
-                    ngf-select="ctrl.loadFile($files, 1)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
-                <!-- Image 3 -->
-                <div
-                    class="pictures-select"
-                    ng-if="!ctrl.pictures[2] && !ctrl.currentPics[2]"
-                    ng-model="ctrl.pictures[2]"
-                    ngf-select="ctrl.loadFile($files, 2)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"></div>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.pictures[2]"
-                    ng-model="ctrl.pictures[2]"
-                    ngf-src="ctrl.pictures[2]"
-                    ngf-select="ctrl.loadFile($files, 2)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.currentPics[2] && !ctrl.pictures[2]"
-                    ng-model="ctrl.pictures[2]"
-                    ng-src="{{ctrl.currentPics[2].url}}"
-                    ngf-select="ctrl.loadFile($files, 2)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
-                <!-- Image 4 -->
-                <div
-                    class="pictures-select"
-                    ng-if="!ctrl.pictures[3] && !ctrl.currentPics[3]"
-                    ng-model="ctrl.pictures[3]"
-                    ngf-select="ctrl.loadFile($files, 3)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"></div>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.pictures[3]"
-                    ng-model="ctrl.pictures[3]"
-                    ngf-src="ctrl.pictures[3]"
-                    ngf-select="ctrl.loadFile($files, 3)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.currentPics[3] && !ctrl.pictures[3]"
-                    ng-model="ctrl.pictures[3]"
-                    ng-src="{{ctrl.currentPics[3].url}}"
-                    ngf-select="ctrl.loadFile($files, 3)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
-                <!-- Image 5 -->
-                <div
-                    class="pictures-select"
-                    ng-if="!ctrl.pictures[4] && !ctrl.currentPics[4]"
-                    ng-model="ctrl.pictures[4]"
-                    ngf-select="ctrl.loadFile($files, 4)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"></div>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.pictures[4]"
-                    ng-model="ctrl.pictures[4]"
-                    ngf-src="ctrl.pictures[4]"
-                    ngf-select="ctrl.loadFile($files, 4)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.currentPics[4] && !ctrl.pictures[4]"
-                    ng-model="ctrl.pictures[4]"
-                    ng-src="{{ctrl.currentPics[4].url}}"
-                    ngf-select="ctrl.loadFile($files, 4)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
+
                 <!-- Image 6 -->
-                <div
-                    class="pictures-select"
-                    ng-if="!ctrl.pictures[5] && !ctrl.currentPics[5]"
-                    ng-model="ctrl.pictures[5]"
-                    ngf-select="ctrl.loadFile($files, 5)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"></div>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.pictures[5]"
-                    ng-model="ctrl.pictures[5]"
-                    ngf-src="ctrl.pictures[5]"
-                    ngf-select="ctrl.loadFile($files, 5)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
-                <img
-                    class="pictures-select"
-                    ng-if="ctrl.currentPics[5] && !ctrl.pictures[5]"
-                    ng-model="ctrl.pictures[5]"
-                    ng-src="{{ctrl.currentPics[5].url}}"
-                    ngf-select="ctrl.loadFile($files, 5)"
-                    multiple
-                    accept="image/*"
-                    ngf-multiple="true"/>
+                <div class="picture">
+                    <!-- Non selected pic -->
+                    <div class="picture-select"
+                         ng-if="!ctrl.pictures[5] && !ctrl.currentPics[5]">
+                        <div class="holder"></div>
+                        <div class="overlay">
+                            <a ngf-select="ctrl.loadFile($files, 5)"
+                               ng-model="ctrl.currentPics[5]"
+                               multiple
+                               accept="image/*"
+                               ngf-multiple="true">Seleccionar</a>
+                        </div>
+                    </div>
+                    <!-- Selected pic -->
+                    <div ng-if="ctrl.currentPics[5] && !ctrl.pictures[5]" class="picture-select">
+                        <div class="holder">
+                            <img
+                                    class="picture-select"
+                                    ngf-src="ctrl.currentPics[5]"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deleteCurrentPicture(5)">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Stored pic -->
+                    <div
+                            ng-if="ctrl.pictures[5] && !ctrl.currentPics[5]"
+                            class="picture-select">
+                        <div class="holder">
+                            <img ng-src="{{ctrl.pictures[5].url}}"/>
+                        </div>
+                        <div class="overlay" ng-if="!ctrl.entity.imported">
+                            <a ng-click="ctrl.deleteCurrentPicture(5)">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 5 -->
+                <div class="picture">
+                    <!-- Non selected pic -->
+                    <div class="picture-select"
+                         ng-if="!ctrl.pictures[4] && !ctrl.currentPics[4]">
+                        <div class="holder"></div>
+                        <div class="overlay">
+                            <a ngf-select="ctrl.loadFile($files, 4)"
+                               ng-model="ctrl.currentPics[4]"
+                               multiple
+                               accept="image/*"
+                               ngf-multiple="true">Seleccionar</a>
+                        </div>
+                    </div>
+                    <!-- Selected pic -->
+                    <div ng-if="ctrl.currentPics[4] && !ctrl.pictures[4]" class="picture-select">
+                        <div class="holder">
+                            <img
+                                    class="picture-select"
+                                    ngf-src="ctrl.currentPics[4]"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deleteCurrentPicture(4)">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Stored pic -->
+                    <div
+                            ng-if="ctrl.pictures[4] && !ctrl.currentPics[4]"
+                            class="picture-select">
+                        <div class="holder">
+                            <img ng-src="{{ctrl.pictures[4].url}}"/>
+                        </div>
+                        <div class="overlay" ng-if="!ctrl.entity.imported">
+                            <a ng-click="ctrl.deleteCurrentPicture(4)">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 4 -->
+                <div class="picture">
+                    <!-- Non selected pic -->
+                    <div class="picture-select"
+                         ng-if="!ctrl.pictures[3] && !ctrl.currentPics[3]">
+                        <div class="holder"></div>
+                        <div class="overlay">
+                            <a ngf-select="ctrl.loadFile($files, 3)"
+                               ng-model="ctrl.currentPics[3]"
+                               multiple
+                               accept="image/*"
+                               ngf-multiple="true">Seleccionar</a>
+                        </div>
+                    </div>
+                    <!-- Selected pic -->
+                    <div ng-if="ctrl.currentPics[3] && !ctrl.pictures[3]" class="picture-select">
+                        <div class="holder">
+                            <img
+                                    class="picture-select"
+                                    ngf-src="ctrl.currentPics[3]"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deleteCurrentPicture(3)">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Stored pic -->
+                    <div
+                            ng-if="ctrl.pictures[3] && !ctrl.currentPics[3]"
+                            class="picture-select">
+                        <div class="holder">
+                            <img ng-src="{{ctrl.pictures[3].url}}"/>
+                        </div>
+                        <div class="overlay" ng-if="!ctrl.entity.imported">
+                            <a ng-click="ctrl.deleteCurrentPicture(3)">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 3 -->
+                <div class="picture">
+                    <!-- Non selected pic -->
+                    <div class="picture-select"
+                         ng-if="!ctrl.pictures[2] && !ctrl.currentPics[2]">
+                        <div class="holder"></div>
+                        <div class="overlay">
+                            <a ngf-select="ctrl.loadFile($files, 2)"
+                               ng-model="ctrl.currentPics[2]"
+                               multiple
+                               accept="image/*"
+                               ngf-multiple="true">Seleccionar</a>
+                        </div>
+                    </div>
+                    <!-- Selected pic -->
+                    <div ng-if="ctrl.currentPics[2] && !ctrl.pictures[2]" class="picture-select">
+                        <div class="holder">
+                            <img
+                                    class="picture-select"
+                                    ngf-src="ctrl.currentPics[2]"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deleteCurrentPicture(2)">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Stored pic -->
+                    <div
+                            ng-if="ctrl.pictures[2] && !ctrl.currentPics[2]"
+                            class="picture-select">
+                        <div class="holder">
+                            <img ng-src="{{ctrl.pictures[2].url}}"/>
+                        </div>
+                        <div class="overlay" ng-if="!ctrl.entity.imported">
+                            <a ng-click="ctrl.deleteCurrentPicture(2)">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 2 -->
+                <div class="picture">
+                    <!-- Non selected pic -->
+                    <div class="picture-select"
+                         ng-if="!ctrl.pictures[1] && !ctrl.currentPics[1]">
+                        <div class="holder"></div>
+                        <div class="overlay">
+                            <a ngf-select="ctrl.loadFile($files, 1)"
+                               ng-model="ctrl.currentPics[1]"
+                               multiple
+                               accept="image/*"
+                               ngf-multiple="true">Seleccionar</a>
+                        </div>
+                    </div>
+                    <!-- Selected pic -->
+                    <div ng-if="ctrl.currentPics[1] && !ctrl.pictures[1]" class="picture-select">
+                        <div class="holder">
+                            <img
+                                    class="picture-select"
+                                    ngf-src="ctrl.currentPics[1]"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deleteCurrentPicture(1)">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Stored pic -->
+                    <div
+                            ng-if="ctrl.pictures[1] && !ctrl.currentPics[1]"
+                            class="picture-select">
+                        <div class="holder">
+                            <img ng-src="{{ctrl.pictures[1].url}}"/>
+                        </div>
+                        <div class="overlay" ng-if="!ctrl.entity.imported">
+                            <a ng-click="ctrl.deleteCurrentPicture(1)">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image 1 -->
+                <div class="picture">
+                    <!-- Non selected pic -->
+                    <div class="picture-select"
+                        ng-if="!ctrl.pictures[0] && !ctrl.currentPics[0]">
+                        <div class="holder"></div>
+                        <div class="overlay">
+                            <a ngf-select="ctrl.loadFile($files, 0)"
+                               ng-model="ctrl.currentPics[0]"
+                               multiple
+                               accept="image/*"
+                               ngf-multiple="true">Seleccionar</a>
+                        </div>
+                    </div>
+                    <!-- Selected pic -->
+                    <div ng-if="ctrl.currentPics[0] && !ctrl.pictures[0]" class="picture-select">
+                        <div class="holder">
+                            <img
+                                class="picture-select"
+                                ngf-src="ctrl.currentPics[0]"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deleteCurrentPicture(0)">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Stored pic -->
+                    <div
+                        ng-if="ctrl.pictures[0] && !ctrl.currentPics[0]"
+                        class="picture-select">
+                        <div class="holder">
+                            <img ng-src="{{ctrl.pictures[0].url}}"/>
+                        </div>
+                        <div class="overlay" ng-if="!ctrl.entity.imported">
+                            <a ng-click="ctrl.deleteCurrentPicture(0)">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-12">
                 <div class="form-group">

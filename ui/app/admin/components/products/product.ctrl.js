@@ -32,12 +32,18 @@ export default class ProductController {
                 .$promise
                 .then(response => {
                     this.entity = response;
-                    this.currentPrincipalPic = this.entity.principalImage;
+                    this.currentPrincipalPic = undefined;
                     this.principalPic = this.entity.principalImage.url;
                     if (this.entity.technicalSpecifications.length === 0) {
                         this.entity.technicalSpecifications.push({})
                     }
-                    this.currentPics = this.entity
+                    this.currentPics = this.entity.images
+                        .filter(img => !img.principal)
+                        .map(img => undefined);
+                    this.deletedPics = this.entity.images
+                        .filter(img => !img.principal)
+                        .map(img => undefined);
+                    this.pictures = this.entity
                         .images
                         .filter(img => !img.principal);
                 }, error => {
@@ -59,7 +65,7 @@ export default class ProductController {
     }
 
     save(form) {
-        if(!form.$valid || !this.principalPic){
+        if(!form.$valid || (!this.principalPic && !this.currentPrincipalPic)){
             return;
         }
         let params = {};
@@ -101,27 +107,28 @@ export default class ProductController {
 
     }
 
-    uploadProductAndPrincipalPicture(productId) {
-        return this.uploader.upload({
-            url: 'api/admin/me/products/' + productId + '/images',
-            data: {file: this.principalPic},
-            arrayKey: '',
-            headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
-        });
-    }
-
     uploadPrincipalPicture(productId) {
+        if(!this.currentPrincipalPic) {
+            return;
+        }
+
         return this.uploader.upload({
             url: 'api/admin/me/products/' + productId + '/principal-images',
-            data: {file: this.principalPic},
+            data: {file: this.currentPrincipalPic},
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
     }
 
     uploadPictures(productId) {
+        let toCreate = this.currentPics.filter(it => typeof it !== 'undefined');
+        if(toCreate.length === 0
+            && this.picsToDelete.length === 0) {
+            return;
+        }
+
         return this.uploader.upload({
             url: 'api/admin/me/products/' + productId + '/images',
-            data: {files: this.pictures, toDelete: this.picsToDelete},
+            data: {files: this.currentPics, toDelete: this.picsToDelete},
             arrayKey: '',
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
@@ -130,14 +137,30 @@ export default class ProductController {
     loadFile(pics, index) {
         let limit = index + pics.length;
         for(var i = index; i < limit; i++) {
-            this.pictures[i] = pics.shift();
+            this.currentPics[i] = pics.shift();
 
-            let currentPic = this.currentPics[i];
+            let currentPic = this.pictures[i];
             if(currentPic) {
                 this.picsToDelete.push(currentPic.id);
-                this.currentPics[i] = undefined;
+                this.pictures[i] = undefined;
             }
         }
+    }
+
+    loadPrincipalPic() {
+        this.deletedPrincipalPic = this.principalPic;
+        this.principalPic = undefined;
+    }
+
+    deletePrincipal() {
+        this.currentPrincipalPic = undefined;
+        this.principalPic = this.deletedPrincipalPic;
+    }
+
+    deleteCurrentPicture(index) {
+        this.currentPics[index] = undefined;
+        this.picsToDelete.push(this.pictures[index].id);
+        this.pictures[index] = this.deletedPics[index];
     }
 
     addTechnicalSpecification() {

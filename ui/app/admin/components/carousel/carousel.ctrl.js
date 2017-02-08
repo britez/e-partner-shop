@@ -14,6 +14,8 @@ export default class CarouselController {
 
     init(){
         this.entity = {};
+        this.deletedBackgroundPic = undefined;
+        this.deletedPrincipalPic = undefined;
 
         if(!this.isNew()){
             this.api.carousels
@@ -22,9 +24,9 @@ export default class CarouselController {
                 .then(response => {
                     this.entity = response;
                     this.backgroundPic = this.entity.backgroundImage.url;
-                    this.currentBackgroundPic = this.entity.backgroundImage.url;
+                    this.currentBackgroundPic = undefined;
                     this.principalPic = this.entity.principalImage.url;
-                    this.currentPrincipalPic = this.entity.principalImage.url;
+                    this.currentPrincipalPic = undefined;
                 }, error => {
                     this.error = 'El carrusel seleccionado no existe';
                 })
@@ -36,7 +38,9 @@ export default class CarouselController {
     }
 
     save(form) {
-        if(!form.$valid || !this.principalPic || !this.backgroundPic){
+        if(!form.$valid
+            || (!this.currentPrincipalPic && !this.principalPic)
+            || (!this.currentBackgroundPic && !this.backgroundPic)){
             return;
         }
         let params = {};
@@ -48,10 +52,12 @@ export default class CarouselController {
                 .$promise
                 .then((response) => {
                     let carouselId = response.id;
-                     this.uploadPrincipalPicture(carouselId).then
-                    this.uploadBackgroundPicture(carouselId);
-                    this.$state.go('carousels', {updated: true});
-                    this.init();
+                    let promises = [];
+                    promises.push(this.uploadPrincipalPicture(carouselId));
+                    promises.push(this.uploadBackgroundPicture(carouselId));
+                    this.$q.all(promises).then(() => {
+                        this.init();
+                    })
                 });
         } else {
             this.api
@@ -60,12 +66,11 @@ export default class CarouselController {
                 .$promise
                 .then(response => {
                     let carouselId = response.id;
-                    this.uploadPrincipalPicture(carouselId)
-                        .then(() => {
-                        this.uploadBackgroundPicture(carouselId)
-                            .then(() => {
-                           this.$state.go('carousels', {created: true});
-                        });
+                    let promises = [];
+                    promises.push(this.uploadPrincipalPicture(carouselId));
+                    promises.push(this.uploadBackgroundPicture(carouselId));
+                    this.$q.all(promises).then(() => {
+                       this.$state.go('carousels', {created: true});
                     });
                 });
         }
@@ -73,17 +78,45 @@ export default class CarouselController {
     }
 
     uploadPrincipalPicture(carouselId) {
+        if(!this.currentPrincipalPic) {
+            return;
+        }
+
         return this.uploader.upload({
             url: 'api/admin/me/carousels/' + carouselId + '/principal-images',
-            data: {file: this.principalPic},
+            data: {file: this.currentPrincipalPic},
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
     }
 
+    loadBackgroundPic() {
+        this.deletedBackgroundPic = this.backgroundPic;
+        this.backgroundPic = undefined;
+    }
+
+    deleteBackgroundPic() {
+        this.currentBackgroundPic = undefined;
+        this.backgroundPic = this.deletedBackgroundPic;
+    }
+
+    loadPic() {
+        this.deletedPrincipalPic = this.principalPic;
+        this.principalPic = undefined;
+    }
+
+    deletePrincipalPic() {
+        this.currentPrincipalPic = undefined;
+        this.principalPic = this.deletedPrincipalPic;
+    }
+
     uploadBackgroundPicture(carouselId) {
+        if(!this.currentBackgroundPic) {
+            return;
+        }
+
         return this.uploader.upload({
             url: 'api/admin/me/carousels/' + carouselId + '/background-images',
-            data: {file: this.backgroundPic},
+            data: {file: this.currentBackgroundPic},
             headers: {'Authorization': this.OAuth.getAuthorizationHeader()}
         });
     }

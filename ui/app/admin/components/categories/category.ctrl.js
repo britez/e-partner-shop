@@ -10,7 +10,7 @@ export default class CategoryController {
     }
 
     init() {
-        this.max = 5;
+        this.max = 20;
         this.number = 0;
         this.last = false;
         this.categories = [];

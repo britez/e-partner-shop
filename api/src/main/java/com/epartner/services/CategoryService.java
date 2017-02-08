@@ -2,6 +2,7 @@ package com.epartner.services;
 
 import com.epartner.converters.CategoryConverter;
 import com.epartner.domain.Category;
+import com.epartner.domain.Tag;
 import com.epartner.exceptions.CategoryInUseException;
 import com.epartner.repositories.CategoryRepository;
 import com.epartner.repositories.ProductRepository;
@@ -81,11 +82,11 @@ public class CategoryService {
         Category category = this.get(id);
         category.setDescription(representation.getDescription());
         category.setName(representation.getName());
-        category.setHighlight(representation.getHighlight());
-        if(!category.getHighlight()) {
-            Optional.ofNullable(
-                    tagService.getByName(category.getName()))
-                    .map(it -> {this.tagService.delete(it); return null;});
+        category.setHighlight(Optional.ofNullable(representation.getHighlight()).orElse(false));
+        if(category.getHighlight()) {
+            TagRepresentation tag = tagService.getByName(category.getName());
+            if(Optional.ofNullable(tag).isPresent())
+                this.tagService.delete(tag);
         }
         return this.fetchTag(converter.convert(categoryRepository.save(category)));
     }

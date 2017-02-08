@@ -13,7 +13,7 @@ export default class CategoryDetailController {
     }
 
     init(){
-        this.max = 5;
+        this.max = 10;
         this.page = 0;
         this.last = false;
         this.categoryProducts = [];

@@ -89,25 +89,42 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="subtitleUrl">Imágen de fondo</label>
+
+                    <!-- Non selected pic -->
                     <div
                         class="picture-select"
-                        ng-class = "{'invalid': carouselForm.$submitted && !ctrl.backgroundPic}"
-                        ngf-select
-                        ng-if="!ctrl.backgroundPic && !ctrl.currentBackgroundPic"
-                        ng-model="ctrl.backgroundPic"></div>
-                    <img
-                        class="picture-select"
-                        ngf-select
-                        ng-if="ctrl.backgroundPic"
-                        ng-model="ctrl.backgroundPic"
-                        ng-src="{{ctrl.backgroundPic}}"
-                        ngf-src="ctrl.backgroundPic"/>
-                    <img
-                        class="picture-select"
-                        ng-if="ctrl.currentPrincipalPic.url && !ctrl.backgroundPic"
-                        ngf-select
-                        ng-model="ctrl.backgroundPic"/>
-                    <div ng-if="carouselForm.$submitted && !ctrl.backgroundPic">
+                        ng-if="!ctrl.backgroundPic && !ctrl.currentBackgroundPic">
+                        <div class="holder" ng-class="{'invalid': carouselForm.$submitted && !ctrl.backgroundPic}"></div>
+                        <div class="overlay">
+                            <a ngf-select="ctrl.loadBackgroundPic()" ng-model="ctrl.currentBackgroundPic">Seleccionar</a>
+                        </div>
+                    </div>
+                    <!-- Selected pic -->
+                    <div ng-if="ctrl.currentBackgroundPic && !ctrl.backgroundPic" class="picture-select">
+                        <div class="holder">
+                            <img
+                                class="picture-select"
+                                ngf-src="ctrl.currentBackgroundPic"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deleteBackgroundPic()">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Stored pic -->
+                    <div
+                        ng-if="ctrl.backgroundPic && !ctrl.currentBackgroundPic"
+                        class="picture-select">
+                        <div class="holder">
+                            <img
+                                ng-src="{{ctrl.backgroundPic}}"
+                                ng-disabled="ctrl.entity.imported"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deleteBackgroundPic()">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Error label -->
+                    <div ng-if="carouselForm.$submitted && !ctrl.backgroundPic && !ctrl.currentBackgroundPic">
                         <span class="error">La imágen de fondo es requerida.</span>
                     </div>
                 </div>
@@ -115,26 +132,42 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Imágen principal</label>
+                    <!-- Non selected pic -->
                     <div
-                            class="picture-select"
-                            ng-class = "{'invalid': carouselForm.$submitted && !ctrl.principalPic}"
-                            ngf-select
-                            ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic"
-                            ng-model="ctrl.principalPic"></div>
-                    <img
-                            class="picture-select"
-                            ngf-select
-                            ng-if="ctrl.principalPic"
-                            ng-model="ctrl.principalPic"
-                            ng-src="{{ctrl.principalPic}}"
-                            ngf-src="ctrl.principalPic"/>
-                    <img
-                            class="picture-select"
-                            ng-if="ctrl.currentPrincipalPic.url && !ctrl.principalPic"
-                            ngf-select
-                            ng-model="ctrl.principalPic"/>
-                    <div ng-if="carouselForm.$submitted && !ctrl.principalPic">
-                        <span class="error">La imágen es requerida.</span>
+                        class="picture-select"
+                        ng-if="!ctrl.principalPic && !ctrl.currentPrincipalPic">
+                        <div class="holder" ng-class="{'invalid': carouselForm.$submitted && !ctrl.principalPic}"></div>
+                        <div class="overlay">
+                            <a ngf-select="ctrl.loadPrincipalPic()" ng-model="ctrl.currentPrincipalPic">Seleccionar</a>
+                        </div>
+                    </div>
+                    <!-- Selected pic -->
+                    <div ng-if="ctrl.currentPrincipalPic && !ctrl.principalPic" class="picture-select">
+                        <div class="holder">
+                            <img
+                                    class="picture-select"
+                                    ngf-src="ctrl.currentPrincipalPic"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deletePrincipalPic()">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Stored pic -->
+                    <div
+                            ng-if="ctrl.principalPic && !ctrl.currentPrincipalPic"
+                            class="picture-select">
+                        <div class="holder">
+                            <img
+                                    ng-src="{{ctrl.principalPic}}"
+                                    ng-disabled="ctrl.entity.imported"/>
+                        </div>
+                        <div class="overlay">
+                            <a ng-click="ctrl.deletePrincipalPic()">Eliminar</a>
+                        </div>
+                    </div>
+                    <!-- Error label -->
+                    <div ng-if="carouselForm.$submitted && !ctrl.principalPic && !ctrl.currentPrincipalPic">
+                        <span class="error">La imágen de fondo es requerida.</span>
                     </div>
                 </div>
             </div>
